@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
 import * as THREE from 'three';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 const mat = new THREE.MeshMatcapMaterial();
 mat.transparent = true;
@@ -15,13 +15,13 @@ function loadTexture(url) {
 
 function loadModel (url) {
   return new Promise(resolve => {
-    new OBJLoader().load(url, resp =>  resolve(resp));
+    new GLTFLoader().load(url, resp =>  resolve(resp.scene));
   });
 }
 
 function loadGhost() {
   return Promise.all([
-    loadModel('./ghost.obj'),
+    loadModel('./ghost.glb'),
     loadTexture('./gmatcap.png')
   ]).then( ([model, tex]) => {
       model.traverse( function ( child ) {
@@ -34,13 +34,13 @@ function loadGhost() {
     })
 }
 
-function GhostGeo(props) {
+function GhostGeo() {
   const [ghost, setGhost] = useState(false);
   useEffect(() =>  void loadGhost().then(setGhost), [setGhost] );
 
   return (
     ghost ? (
-        <primitive object={ghost} attach="geometry" />
+      <primitive object={ghost} attach="geometry" />
     )
     : null
   )
