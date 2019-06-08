@@ -19,7 +19,7 @@ const CheatDemo = () => {
   })
 
   useRender(() => {
-    group.current.rotation.y -= .01;
+    group.current.rotation.y -= .007;
   })
 
   return (

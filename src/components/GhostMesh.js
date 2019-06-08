@@ -4,7 +4,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 const mat = new THREE.MeshMatcapMaterial();
 mat.transparent = true;
-mat.opacity = .8;
+mat.opacity = .6;
 mat.color = new THREE.Color( 0x62ff49 );
 
 function loadTexture(url) {
