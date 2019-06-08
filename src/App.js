@@ -6,6 +6,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import CheatStart from './pages/CheatStart';
 import CheatHardMath from './pages/CheatHardMath';
 import CheatDemo from './pages/CheatDemo';
+import Markers from './components/Markers';
 import * as THREE from 'three';
 
 // This part just adds 3D navigation controls
@@ -54,10 +55,10 @@ const glConfig = {
   gammaOutput:true,
   gammaFactor: 2.2,
   premultipliedAlpha: false
-}
+};
 
 const cameraConfig = {
-  position: [0,0,3],
+  position: [0,2,5],
   rotation: [ 0, 0, 0]
 }
 
@@ -65,10 +66,7 @@ const demos = [
   <CheatStart />,
   <CheatHardMath />,
   <CheatDemo />
-]
-
-
-
+];
 
 function App() {
   const [demoIndex, setDemoIndex] = useState(0);
@@ -77,10 +75,9 @@ function App() {
     <div className="App">
       <Stage>
         <Canvas gl={glConfig} camera={cameraConfig} >
-
+          <Markers position-y={-1} />
           <axesHelper args={0.3} />
           <Controls />
-
           <mesh rotation={[-Math.PI/2, 0, 0]} position-y={-1}>
             <planeGeometry attach="geometry" args={[60, 60]} />
             <meshPhongMaterial attach="material"
@@ -91,12 +88,11 @@ function App() {
       </Stage>
       <Nav>
         {
-          demos.map( (demo, index) =>
-            <DemoButton key={index} onClick={() => setDemoIndex(index)}>
-              Demo {index + 1}
-            </DemoButton>)
+        demos.map( (demo, index) =>
+          <DemoButton key={index} onClick={() => setDemoIndex(index)}>
+            Demo {index + 1}
+          </DemoButton>)
         }
-
       </Nav>
 
       <Spacer />

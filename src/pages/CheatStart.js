@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import {  useRender } from 'react-three-fiber';
-import GhostGeo from '../components/GhostGeo';
+import GhostMesh from '../components/GhostMesh';
 
 const CheatDemo = () => {
 
@@ -12,7 +12,7 @@ const CheatDemo = () => {
 
   return (
     <object3D ref={ghost} >
-      <GhostGeo />
+      <GhostMesh />
     </object3D>
   );
 

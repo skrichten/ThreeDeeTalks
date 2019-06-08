@@ -34,7 +34,7 @@ function loadGhost() {
     })
 }
 
-function GhostGeo() {
+function GhostMesh() {
   const [ghost, setGhost] = useState(false);
   useEffect(() =>  void loadGhost().then(setGhost), [setGhost] );
 
@@ -48,5 +48,5 @@ function GhostGeo() {
   )
 }
 
-export default GhostGeo;
+export default GhostMesh;
 
