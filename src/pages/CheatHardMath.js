@@ -17,9 +17,9 @@ const CheatDemo = () => {
   })
 
   return (
-    <mesh ref={ghost} position={[0, 0, 0]}>
+    <object3D ref={ghost}>
       <GhostGeo />
-    </mesh>
+    </object3D>
   );
 
 }

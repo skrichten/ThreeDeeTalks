@@ -6,13 +6,18 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import CheatStart from './pages/CheatStart';
 import CheatHardMath from './pages/CheatHardMath';
 import CheatDemo from './pages/CheatDemo';
+import * as THREE from 'three';
 
 // This part just adds 3D navigation controls
 extend({ OrbitControls });
 function Controls(props) {
-  const { camera } = useThree()
-  const controls = useRef()
-  useRender(() => controls.current && controls.current.update())
+  const { camera, scene } = useThree();
+
+  scene.background = new THREE.Color( 0x1a0d2d );
+  scene.fog = new THREE.FogExp2( 0x1a0d2d, .1 );
+
+  const controls = useRef();
+  useRender(() => controls.current && controls.current.update());
   return <orbitControls ref={controls} args={[camera]} {...props} />
 }
 // End 3D navigation controls
@@ -63,16 +68,24 @@ const demos = [
 ]
 
 
+
+
 function App() {
   const [demoIndex, setDemoIndex] = useState(0);
-
 
   return (
     <div className="App">
       <Stage>
         <Canvas gl={glConfig} camera={cameraConfig} >
-          <axesHelper />
+
+          <axesHelper args={0.3} />
           <Controls />
+
+          <mesh rotation={[-Math.PI/2, 0, 0]} position-y={-1}>
+            <planeGeometry attach="geometry" args={[60, 60]} />
+            <meshPhongMaterial attach="material"
+              color={0xffffff} shininess={0} />
+          </mesh>
           { demos[demoIndex] }
         </Canvas>
       </Stage>

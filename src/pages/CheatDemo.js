@@ -24,9 +24,9 @@ const CheatDemo = () => {
 
   return (
       <group ref={group}>
-        <a.mesh ref={ghost} position={spring.pos}>
+        <a.object3D ref={ghost} position={spring.pos}>
           <GhostGeo />
-        </a.mesh>
+        </a.object3D>
       </group>
   );
 

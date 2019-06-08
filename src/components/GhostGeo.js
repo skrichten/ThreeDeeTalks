@@ -40,9 +40,11 @@ function GhostGeo() {
 
   return (
     ghost ? (
-      <primitive object={ghost} attach="geometry" />
+      <primitive object={ghost}>
+        <pointLight args={[0x62ff49, .4, 2.5 ]} />
+      </primitive>
     )
-    : null
+    : <mesh />
   )
 }
 
