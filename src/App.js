@@ -75,7 +75,7 @@ extend(resources);
 function Effect() {
   const composer = useRef();
   const { scene, gl, size, camera } = useThree();
-  useEffect(() => void composer.current.setSize(size.width*2, size.height), [size]);
+  useEffect(() => void composer.current.setSize(size.width*2, size.height*2), [size]);
   useRender(({ gl }) => void ((gl.autoClear = true), composer.current.render()), true);
   return (
     <effectComposer ref={composer} args={[gl]}>
