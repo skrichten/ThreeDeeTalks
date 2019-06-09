@@ -41,7 +41,7 @@ function GhostMesh() {
   return (
     ghost ? (
       <primitive object={ghost}>
-        <pointLight args={[0x62ff49, .4, 2.5 ]} />
+        <pointLight args={[0x62ff49, .5, 2.5 ]} />
       </primitive>
     )
     : <mesh />
