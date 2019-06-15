@@ -1,9 +1,9 @@
 import React, { useRef } from 'react';
 import {  useRender } from 'react-three-fiber';
 import { animated as a , useSpring } from 'react-spring/three';
-import GhostMesh from '../components/GhostMesh';
+import GhostMesh from './GhostMesh';
 
-const CheatDemo = () => {
+const GhostAnimation = () => {
 
   const ghost = useRef();
   const group = useRef();
@@ -19,8 +19,20 @@ const CheatDemo = () => {
   })
 
   useRender(() => {
+    if (!group || !group.current) return;
     group.current.rotation.y -= .007;
   })
+
+  // Here is how you might do this with a more Math oriented approach...
+  /*
+  let t = 0;
+  useRender(() => {
+    t += .01;
+    ghost.current.position.x = Math.sin(t);
+    ghost.current.position.z = -Math.cos(t);
+    ghost.current.position.y = (Math.cos(t*2) +1) * .5;
+  })
+  */
 
   return (
       <group ref={group}>
@@ -32,4 +44,4 @@ const CheatDemo = () => {
 
 }
 
-export default CheatDemo;
+export default GhostAnimation;
