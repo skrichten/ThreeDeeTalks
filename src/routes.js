@@ -9,12 +9,12 @@ const routes = [
     component: FoxDemo
   },
   {
-    path: "/ghost",
-    component: GhostDemo
-  },
-  {
     path: "/fox",
     component: FoxDemo
+  },
+  {
+    path: "/ghost",
+    component: GhostDemo
   }
 ];
 

@@ -13,7 +13,7 @@ const useMouse = (config) => {
 
   const onMouseMove = useCallback(({ clientX: x, clientY: y }) => {
     set({ mouse: [ x / window.innerWidth, y / window.innerHeight ] });
-  }, []);
+  }, [set]);
 
 
   useEffect(() => {
