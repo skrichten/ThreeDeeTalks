@@ -10,7 +10,7 @@ function Camera() {
 
   const [{scrollPos}] = useScrollPos();
   const interpPos = scrollPos.interpolate(y => {
-    return [0, 0, (Math.sin(y*3.14) * 2.5) + 5.3]
+    return [0, 0, (Math.sin(y*3.14) * 5) + 3.3]
   })
 
   return <a.perspectiveCamera ref={camera} fov={60} position={interpPos} />
