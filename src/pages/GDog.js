@@ -2,11 +2,12 @@ import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import { animated as a } from 'react-spring/three';
 import { Canvas } from 'react-three-fiber';
+import useScrollPos from '../hooks/useScrollPos';
+import useMouse from '../hooks/useMouse';
 import Camera from '../components/Camera';
 import Ghost from '../components/GhostCurved';
 import GDogContent from '../components/GDogContent';
-import useScrollPos from '../hooks/useScrollPos';
-import useMouse from '../hooks/useMouse';
+import GDogBackground from '../components/GDogBackground';
 
 const Stage = styled.div`
   width: 100%;
@@ -29,8 +30,8 @@ function GDog() {
   const [{scrollPos}] = useScrollPos();
   const [{mouse}] = useMouse({precision: .001, mass: 1, tension:120});
   const mouseRot = mouse.interpolate((x, y) => [
-    (.1 * y)-.05,
-    (.1 * x)-.05,
+    (.2 * y)-.1,
+    (.2 * x)-.1,
     0
   ]);
 
@@ -47,6 +48,7 @@ function GDog() {
       <Stage>
         <Canvas gl={glConfig} >
           <Camera />
+          <GDogBackground lookIndex={lookIndex} />
           <a.group rotation={scrollRot} position={[-.5, 0, 0]}>
             <a.group rotation={mouseRot}>
               <Ghost scale={[3.4, 3.4, 3.4]} lookIndex={lookIndex} />

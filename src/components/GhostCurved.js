@@ -73,7 +73,7 @@ function GhostCurved({ lookIndex, ...props }) {
     from: {progress: 0},
     reset: aniState.reset,
     onRest: () => setAniState(prevState => ({...prevState, reset: false}) ),
-    config: { mass: 2, tension: 100, friction: 20 }
+    config: { mass: 2, tension: 70, friction: 20 }
   });
 
   const onClick = useCallback(() => {
