@@ -8,6 +8,9 @@ import Camera from '../components/Camera';
 import Ghost from '../components/GhostCurved';
 import GDogContent from '../components/GDogContent';
 import GDogBackground from '../components/GDogBackground';
+import GDogParticles from '../components/GDogParticles';
+import ParticleField from '../components/ParticleField/ParticleField';
+import config from '../components/ParticleField/config';
 
 const Stage = styled.div`
   width: 100%;
@@ -51,6 +54,7 @@ function GDog() {
           <GDogBackground lookIndex={lookIndex} />
           <a.group rotation={scrollRot} position={[-.5, 0, 0]}>
             <a.group rotation={mouseRot}>
+              <ParticleField {...config} />
               <Ghost scale={[3.4, 3.4, 3.4]} lookIndex={lookIndex} />
             </a.group>
           </a.group>
@@ -58,7 +62,6 @@ function GDog() {
       </Stage>
       <GDogContent setLookIndex={setLookIndex} />
     </main>
-
   );
 }
 
