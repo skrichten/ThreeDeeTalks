@@ -75,6 +75,9 @@ if (r > 1.0) {
  *
  * @param {String} particleShape Either 'circle' or 'square'
  * @param {Number} transparency The alpha channel rgba value for particles
+ *
+ * https://thebookofshaders.com/07/
+ * https://stackoverflow.com/questions/37923111/how-to-achieve-brightness-contrast-in-webgl
  */
 export const getParticleFragmentShader = ({ particleShape, transparency }) => `
 // Color from uniforms arg
@@ -85,6 +88,15 @@ varying vec3 vColor;
 
 void main() {
   ${particleShape === 'circle' ? circleParticleShape : ''}
-  gl_FragColor = vec4(vColor, ${transparency});
+
+  vec2 st = gl_PointCoord.xy/1.0;
+  float pct = 0.0;
+
+  pct = 1.0 * (1.0-distance(st,vec2(0.5)));
+
+  float con = (pct - 0.5) / 1.5;
+  vec3 col = vec3(con) * vColor;
+
+  gl_FragColor = vec4(col, ${transparency});
 }
 `;

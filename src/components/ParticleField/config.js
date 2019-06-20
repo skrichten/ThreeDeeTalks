@@ -6,7 +6,7 @@
 export default {
   showCube: false,
   dimension: '3D',
-  velocity: .3,
+  velocity: .003,
   boundaryType: 'passthru',
   antialias: true,
   direction: {
@@ -27,14 +27,14 @@ export default {
     visible: false
   },
   particles: {
-    colorMode: 'solid',
+    colorMode: 'rainbow',
     color: '#FFFFFF',
-    transparency: 0.9,
+    transparency: .99,
     shape: 'circle',
-    boundingBox: 'canvas',
-    count: 200,
-    minSize: 1,
-    maxSize: 75,
+    boundingBox: 'cube',
+    count: 800,
+    minSize: .03,
+    maxSize: 3,
     visible: true
   }
 };

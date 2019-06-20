@@ -8,23 +8,22 @@ import computeLines from './lib/computeLines';
 import computeParticles from './lib/computeParticles';
 
 // Default Cube dimensions
-const r = 400;
+const r = 12;
 
 /**
  * Creates a particle cloud with various config options
  */
-const ParticleField = ({
-  particles,
-  lines,
-  direction,
-  showCube,
-  dimension,
-  velocity,
-  boundaryType
-}) => {
-
+const ParticleField = ({config, ...props}) => {
+  const {
+    particles,
+    lines,
+    direction,
+    showCube,
+    dimension,
+    velocity,
+    boundaryType
+  } = config;
   const animation = useRef(0);
-  const group = useRef();
 
   const { gl, size } = useThree();
   // Scale rendering automatically to window DPI
@@ -90,7 +89,7 @@ const ParticleField = ({
   });
 
   return (
-      <group ref={group}>
+      <>
         {/* Bounding box that particles exist inside of */}
         {showCube && (
           <boxHelper>
@@ -118,43 +117,48 @@ const ParticleField = ({
         {particles.visible && (
           <points geometry={pointCloudGeometry} material={pointMaterial} />
         )}
-      </group>
+      </>
   );
 };
 
 ParticleField.propTypes = {
-  showCube: PropTypes.bool.isRequired,
-  dimension: PropTypes.oneOf(['2D', '3D']).isRequired,
-  boundaryType: PropTypes.oneOf(['bounce', 'passthru']).isRequired,
-  velocity: PropTypes.number.isRequired,
-  direction: PropTypes.shape({
-    xMin: PropTypes.number,
-    xMax: PropTypes.number,
-    yMin: PropTypes.number,
-    yMax: PropTypes.number,
-    zMin: PropTypes.number,
-    zMax: PropTypes.number
-  }).isRequired,
-  lines: PropTypes.shape({
-    colorMode: PropTypes.oneOf(['rainbow', 'solid']),
-    color: PropTypes.string,
-    transparency: PropTypes.number,
-    maxConnections: PropTypes.number,
-    limitConnections: PropTypes.bool,
-    minDistance: PropTypes.number,
-    visible: PropTypes.bool
-  }).isRequired,
-  particles: PropTypes.shape({
-    count: PropTypes.number,
-    minSize: PropTypes.number,
-    maxSize: PropTypes.number,
-    boundingBox: PropTypes.oneOf(['canvas', 'cube']),
-    shape: PropTypes.oneOf(['circle', 'square']),
-    colorMode: PropTypes.oneOf(['rainbow', 'solid']),
-    color: PropTypes.string,
-    transparency: PropTypes.number,
-    visible: PropTypes.bool
-  }).isRequired
+  config : PropTypes.shape(
+    {
+      showCube: PropTypes.bool.isRequired,
+      dimension: PropTypes.oneOf(['2D', '3D']).isRequired,
+      boundaryType: PropTypes.oneOf(['bounce', 'passthru']).isRequired,
+      velocity: PropTypes.number.isRequired,
+      direction: PropTypes.shape({
+        xMin: PropTypes.number,
+        xMax: PropTypes.number,
+        yMin: PropTypes.number,
+        yMax: PropTypes.number,
+        zMin: PropTypes.number,
+        zMax: PropTypes.number
+      }).isRequired,
+      lines: PropTypes.shape({
+        colorMode: PropTypes.oneOf(['rainbow', 'solid']),
+        color: PropTypes.string,
+        transparency: PropTypes.number,
+        maxConnections: PropTypes.number,
+        limitConnections: PropTypes.bool,
+        minDistance: PropTypes.number,
+        visible: PropTypes.bool
+      }).isRequired,
+      particles: PropTypes.shape({
+        count: PropTypes.number,
+        minSize: PropTypes.number,
+        maxSize: PropTypes.number,
+        boundingBox: PropTypes.oneOf(['canvas', 'cube']),
+        shape: PropTypes.oneOf(['circle', 'square']),
+        colorMode: PropTypes.oneOf(['rainbow', 'solid']),
+        color: PropTypes.string,
+        transparency: PropTypes.number,
+        visible: PropTypes.bool
+      }).isRequired
+    }
+  )
+
 };
 
 export default ParticleField;

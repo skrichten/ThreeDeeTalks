@@ -107,6 +107,7 @@ export default ({
     }),
     transparent: transparency < 1,
     blending: AdditiveBlending,
+    depthTest: false,
     visible
   });
 

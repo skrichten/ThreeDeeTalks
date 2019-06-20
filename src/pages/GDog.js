@@ -1,7 +1,7 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 import { animated as a } from 'react-spring/three';
-import { Canvas } from 'react-three-fiber';
+import { Canvas, useRender } from 'react-three-fiber';
 import useScrollPos from '../hooks/useScrollPos';
 import useMouse from '../hooks/useMouse';
 import Camera from '../components/Camera';
@@ -9,8 +9,7 @@ import Ghost from '../components/GhostCurved';
 import GDogContent from '../components/GDogContent';
 import GDogBackground from '../components/GDogBackground';
 import GDogParticles from '../components/GDogParticles';
-import ParticleField from '../components/ParticleField/ParticleField';
-import config from '../components/ParticleField/config';
+
 
 const Stage = styled.div`
   width: 100%;
@@ -46,6 +45,8 @@ function GDog() {
     ]
   })
 
+
+
   return (
     <main>
       <Stage>
@@ -54,7 +55,7 @@ function GDog() {
           <GDogBackground lookIndex={lookIndex} />
           <a.group rotation={scrollRot} position={[-.5, 0, 0]}>
             <a.group rotation={mouseRot}>
-              <ParticleField {...config} />
+              <GDogParticles lookIndex={lookIndex} />
               <Ghost scale={[3.4, 3.4, 3.4]} lookIndex={lookIndex} />
             </a.group>
           </a.group>
