@@ -11,7 +11,7 @@ import computeParticles from './lib/computeParticles';
 /**
  * Creates a particle cloud with various config options
  */
-const ParticleField = ({config, ...props}) => {
+const ParticleField = ({config, opacity, ...props}) => {
   const {
     particles,
     lines,
@@ -22,14 +22,12 @@ const ParticleField = ({config, ...props}) => {
     velocity,
     boundaryType
   } = config;
+
   const animation = useRef(0);
 
-  const { gl, size } = useThree();
-  // Scale rendering automatically to window DPI
+  const { size } = useThree();
   // Pass this value to fragment shaders: gl_PointSize needs to scale against this value
-  // https://threejs.org/docs/#api/en/renderers/WebGLRenderer.setPixelRatio
   const devicePixelRatio = window.devicePixelRatio.toFixed(1);
-  gl.setPixelRatio(devicePixelRatio);
 
   // Compute lines between points
   const [
@@ -118,6 +116,7 @@ const ParticleField = ({config, ...props}) => {
 };
 
 ParticleField.propTypes = {
+  opacity : PropTypes.number,
   config : PropTypes.shape(
     {
       showCube: PropTypes.bool.isRequired,

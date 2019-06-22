@@ -83,6 +83,8 @@ export const getParticleFragmentShader = ({ particleShape, transparency }) => `
 // Color from uniforms arg
 uniform vec3 color;
 
+uniform float opacity;
+
 // Color calculated from vertex shader, based on particle position
 varying vec3 vColor;
 
@@ -95,7 +97,7 @@ void main() {
   pct = 1.0-distance(st,vec2(0.5));
 
   float opac = (pct - 0.5) / 1.5;
-  vec3 vColor = vec3(opac) * vColor;
+  vec3 vColor = vec3(opac * opacity) * vColor;
 
   gl_FragColor = vec4(vColor, opac);
 }

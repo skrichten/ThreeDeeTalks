@@ -31,7 +31,6 @@ const configOverrides = [
 function GDogParticles({ lookIndex }) {
 
   config.particles = { ...config.particles, ...configOverrides[lookIndex]};
-  const newConfig = { ...config };
 
   const pGroup = useRef();
   const spring = useSpring({
@@ -58,7 +57,7 @@ function GDogParticles({ lookIndex }) {
 
   return (
     <a.group ref={pGroup} position={spring.pos}>
-      <ParticleField config={newConfig} />
+      <ParticleField config={config} opacity={lookIndex} />
     </a.group>
   )
 }

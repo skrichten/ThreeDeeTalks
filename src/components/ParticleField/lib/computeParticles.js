@@ -105,13 +105,11 @@ export default ({
       particleShape: shape,
       transparency
     }),
+    uniforms: {
+      opacity: {type: "f", value: 1 },
+    },
     transparent: transparency < 1,
     blending: AdditiveBlending,
-/*
-    blending: CustomBlending,
-    blendSrc: SrcColorFactor,
-    blendDst: OneMinusSrcColorFactor,
-    blendEquation: AddEquation, */
     depthTest: false,
     visible
   });

@@ -27,6 +27,8 @@ const glConfig = {
   //premultipliedAlpha: false
 };
 
+const devicePixelRatio = window.devicePixelRatio.toFixed(1);
+
 function GDog() {
   const [measureElement, stageSize] = useMeasure();
   const camZ = stageSize.width < 768 ? 5 : 3.4;
@@ -61,7 +63,7 @@ function GDog() {
     <main>
       <GDogBackground lookIndex={lookIndex} />
       <Stage ref={measureElement} >
-        <Canvas gl={glConfig} >
+        <Canvas gl={glConfig} pixelRatio={devicePixelRatio} >
           <Camera startDist={camZ} />
           <a.group rotation={scrollRot} position={scrollMove}>
             <a.group rotation={mouseRot}>
