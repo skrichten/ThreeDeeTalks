@@ -40,8 +40,8 @@ function GDogParticles({ lookIndex }) {
     reset: true,
     config: {
       mass: 1,
-      tension: 120,
-      friction: 26,
+      tension: 100,
+      friction: 50,
       precision: .01
     }
   })
