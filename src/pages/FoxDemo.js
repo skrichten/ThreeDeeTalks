@@ -1,12 +1,11 @@
-import React, { useCallback, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { Canvas, useRender } from 'react-three-fiber';
+import { Canvas } from 'react-three-fiber';
 import Camera from '../components/Camera';
 import Fox from '../components/Fox';
-import useScrollPos from '../hooks/useScrollPos';
+//import useScrollPos from '../hooks/useScrollPos';
 import useMouse from '../hooks/useMouse';
 import { animated as a } from 'react-spring/three';
-
 
 const Spacer = styled.div`
   height: 5000px;
@@ -27,14 +26,9 @@ const glConfig = {
   premultipliedAlpha: false
 };
 
-const cameraConfig = {
-  position: [0, 0, 5],
-  rotation: [ 0, 0, 0]
-};
-
 
 function FoxDemo() {
-  const [{scrollPos}] = useScrollPos();
+  //const [{scrollPos}] = useScrollPos();
   const [{mouse}] = useMouse({precision: .001, mass: 1, tension:120});
   const interpRot = mouse.interpolate((x, y) => [
     (.04 * y)-.02,
@@ -42,9 +36,11 @@ function FoxDemo() {
     0
   ]);
 
+  /*
   const interpPos = scrollPos.interpolate(y => {
     return [0, 0, -Math.sin(y*3.14) * 2.5]
   })
+  */
 
   return (
     <main>

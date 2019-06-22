@@ -82,8 +82,8 @@ const ParticleField = ({config, ...props}) => {
   // Direct access to render loop, executes on each frame
   // State changes must be passed into hook via refs
   // useRender() contents are called in a requestAnimationFrame()
-  useRender(() => {
-
+  useRender(({camera}) => {
+    //console.log('cam', camera.radius);
     // Animate current state of particles + lines
     animate(animation.current);
   });

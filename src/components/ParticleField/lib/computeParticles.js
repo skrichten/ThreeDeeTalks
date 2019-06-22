@@ -107,6 +107,11 @@ export default ({
     }),
     transparent: transparency < 1,
     blending: AdditiveBlending,
+/*
+    blending: CustomBlending,
+    blendSrc: SrcColorFactor,
+    blendDst: OneMinusSrcColorFactor,
+    blendEquation: AddEquation, */
     depthTest: false,
     visible
   });

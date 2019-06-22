@@ -3,17 +3,22 @@ import { useThree } from 'react-three-fiber';
 import { animated as a } from 'react-spring/three';
 import useScrollPos from '../hooks/useScrollPos';
 
-function Camera() {
+function Camera({children, startDist}) {
   const camera = useRef();
   const { setDefaultCamera } = useThree();
-  useEffect(() => void setDefaultCamera(camera.current), []);
+  useEffect(() => void setDefaultCamera(camera.current), [setDefaultCamera]);
 
   const [{scrollPos}] = useScrollPos();
   const interpPos = scrollPos.interpolate(y => {
-    return [0, 0, (Math.sin(y*3.14) * 5) + 3.3]
+    return [0, 0, (Math.sin(y*3.14) * 6) + startDist]
   })
 
-  return <a.perspectiveCamera ref={camera} fov={60} position={interpPos} />
+  return (
+    <a.perspectiveCamera ref={camera} fov={60} position={interpPos}>
+      {children}}
+    </a.perspectiveCamera>
+  )
+
 }
 
 export default Camera

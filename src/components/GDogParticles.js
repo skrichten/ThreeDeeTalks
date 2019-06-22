@@ -3,9 +3,10 @@ import { useRender } from 'react-three-fiber';
 import ParticleField from '../components/ParticleField/ParticleField';
 import config from '../components/ParticleField/config';
 
+/*
 function lerp(v0, v1, t) {
   return v0*(1-t)+v1*t
-}
+} */
 
 function GDogParticles({ lookIndex }) {
   const pGroup = useRef();

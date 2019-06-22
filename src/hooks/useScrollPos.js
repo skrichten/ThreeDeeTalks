@@ -12,6 +12,7 @@ const useScrollPos = (config) => {
   config = { ...defaultConfig, ...config };
 
   const spring = useSpring(() => ({ scrollPos: getScrollPos(), config }));
+  // eslint-disable-next-line no-unused-vars
   const [{ scrollPos }, set] = spring;
 
   const onScroll = useCallback(e => set({ scrollPos: getScrollPos() }), [set]);

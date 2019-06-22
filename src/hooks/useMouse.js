@@ -9,6 +9,7 @@ const useMouse = (config) => {
   config = { ...defaultConfig, ...config };
 
   const spring = useSpring(() => ({ mouse: [0,0], config }));
+  // eslint-disable-next-line no-unused-vars
   const [{ mouse }, set] = spring;
 
   const onMouseMove = useCallback(({ clientX: x, clientY: y }) => {

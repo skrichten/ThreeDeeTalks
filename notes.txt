@@ -1,0 +1,25 @@
+
+TODO:
+Change particle colors?
+
+Cleanup and comment code
+
+Get rid of "lines" option in particle sytem ?
+Make particle bounds a config param ?
+
+Put site on Netlify?
+
+Restore previous shader features
+
+
+
+Adjusting for screen size:
+Not all that different from what you would do with canvas.
+But one nice thing is that it is easy to move the camera to adjust what is
+visible in the viewport.
+
+You could do some math to calculate the z position of the camera
+such that all of your content will be in the viewport.
+You would need to take into consideration the fov and aspect ratio of your camera.
+... However in many cases you will probably just change camera distance manually.
+

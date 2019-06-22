@@ -4,9 +4,10 @@ import styled from 'styled-components';
 
 const Nav = styled.nav`
   position: fixed;
-  top: 20px;
-  left: 20px;
+  bottom: 20px;
+  right: 20px;
   display: flex;
+  z-index:2;
 `;
 
 const NavList = styled.ul`
@@ -34,10 +35,10 @@ function MainNav({ routes }) {
     <Nav>
       <NavList>
         <NavItem>
-          <Link to="/fox">Fox</Link>
+          <Link to="/ghost">Ghost</Link>
         </NavItem>
         <NavItem>
-          <Link to="/ghost">Ghost</Link>
+          <Link to="/gdog">GDog</Link>
         </NavItem>
       </NavList>
     </Nav>

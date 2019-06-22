@@ -7,7 +7,7 @@ export default {
   showCube: false,
   dimension: '3D',
   velocity: .003,
-  boundaryType: 'passthru',
+  boundaryType: 'bounce',
   antialias: true,
   direction: {
     xMin: -1,
@@ -30,11 +30,11 @@ export default {
     colorMode: 'rainbow',
     color: '#FFFFFF',
     transparency: .99,
-    shape: 'circle',
+    shape: 'square',
     boundingBox: 'cube',
-    count: 800,
-    minSize: .03,
-    maxSize: 3,
+    count: 300,
+    minSize: .5,
+    maxSize: 10,
     visible: true
   }
 };

@@ -1,9 +1,10 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { animated as a } from 'react-spring/three';
-import { Canvas, useRender } from 'react-three-fiber';
+import { Canvas } from 'react-three-fiber';
 import useScrollPos from '../hooks/useScrollPos';
 import useMouse from '../hooks/useMouse';
+import useMeasure from '../hooks/useMeasure';
 import Camera from '../components/Camera';
 import Ghost from '../components/GhostCurved';
 import GDogContent from '../components/GDogContent';
@@ -17,16 +18,19 @@ const Stage = styled.div`
   position: fixed;
   top: 0;
   overflow: hidden;
+  z-index: 1;
 `;
 
 const glConfig = {
   gammaInput: true,
   gammaOutput:true,
-  gammaFactor: 2.2,
-  premultipliedAlpha: false
+  //premultipliedAlpha: false
 };
 
 function GDog() {
+  const [measureElement, stageSize] = useMeasure();
+  const camZ = stageSize.width < 768 ? 5 : 3.4;
+
   const [lookIndex, setLookIndex] = useState(3);
 
   const [{scrollPos}] = useScrollPos();
@@ -37,23 +41,29 @@ function GDog() {
     0
   ]);
 
+  const scrollMove = scrollPos.interpolate(y => {
+    return [
+      -.5,
+      Math.max(y - .5, 0) * -1,
+      0
+    ]
+  });
+
   const scrollRot = scrollPos.interpolate(y => {
     return [
       Math.min(y * 2, 1) * .5,
       Math.max(y - .5, 0) * -12.6,
       0
     ]
-  })
-
-
+  });
 
   return (
     <main>
-      <Stage>
+      <GDogBackground lookIndex={lookIndex} />
+      <Stage ref={measureElement} >
         <Canvas gl={glConfig} >
-          <Camera />
-          <GDogBackground lookIndex={lookIndex} />
-          <a.group rotation={scrollRot} position={[-.5, 0, 0]}>
+          <Camera startDist={camZ} />
+          <a.group rotation={scrollRot} position={scrollMove}>
             <a.group rotation={mouseRot}>
               <GDogParticles lookIndex={lookIndex} />
               <Ghost scale={[3.4, 3.4, 3.4]} lookIndex={lookIndex} />

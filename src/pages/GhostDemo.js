@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { Canvas, useRender, useThree, extend } from 'react-three-fiber';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
