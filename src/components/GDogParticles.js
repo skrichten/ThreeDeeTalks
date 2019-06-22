@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import { useRender } from 'react-three-fiber';
+import { animated as a , useSpring } from 'react-spring/three';
 import ParticleField from '../components/ParticleField/ParticleField';
 import config from '../components/ParticleField/config';
 
@@ -7,9 +8,43 @@ import config from '../components/ParticleField/config';
 function lerp(v0, v1, t) {
   return v0*(1-t)+v1*t
 } */
+//const order = [ 1, 2, 0, 3 ];
+const configOverrides = [
+  {
+    colorMode: 'solid',
+    color: '#5e5548'
+  },
+  {
+    colorMode: 'solid',
+    color: '#9b9d65'
+  },
+  {
+    colorMode: 'rainbow',
+    color: '#FFFFFF'
+  },
+  {
+    colorMode: 'rainbow',
+    color: '#FFFFFF'
+  }
+];
 
 function GDogParticles({ lookIndex }) {
+
+  config.particles = { ...config.particles, ...configOverrides[lookIndex]};
+  const newConfig = { ...config };
+
   const pGroup = useRef();
+  const spring = useSpring({
+    from: {pos: [0, 0, 0]},
+    pos: [0, .1, 1],
+    reset: true,
+    config: {
+      mass: 1,
+      tension: 120,
+      friction: 26,
+      precision: .01
+    }
+  })
 
   useRender(() => {
     if (!pGroup || !pGroup.current) return;
@@ -22,9 +57,9 @@ function GDogParticles({ lookIndex }) {
   })
 
   return (
-    <group ref={pGroup}>
-      <ParticleField config={config} />
-    </group>
+    <a.group ref={pGroup} position={spring.pos}>
+      <ParticleField config={newConfig} />
+    </a.group>
   )
 }
 

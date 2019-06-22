@@ -31,10 +31,6 @@ function loadGhost() {
     const model = gltf.scene;
     model.traverse( function ( child ) {
       if ( child.isMesh ) {
-        /*
-        child.material = mat;
-        child.material.matcap = tex;
-        */
         child.material = material;
         const uni = child.material.uniforms;
         child.material.matcap = mcapTex;

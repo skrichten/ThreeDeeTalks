@@ -12,10 +12,16 @@ const BG = styled(a.div)`
   background-color: #fff;
 `;
 
-const colors = ['#1B1D24', '#0D1400', '#14072A', '#000000'];
+const colors = ['#0d141a', '#0D1400', '#14072A', '#000000'];
+const config = {
+  mass: 1,
+  tension: 70,
+  friction: 26,
+  precision: .01
+}
 
 function GDogBackground({ lookIndex }) {
-  const style = useSpring({ background: colors[lookIndex] });
+  const style = useSpring({ background: colors[lookIndex], config });
 
   return (
     <BG style={style} />

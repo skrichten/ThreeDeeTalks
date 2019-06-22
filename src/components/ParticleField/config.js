@@ -33,7 +33,7 @@ export default {
     transparency: .99,
     shape: 'square',
     boundingBox: 'cube',
-    count: 300,
+    count: 200,
     minSize: .5,
     maxSize: 10,
     visible: true
