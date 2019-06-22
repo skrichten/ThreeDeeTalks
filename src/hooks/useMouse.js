@@ -1,11 +1,11 @@
 import { useCallback, useEffect } from 'react';
 import { useSpring } from 'react-spring/three';
 
+const defaultConfig = {
+  mass: 1, tension: 160, friction: 26, precision: .01
+}
 
 const useMouse = (config) => {
-  const defaultConfig = {
-    mass: 1, tension: 160, friction: 26, precision: .01
-  }
   config = { ...defaultConfig, ...config };
 
   const spring = useSpring(() => ({ mouse: [0,0], config }));
@@ -26,6 +26,3 @@ const useMouse = (config) => {
 }
 
 export default useMouse;
-
-
-

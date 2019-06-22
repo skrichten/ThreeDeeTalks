@@ -5,6 +5,7 @@
  */
 export default {
   showCube: false,
+  cubeSize: 12,
   dimension: '3D',
   velocity: .003,
   boundaryType: 'bounce',

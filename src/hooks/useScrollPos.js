@@ -5,10 +5,11 @@ function getScrollPos() {
   return window.pageYOffset / (document.documentElement.scrollHeight - window.innerHeight) || 0;
 }
 
+const defaultConfig = {
+  mass: 1, tension: 160, friction: 26, precision: .01
+}
+
 const useScrollPos = (config) => {
-  const defaultConfig = {
-    mass: 1, tension: 160, friction: 26, precision: .01
-  }
   config = { ...defaultConfig, ...config };
 
   const spring = useSpring(() => ({ scrollPos: getScrollPos(), config }));

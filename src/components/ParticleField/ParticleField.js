@@ -7,8 +7,6 @@ import animate from './lib/animate';
 import computeLines from './lib/computeLines';
 import computeParticles from './lib/computeParticles';
 
-// Default Cube dimensions
-const r = 12;
 
 /**
  * Creates a particle cloud with various config options
@@ -18,6 +16,7 @@ const ParticleField = ({config, ...props}) => {
     particles,
     lines,
     direction,
+    cubeSize,
     showCube,
     dimension,
     velocity,
@@ -55,10 +54,10 @@ const ParticleField = ({config, ...props}) => {
         devicePixelRatio,
         direction,
         size,
-        r,
+        r: cubeSize,
         velocity
       }),
-    [particles, dimension, direction, devicePixelRatio, size, velocity]
+    [particles, dimension, direction, devicePixelRatio, size, cubeSize, velocity]
   );
 
   // Assign state to animation ref
@@ -79,11 +78,8 @@ const ParticleField = ({config, ...props}) => {
     boundaryType
   };
 
-  // Direct access to render loop, executes on each frame
   // State changes must be passed into hook via refs
-  // useRender() contents are called in a requestAnimationFrame()
-  useRender(({camera}) => {
-    //console.log('cam', camera.radius);
+  useRender(() => {
     // Animate current state of particles + lines
     animate(animation.current);
   });
@@ -101,7 +97,7 @@ const ParticleField = ({config, ...props}) => {
                 wireframe
                 transparent
               />
-              <boxBufferGeometry attach="geometry" args={[r, r, r]} />
+              <boxBufferGeometry attach="geometry" args={[cubeSize, cubeSize, cubeSize]} />
             </mesh>
           </boxHelper>
         )}

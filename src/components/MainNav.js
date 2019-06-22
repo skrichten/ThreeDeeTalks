@@ -18,15 +18,15 @@ const NavList = styled.ul`
 `;
 
 const NavItem = styled.li`
-  background-color: rgba(0,0,0,0);
-  border: solid 2px rgba(255,255,255,.3);
+  background-color: rgba(255,255,255,.1);
+
   border-radius: 4px;
   margin-right: 8px;
   padding: 2px 10px;
   cursor: pointer;
   a {
     text-decoration: none;
-    color: rgba(255,255,255,.3);
+    color: rgba(255,255,255,.4);
   }
 `;
 
