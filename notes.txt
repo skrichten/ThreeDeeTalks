@@ -1,18 +1,11 @@
 
 TODO:
-Change particle colors?
 
 Cleanup and comment code
 
 Get rid of "lines" option in particle sytem ?
-Make particle bounds a config param ?
-
-Put site on Netlify?
 
 Restore previous shader features
-
-Subtle ghost idle animation.
-
 
 
 Adjusting for screen size:

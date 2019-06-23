@@ -1,22 +1,22 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import {  useRender } from 'react-three-fiber';
 import { useSpring } from 'react-spring/three';
-import * as THREE from 'three';
+import { Vector2, ShaderMaterial} from 'three';
 import MatcapShader from '../resources/shaders/MatcapShader';
 import { loadTexture, loadGLTF } from '../util/loaders';
 
 
-const material = new THREE.ShaderMaterial( {
+const material = new ShaderMaterial( {
 	uniforms: MatcapShader.uniforms,
 	vertexShader: MatcapShader.vertShader,
 	fragmentShader: MatcapShader.fragShader
 } );
 
 const matCaps = [
-  new THREE.Vector2(0, 0),
-  new THREE.Vector2(.5, 0),
-  new THREE.Vector2(.5, .5),
-  new THREE.Vector2(0, .5),
+  new Vector2(0, 0),
+  new Vector2(.5, 0),
+  new Vector2(.5, .5),
+  new Vector2(0, .5),
 ];
 
 function loadFox() {

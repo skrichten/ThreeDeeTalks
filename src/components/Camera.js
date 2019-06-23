@@ -14,7 +14,7 @@ function Camera({children, startDist}) {
   })
 
   return (
-    <a.perspectiveCamera ref={camera} fov={60} position={interpPos}>
+    <a.perspectiveCamera ref={camera} fov={65} position={interpPos}>
       {children}}
     </a.perspectiveCamera>
   )

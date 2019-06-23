@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import * as THREE from 'three';
+import { Vector2, Color, ShaderMaterial } from 'three';
 import {  useRender } from 'react-three-fiber';
 import { useSpring, animated as a } from 'react-spring/three';
 import MatcapShader from '../resources/shaders/MatcapShader';
 import { loadTexture, loadGLTF } from '../util/loaders';
 
-const material = new THREE.ShaderMaterial( {
+const material = new ShaderMaterial( {
 	uniforms: MatcapShader.uniforms,
 	vertexShader: MatcapShader.vertShader,
 	fragmentShader: MatcapShader.fragShader
@@ -13,13 +13,13 @@ const material = new THREE.ShaderMaterial( {
 
 material.transparent = true;
 material.opacity = .2;
-material.color = new THREE.Color( 0x62ff49 );
+material.color = new Color( 0x62ff49 );
 
 const matCaps = [
-  new THREE.Vector2(0, 0),
-  new THREE.Vector2(.5, 0),
-  new THREE.Vector2(.5, .5),
-  new THREE.Vector2(0, .5),
+  new Vector2(0, 0),
+  new Vector2(.5, 0),
+  new Vector2(.5, .5),
+  new Vector2(0, .5),
 ];
 
 function loadGhost() {
