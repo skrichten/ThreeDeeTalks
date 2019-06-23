@@ -99,6 +99,6 @@ void main() {
   float opac = (pct - 0.5) / 1.5;
   vec3 vColor = vec3(opac * opacity) * vColor;
 
-  gl_FragColor = vec4(vColor, opac);
+  gl_FragColor = vec4(vColor, opac * opacity);
 }
 `;

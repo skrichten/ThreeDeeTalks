@@ -106,7 +106,7 @@ export default ({
       transparency
     }),
     uniforms: {
-      opacity: {type: "f", value: 1 },
+      opacity: {type: "f", value: transparency },
     },
     transparent: transparency < 1,
     blending: AdditiveBlending,

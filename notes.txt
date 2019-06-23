@@ -11,6 +11,8 @@ Put site on Netlify?
 
 Restore previous shader features
 
+Subtle ghost idle animation.
+
 
 
 Adjusting for screen size:

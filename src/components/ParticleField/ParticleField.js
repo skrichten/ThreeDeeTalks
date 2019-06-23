@@ -1,5 +1,5 @@
 /* eslint-disable no-shadow */
-import React, { useRef, useMemo } from 'react';
+import React, { useRef, useMemo, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { AdditiveBlending } from 'three';
 import { useRender, useThree } from 'react-three-fiber';
@@ -7,6 +7,10 @@ import animate from './lib/animate';
 import computeLines from './lib/computeLines';
 import computeParticles from './lib/computeParticles';
 
+//TODO: move to utils
+function lerp(v0, v1, t) {
+  return v0*(1-t)+v1*t
+}
 
 /**
  * Creates a particle cloud with various config options
@@ -77,10 +81,20 @@ const ParticleField = ({config, opacity, ...props}) => {
   };
 
   // State changes must be passed into hook via refs
+  let t=0;
+  let o;
   useRender(() => {
     // Animate current state of particles + lines
     animate(animation.current);
-  });
+
+    // bail out of material animation once we reach a desired opacity
+    if (o == 0 || o >= 1) return;
+
+    t += 0.007;
+    //Animate material toward the given opacity prop value
+    o = lerp(pointMaterial.uniforms.opacity.value, opacity, t).toFixed(2);
+    pointMaterial.uniforms.opacity.value = o;
+  }, false, [pointMaterial, opacity]);
 
   return (
       <>
