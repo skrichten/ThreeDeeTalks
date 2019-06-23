@@ -1,10 +1,9 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import * as THREE from 'three';
 import {  useRender } from 'react-three-fiber';
-import { useSpring } from 'react-spring/three';
+import { useSpring, animated as a } from 'react-spring/three';
 import MatcapShader from '../resources/shaders/MatcapShader';
 import { loadTexture, loadGLTF } from '../util/loaders';
-
 
 const material = new THREE.ShaderMaterial( {
 	uniforms: MatcapShader.uniforms,
@@ -79,7 +78,17 @@ function GhostCurved({ lookIndex, ...props }) {
       return {...prevState, reset: true,
         currentIndex: nextIndex, lastIndex: prevState.currentIndex };
     });
-  }, [setAniState])
+  }, [setAniState]);
+
+  const bobSpring = useSpring({
+    from: {pos: [0, -.03, 0]},
+    pos: [0, .03, 0],
+    config: {
+      mass: 3,
+      tension: 7,
+      friction: 0
+    }
+  })
 
   useRender(() => {
     if (progress.value > 1) return;
@@ -91,7 +100,12 @@ function GhostCurved({ lookIndex, ...props }) {
 
   return (
     ghost ? (
-      <primitive object={ghost} {...props} onClick={onClick} />
+      <a.primitive
+        object={ghost}
+        onClick={onClick}
+        position={bobSpring.pos}
+        {...props}
+      />
     )
     : <mesh />
   )

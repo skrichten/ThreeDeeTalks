@@ -1,5 +1,5 @@
 /* eslint-disable no-shadow */
-import React, { useRef, useMemo, useEffect } from 'react';
+import React, { useRef, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { AdditiveBlending } from 'three';
 import { useRender, useThree } from 'react-three-fiber';
@@ -88,7 +88,7 @@ const ParticleField = ({config, opacity, ...props}) => {
     animate(animation.current);
 
     // bail out of material animation once we reach a desired opacity
-    if (o == 0 || o >= 1) return;
+    if (o === 0 || o >= 1) return;
 
     t += 0.007;
     //Animate material toward the given opacity prop value

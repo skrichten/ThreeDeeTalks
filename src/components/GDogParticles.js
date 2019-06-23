@@ -1,6 +1,5 @@
-import React, { useRef, useState } from 'react';
-import { useRender } from 'react-three-fiber';
-import { animated as a , useSpring, useTransition } from 'react-spring/three';
+import React, { useRef } from 'react';
+import { animated as a , useSpring } from 'react-spring/three';
 import ParticleField from '../components/ParticleField/ParticleField';
 import config from '../components/ParticleField/config';
 
