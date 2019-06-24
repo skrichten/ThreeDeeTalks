@@ -29,7 +29,7 @@ var looks = configOverrides.map( c => {
 
 function GDogParticles({ lookIndex }) {
 
-  // Move slightly toward camera when transitioning
+  // Move the particles slightly toward camera when transitioning
   const moveInSpring = useSpring({
     from: {pos: [0, 0, 0]},
     pos: [0, .1, 1],
