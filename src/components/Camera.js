@@ -9,6 +9,8 @@ function Camera({ startDist }) {
   useEffect(() => void setDefaultCamera(camera.current), [setDefaultCamera]);
 
   const [{scrollPos}] = useScrollPos();
+
+  // Moves the camera away from the starting point and then back towards it (Math.sin)
   const interpPos = scrollPos.interpolate(y => {
     return [0, 0, (Math.sin(y*3.14) * 6) + startDist]
   })

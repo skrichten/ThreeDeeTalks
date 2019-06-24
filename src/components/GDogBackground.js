@@ -20,6 +20,7 @@ const config = {
   precision: .01
 }
 
+// Just a simple background Div that changes color based on the lookIndex
 function GDogBackground({ lookIndex }) {
   const style = useSpring({ background: colors[lookIndex], config });
 

@@ -3,6 +3,7 @@ import { animated as a , useSpring } from 'react-spring/three';
 import ParticleField from '../components/ParticleField/ParticleField';
 import config from '../components/ParticleField/config';
 
+// A set of particle configuration overrides for each lookIndex.
 const configOverrides = [
   {
     colorMode: 'solid',
@@ -22,6 +23,7 @@ const configOverrides = [
   }
 ];
 
+// Create a complete particle configuration for each lookIndex
 var looks = configOverrides.map( c => {
   const particles = { ...config.particles, ...c }
   return { ...config, particles };
@@ -29,7 +31,7 @@ var looks = configOverrides.map( c => {
 
 function GDogParticles({ lookIndex }) {
 
-  // Move the particles slightly toward camera when transitioning
+  // Move the particles slightly toward camera when transitioning between configurations/colors
   const moveInSpring = useSpring({
     from: {pos: [0, 0, 0]},
     pos: [0, .1, 1],
@@ -42,9 +44,19 @@ function GDogParticles({ lookIndex }) {
     }
   });
 
+  // Store the previous lookIndex and Slot that was used to display the particles in a Ref.
+  // This setup will allow us to use just 2 ParticleFields (slots) to swap between all 4.
   const lastSetting = useRef(null);
-  const springs = [ moveInSpring, {pos:[0, .1, 1]} ];
 
+  // The position of each ParticleField
+  // For the one that is being transitioned in, we want the position to be the
+  // animated value from the spring defined above.
+  const positions = [ moveInSpring, {pos:[0, .1, 1]} ];
+
+  // Define the config, opacity, and postion for both ParticleFields
+  // depending on which should be getting transitioned in and which transitioned out.
+  // Note that the ParticleField will animate Opacity on it's own when
+  // it gets a new value for it's opacity prop
   const particleProps = [];
   const last = lastSetting.current
   if (last) {
@@ -60,8 +72,8 @@ function GDogParticles({ lookIndex }) {
     lastSetting.current = {
       index: lookIndex, slot: slot
     }
-    springs[slot] = moveInSpring;
-    springs[last.slot] = {pos:[0, .1, 1]}
+    positions[slot] = moveInSpring;
+    positions[last.slot] = {pos:[0, .1, 1]}
   } else {
     particleProps[0] = {
       config: looks[lookIndex],
@@ -76,25 +88,13 @@ function GDogParticles({ lookIndex }) {
     }
   }
 
-  const pGroup0 = useRef();
-  const pGroup1 = useRef();
-  // A little rotation so particles don't just move in a stright line.
-  /*
-  useRender(() => {
-    if (!pGroup0 || !pGroup0.current) return;
-    let r = pGroup0.current.rotation;
-    r.x += .0003;
-    r.y -= .0002;
-    r.z += .0003;
-  }); */
-
 
   return (
     <>
-    <a.group ref={pGroup0} position={springs[0].pos} >
+    <a.group position={positions[0].pos} >
       <ParticleField {...particleProps[0]} />
     </a.group>
-    <a.group ref={pGroup1} position={springs[1].pos} >
+    <a.group position={positions[1].pos} >
       <ParticleField {...particleProps[1]} />
     </a.group>
     </>

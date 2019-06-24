@@ -1,11 +1,18 @@
 import { useCallback, useEffect } from 'react';
 import { useSpring } from 'react-spring/three';
 
+// The default spring settings.
+// Any values can be overridden by those passed to the hook
 const defaultConfig = {
   mass: 1, tension: 160, friction: 26, precision: .01
 }
 
+/**
+ * Gets the normalized mouse position as the mouse moves
+ */
 const useMouse = (config) => {
+
+  // merge the provided spring config with the default
   config = { ...defaultConfig, ...config };
 
   const spring = useSpring(() => ({ mouse: [0,0], config }));

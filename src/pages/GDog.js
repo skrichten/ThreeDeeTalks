@@ -57,8 +57,8 @@ function GDog() {
   ]);
 
   // Setup and animated position from the useScrollPos AnimatedValue
-  // This will move the ghost from 0 to -.5, but he movement will nat start until after scrolling
-  // half way. The purpose of this one is to just give the ghost a better position at the end
+  // This will move the ghost from 0 to -.5, but the movement will not start until after scrolling
+  // half way. The purpose of this one is to just give the ghost a better position by the end
   // the full animation.
   const scrollMove = scrollPos.interpolate(y => {
     return [
@@ -68,7 +68,7 @@ function GDog() {
     ]
   });
 
-  //Setup an animated rotation from the useScrollPos AnimatedValue
+  // Setup an animated rotation from the useScrollPos AnimatedValue
   // For the first half of the scroll, the ghost will rotate .5 radians on the x axis
   // For the second half of the scroll, the ghost will rotate -6.3 radians on the y axis
   const scrollRot = scrollPos.interpolate(y => {

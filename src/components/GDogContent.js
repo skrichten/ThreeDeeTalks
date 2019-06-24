@@ -67,10 +67,17 @@ const SpookyOver = styled.div`
 
 const order = [ 1, 2, 0, 3 ];
 
+/**
+ * Renders the HTML content behind or on top of the WebGL canvas
+ * depending on the z-index and stacking order of the element
+ * The set setLookIndex function is passed in from the parent page
+ * to allow interactions in the dom to change the lookIndex value
+ */
 function GDogContent({setLookIndex}) {
   const [defaultLook, setDefaultLook] = useState(3);
   const lookItems = order.map( (num, i) =>
     <Item key={num}
+      // when an option is clicked we set the default look which is displaced when not moused over one of the items.
       onClick={() => setDefaultLook(num)}
       onMouseOver={() => setLookIndex(num)}
     >
