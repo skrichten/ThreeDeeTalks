@@ -36,7 +36,7 @@ function loadGhost() {
         const uni = child.material.uniforms;
         child.material.matcap = mcapTex;
         uni.matcap.value = mcapTex;
-        uni.opacity.value = .85;
+        uni.opacity.value = .8;
 
         uni.u_map1Offset.value = matCaps[0];
         uni.u_map2Offset.value = matCaps[1];
@@ -101,7 +101,7 @@ function GhostCurved({ lookIndex, ...props }) {
     }
   })
 
-  // If the animated progress value is not at the end
+  // If the animated progress value is not at the end ( > 1),
   // the animation is still in progress and the value
   // should be passed to the shader every animation frame
   useRender(() => {

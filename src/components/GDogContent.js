@@ -37,7 +37,7 @@ const Item = styled.li`
   margin-left: 30px;
   cursor: pointer;
   opacity: ${props => props.selected ? 1 : .5 };
-  &:hover { opacity: .9; }
+  &:hover { opacity: .8; }
   ${over}
 `;
 
@@ -51,7 +51,7 @@ const SpookyUnder = styled.div`
   margin-left: 250px;
   font-weight:bold;
   margin-bottom:70px;
-  color: #333;
+  color: #fff;
   max-width: 300px;
   ${under}
 `;
@@ -69,7 +69,7 @@ const order = [ 1, 2, 0, 3 ];
 
 /**
  * Renders the HTML content behind or on top of the WebGL canvas
- * depending on the z-index and stacking order of the element
+ * depending on the z-index / stacking order of the elements.
  * The set setLookIndex function is passed in from the parent page
  * to allow interactions in the dom to change the lookIndex value
  */
