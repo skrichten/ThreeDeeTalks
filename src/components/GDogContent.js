@@ -36,7 +36,7 @@ const Item = styled.li`
   line-height: 3;
   margin-left: 30px;
   cursor: pointer;
-  opacity: .5;
+  opacity: ${props => props.selected ? 1 : .5 };
   &:hover { opacity: .9; }
   ${over}
 `;
@@ -77,6 +77,7 @@ function GDogContent({setLookIndex}) {
   const [defaultLook, setDefaultLook] = useState(3);
   const lookItems = order.map( (num, i) =>
     <Item key={num}
+      selected={ num === defaultLook}
       // when an option is clicked we set the default look which is displaced when not moused over one of the items.
       onClick={() => setDefaultLook(num)}
       onMouseOver={() => setLookIndex(num)}
