@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { animated as a } from 'react-spring/three';
 import { Canvas } from 'react-three-fiber';
-import { Vector3 } from 'three';
 import useScrollPos from '../hooks/useScrollPos';
 import useMouse from '../hooks/useMouse';
 import useMeasure from '../hooks/useMeasure';
