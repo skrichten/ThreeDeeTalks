@@ -1,6 +1,7 @@
 import GhostDemo from './pages/GhostDemo';
 import FoxDemo from './pages/FoxDemo';
 import GDog from './pages/GDog';
+import Blamo from './pages/Blamo';
 
 
 const routes = [
@@ -20,6 +21,10 @@ const routes = [
   {
     path: "/ghost",
     component: GhostDemo
+  },
+  {
+    path: "/blamo",
+    component: Blamo
   }
 ];
 

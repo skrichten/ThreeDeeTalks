@@ -126,4 +126,3 @@ function GhostCurved({ lookIndex, ...props }) {
 }
 
 export default GhostCurved;
-
