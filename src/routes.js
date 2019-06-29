@@ -2,13 +2,14 @@ import GhostDemo from './pages/GhostDemo';
 import FoxDemo from './pages/FoxDemo';
 import GDog from './pages/GDog';
 import Blamo from './pages/Blamo';
+import Seagulls from './pages/Seagulls';
 
 
 const routes = [
   {
     exact: true,
     path: "/",
-    component: GDog
+    component: Seagulls
   },
   {
     path: "/gdog",
@@ -25,6 +26,10 @@ const routes = [
   {
     path: "/blamo",
     component: Blamo
+  },
+  {
+    path: "/seagulls",
+    component: Seagulls
   }
 ];
 

@@ -16,7 +16,7 @@ const defaultConfig = {
   mass: 1, tension: 160, friction: 26, precision: .01
 }
 
-const useScrollPos = (config) => {
+const useScrollSpring = (config) => {
 
   // merge the provided spring config with the default
   config = { ...defaultConfig, ...config };
@@ -37,4 +37,4 @@ const useScrollPos = (config) => {
   return spring;
 }
 
-export default useScrollPos;
+export default useScrollSpring;

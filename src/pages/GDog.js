@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { animated as a } from 'react-spring/three';
 import { Canvas } from 'react-three-fiber';
-import useScrollPos from '../hooks/useScrollPos';
-import useMouse from '../hooks/useMouse';
+import useScrollSpring from '../hooks/useScrollSpring';
+import useMouseSpring from '../hooks/useMouseSpring';
 import useMeasure from '../hooks/useMeasure';
 import Camera from '../components/Camera';
 import Ghost from '../components/GhostCurved';
@@ -39,15 +39,15 @@ function GDog() {
   // The various "looks" are based on this index which gets passed to child components
   const [lookIndex, setLookIndex] = useState(3);
 
-  // The useScrollPos hook will provide the current normalized scroll position
+  // The useScrollSpring hook will provide the current normalized scroll position
   // as a react-spring AnimatedValue
-  const [{scrollPos}] = useScrollPos();
+  const [{scrollPos}] = useScrollSpring();
 
-  // The useMouse hook will provide the current normalized mouse postion
+  // The useMouseSpring hook will provide the current normalized mouse postion
   // as a react-spring AnimatedValue
-  const [{mouse}] = useMouse({precision: .001, mass: 1, tension:120});
+  const [{mouse}] = useMouseSpring({precision: .001, mass: 1, tension:120});
 
-  // Setup an animated rotation from the useMouse AnimatedValue
+  // Setup an animated rotation from the useMouseSpring AnimatedValue
   // This will make the ghost rotate on the x and y axis based on the mouse position
   // The math makes the rotation go between -.1 and + .1 radians.
   const mouseRot = mouse.interpolate((x, y) => [
@@ -56,7 +56,7 @@ function GDog() {
     0
   ]);
 
-  // Setup and animated position from the useScrollPos AnimatedValue
+  // Setup and animated position from the useScrollSpring AnimatedValue
   // This will move the ghost from 0 to -.5, but the movement will not start until after scrolling
   // half way. The purpose of this one is to just give the ghost a better position by the end
   // the full animation.
@@ -68,7 +68,7 @@ function GDog() {
     ]
   });
 
-  // Setup an animated rotation from the useScrollPos AnimatedValue
+  // Setup an animated rotation from the useScrollSpring AnimatedValue
   // For the first half of the scroll, the ghost will rotate .5 radians on the x axis
   // For the second half of the scroll, the ghost will rotate -6.3 radians on the y axis
   const scrollRot = scrollPos.interpolate(y => {

@@ -10,7 +10,7 @@ const defaultConfig = {
 /**
  * Gets the normalized mouse position as the mouse moves
  */
-const useMouse = (config) => {
+const useMouseSpring = (config) => {
 
   // merge the provided spring config with the default
   config = { ...defaultConfig, ...config };
@@ -32,4 +32,4 @@ const useMouse = (config) => {
   return spring;
 }
 
-export default useMouse;
+export default useMouseSpring;

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Vector2, Color, ShaderMaterial } from 'three';
+import { Vector2, ShaderMaterial } from 'three';
 import {  useRender } from 'react-three-fiber';
 import { useSpring, animated as a } from 'react-spring/three';
 import MatcapShader from '../resources/shaders/MatcapShader';

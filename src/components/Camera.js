@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useThree } from 'react-three-fiber';
 import { animated as a } from 'react-spring/three';
-import useScrollPos from '../hooks/useScrollPos';
+import useScrollPos from '../hooks/useScrollSpring';
 
 function Camera({ startDist }) {
   const camera = useRef();

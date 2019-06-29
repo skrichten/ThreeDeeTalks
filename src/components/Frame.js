@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MeshBasicMaterial } from 'three';
 import { loadGLTF } from '../util/loaders';
 

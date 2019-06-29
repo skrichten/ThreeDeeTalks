@@ -4,7 +4,7 @@ import { Canvas } from 'react-three-fiber';
 import Camera from '../components/Camera';
 import Fox from '../components/Fox';
 //import useScrollPos from '../hooks/useScrollPos';
-import useMouse from '../hooks/useMouse';
+import useMouseSpring from '../hooks/useMouseSpring';
 import { animated as a } from 'react-spring/three';
 
 const Spacer = styled.div`
@@ -29,7 +29,7 @@ const glConfig = {
 
 function FoxDemo() {
   //const [{scrollPos}] = useScrollPos();
-  const [{mouse}] = useMouse({precision: .001, mass: 1, tension:120});
+  const [{mouse}] = useMouseSpring({precision: .001, mass: 1, tension:120});
   const interpRot = mouse.interpolate((x, y) => [
     (.04 * y)-.02,
     (.04 * x)-.02,
