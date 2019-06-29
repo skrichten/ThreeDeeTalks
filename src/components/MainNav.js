@@ -24,6 +24,7 @@ const NavItem = styled.li`
   margin-right: 8px;
   padding: 2px 10px;
   cursor: pointer;
+  text-shadow: 2px 2px 4px #000000;
   a {
     text-decoration: none;
     color: rgba(255,255,255,.4);
@@ -39,6 +40,12 @@ function MainNav({ routes }) {
         </NavItem>
         <NavItem>
           <Link to="/gdog">GDog</Link>
+        </NavItem>
+        <NavItem>
+          <Link to="/blamo">Blamo</Link>
+        </NavItem>
+        <NavItem>
+          <Link to="/seagulls">Seagulls</Link>
         </NavItem>
       </NavList>
     </Nav>
