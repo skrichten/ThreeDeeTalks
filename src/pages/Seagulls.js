@@ -43,7 +43,9 @@ const fragShader = `
 
   void main() {
     vec4 diffuseColor = texture2D( map, vUv );
-    float val = clamp(diffuseColor.x * vScale/1.0, 0.99, 1.0 );
+    //float val = clamp(diffuseColor.x * vScale/1.0, 0.99, 1.0 );
+    //float val = clamp(diffuseColor.x * vScale/0.5, 0.0, 0.1 );
+    float val =  vScale * 0.017;
     gl_FragColor = vec4( val, val, val, diffuseColor.w );
     if ( diffuseColor.w < 0.5 ) discard;
   }
@@ -56,7 +58,7 @@ const uniforms = {
 
 function Flock() {
   const {scene} = useThree();
-  scene.background = new THREE.Color( 0xF6F8EC );
+  scene.background = new THREE.Color( 0x000000 );
 
   const mainRef = useRef();
   const instRef = useRef();
@@ -64,25 +66,33 @@ function Flock() {
 
   const [{mouse}] = useMouseSpring({precision: .001, mass: 4, tension:50});
 
+  let it;
+  let pt;
+  it = pt = performance.now();
   useRender(() => {
     if (!matRef.current) return;
     const uni = matRef.current.uniforms;
     const t = performance.now() * 0.0005;
     uni.time.value = t;
+
+    // Maybe use something like this to track performance ?
+    it = performance.now();
+    console.log( it - pt );
+    pt = it;
+
+
     const mpos = mouse.payload;
     const r = mainRef.current.rotation;
-
     const x = r.x + (-.01 + (mpos[1].value * .02));
     const y = r.y + (-.01 + (mpos[0].value * .02));
     const z = t * .4;
     mainRef.current.rotation.set(x, y, z);
-    //mainRef.current.rotation.set(t * -0.3, t * -0.4, 0);
-  }, false, [matRef, mainRef]);
+  }, false, [matRef, mainRef, mouse]);
 
   useEffect(() => {
     if (!instRef || !instRef.current) return;
     instRef.current.copy( new THREE.PlaneBufferGeometry( .03, .03 ) );
-    const particleCount = 1000;
+    const particleCount = 500;
 
     /**
      This array is data that will be passed to the vertex shader as a custom attribute
@@ -112,7 +122,7 @@ function Flock() {
         uniforms={uniforms}
         depthTest = {true}
         depthWrite = {true}
-        transparent = {true}
+        transparent = {false}
       />
     </mesh>
   )
@@ -135,7 +145,6 @@ const glConfig = {
 const devicePixelRatio = window.devicePixelRatio.toFixed(1);
 
 function Seagulls() {
-
   return (
     <main>
       <Stage>

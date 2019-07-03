@@ -31,7 +31,7 @@ const NavItem = styled.li`
   }
 `;
 
-function MainNav({ routes }) {
+function MainNav() {
   return (
     <Nav>
       <NavList>

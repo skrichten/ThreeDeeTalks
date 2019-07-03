@@ -7,7 +7,7 @@ import useMouseSpring from '../hooks/useMouseSpring';
 import Frame from '../components/Frame';
 
 const Main = styled.main`
-  min-height: 5000px;
+  min-height: 10000px;
 `;
 
 const Stage = styled.div`
@@ -38,11 +38,13 @@ function Blamo() {
   // Setup an animated rotation from the useMouseSpring AnimatedValue
   // This will make the ghost rotate on the x and y axis based on the mouse position
   // The math makes the rotation go between -.1 and + .1 radians.
+  /* removing for now
   const mouseRot = mouse.interpolate((x, y) => [
     (.2 * y)-.1,
     (.2 * x)-.1,
     0
   ]);
+  */
 
   // Setup and animated position from the useScrollSpring AnimatedValue
   // This will move the ghost from 0 to -.5, but the movement will not start until after scrolling
@@ -52,7 +54,7 @@ function Blamo() {
     return [
       0,
       0,
-      1.3 + ( y * 6 )
+      3 + ( y * 16 )
     ]
   });
 
@@ -61,14 +63,13 @@ function Blamo() {
       <Stage>
         <Canvas gl={glConfig} pixelRatio={devicePixelRatio} >
           <a.group position={scrollMove}>
-            <a.group rotation={mouseRot}>
-              <Frame position={[0,0,-4]} />
-              <Frame position={[0,0,-3]} />
-              <Frame position={[0,0,-2]} />
-              <Frame position={[0,0,-1]} />
-              <Frame />
-              <Frame position={[0,0,1]} />
-              <Frame position={[0,0,2]} />
+            <a.group>
+              <Frame position={[0,0,-16]} imgSrc="./photo5.jpg" />
+              <Frame position={[0,0,-12]} imgSrc="./photo4.jpg" />
+              <Frame position={[0,0,-8]} imgSrc="./photo3.jpg" />
+              <Frame position={[0,0,-4]} imgSrc="./photo2.jpg" />
+              <Frame imgSrc="./photo1.jpg" />
+
             </a.group>
           </a.group>
         </Canvas>
