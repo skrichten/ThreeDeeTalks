@@ -4,6 +4,9 @@ import { useSpring, animated as a } from 'react-spring/three';
 import { useRender } from 'react-three-fiber';
 import { loadGLTF } from '../util/loaders';
 import { TextureLoader, Vector3 } from 'three';
+import WaveFadeShader from '../resources/shaders/WaveFadeShader';
+import CrosshatchShader from '../resources/shaders/CrosshatchShader';
+import CircleFadeShader from '../resources/shaders/CircleFadeShader';
 
 function loadFrame() {
   return loadGLTF('./frame.glb')
@@ -20,34 +23,52 @@ function loadFrame() {
     })
 }
 
-function Frame({ imgSrc, ...props }) {
-  //const frameRef = useRef();
+const shaders = [
+  WaveFadeShader,
+  CircleFadeShader,
+  CrosshatchShader,
+]
+
+
+function Frame({ imgSrc, shaderIndex, ...props }) {
+  const TransShader = shaders[shaderIndex];
+  const material = useRef();
   const [showImage, setShowImage] = useState(false);
-  const { transition } = useSpring({ from: { transition: 0 }, transition: showImage ? 1 : 0, config: { duration: 700 } })
+  const { transition } = useSpring({ from: { transition: 0 }, transition: showImage ? 1 : 0, config: { duration: 1000 } })
   const [frame, setFrame] = useState(false);
-  const texture = useMemo(() => new TextureLoader().load(imgSrc), [imgSrc]);
-  const scale = transition.interpolate( s => [s + .01, s + .01, 1]);
+  const uniforms = useMemo(() => {
+    return {
+      u_progress: { type: "f", value: 0 },
+      u_tex: { type: "t", value: new TextureLoader().load(imgSrc) }
+    }
+  }, [imgSrc]);
+
 
   useEffect(() =>  void loadFrame().then(setFrame), [setFrame] );
 
   let wp = new Vector3();
   useRender( ({ scene }) => {
-    if (!frame || showImage) return;
+    if (!frame) return;
     scene.updateMatrixWorld();
     frame.getWorldPosition(wp);
     if (wp.z > 2) {
       setShowImage(true);
+      uniforms.u_progress.value = transition.value;
     }
-  }, false, [frame, setShowImage]);
+  }, false, [frame, setShowImage, showImage, uniforms]);
 
   return (
     frame ? (
       <primitive object={frame} {...props} >
-        <a.mesh position={[0, 0, -.01]} scale={scale}>
+        <a.mesh position={[0, 0, -.01]} >
           <planeBufferGeometry attach="geometry" args={[1.8, 1.8, 1.8]} />
-          <a.meshBasicMaterial attach="material" transparent opacity={transition} >
-            <primitive attach="map" object={texture} />
-          </a.meshBasicMaterial>
+          <shaderMaterial attach="material"
+            ref={material}
+            vertexShader={TransShader.vertShader}
+            fragmentShader={TransShader.fragShader}
+            uniforms={uniforms}
+            transparent
+          />
         </a.mesh>
       </primitive>
     )

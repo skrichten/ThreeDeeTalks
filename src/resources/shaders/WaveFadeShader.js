@@ -1,30 +1,30 @@
-const uniforms = {
-  u_time: { type: "f", value: 0.0 },
-  u_opacity: { type: "f", value: 1.0 },
-  u_tex: { type: "t", value: null }
-}
 
 const vertShader = `
   varying vec2 vUv;
-  uniform mat3 uvTransform;
 
   void main() {
-    vUv = ( uvTransform * vec3( uv, 1 ) ).xy;
+    vUv = uv;
     gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
   }
 `;
 
 const fragShader = `
-  uniform float u_time;
+  uniform float u_progress;
   uniform sampler2D u_tex;
-  uniform float opacity;
 
   varying vec2 vUv;
 
+  vec2 offset(float progress, float x, float theta) {
+    float phase = progress*progress + progress + theta;
+    float shifty = 0.03*progress*cos(10.0*(progress+x));
+    return vec2(0, shifty);
+  }
+
   void main() {
-    vec4 color = texture2D(u_tex, vUv);
-    gl_FragColor = vec4(color);
+    vec4 color = texture2D(u_tex, vUv + offset(1.0-u_progress, vUv.x, 3.14));
+    gl_FragColor = vec4(color.rgb, u_progress);
   }
 `;
 
-export default {uniforms, vertShader, fragShader };
+
+export default {vertShader, fragShader };
