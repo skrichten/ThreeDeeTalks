@@ -6,8 +6,8 @@ import Frame from '../components/Frame';
 const pKey = '12961327-bfee4abf99bc1fb24b7242055';
 const apibase= `https://pixabay.com/api/?key=${pKey}&editors_choice=true&per_page=5&page=`;
 
-function Blamo( { page }) {
-  const [photos, setPhotos] = useState([]);
+function Blamo( { nextPage }) {
+  const [state, setState] = useState({ page: 1, photos:[] });
   // The useScrollSpring hook will provide the current normalized scroll position
   // as a react-spring AnimatedValue
   const [{scrollPos}] = useScrollSpring({}, false);
@@ -17,45 +17,47 @@ function Blamo( { page }) {
   const scrollMove = scrollPos.interpolate(y => ( [0, 0, y * .002] ) );
 
   useEffect( () => {
-    fetch(apibase + page, { mode: 'cors'})
+    fetch(apibase + nextPage, { mode: 'cors'})
       .then( resp => {
         return resp.json();
       })
       .then( data => {
         const hits = data.hits;
-        setPhotos( state => {
-          const last = state.length;
+        setState( prevState => {
+          const { photos } = prevState;
+          const last = photos.length;
           hits.forEach( (h, i) => {
             h.idx = i + last;
           });
-          return [ ...state, ...hits];
+          return {page: nextPage, photos: [ ...photos, ...hits]};
         });
 
       })
       .catch( e => {
         console.log(e);
       });
-   }, [page, setPhotos]);
+   }, [nextPage, setState]);
 
 
     const getSlice = () => {
+      const {page, photos} = state;
       const l = photos.length;
       let subset;
       if (l <= 10) {
         subset = photos;
       } else {
-        const start = (page-1) * 5;
+        const start = (page-2) * 5;
         subset = photos.slice(start, start + 10);
         //subset = photos.slice(photos.length-50)
       }
-      //console.log(page, subset, photos);
+      console.log(page, subset, photos);
       return subset;
     }
 
   return (
     <a.group position={scrollMove}>
       <a.group>
-        {photos && photos.length > 4 && photos.slice(photos.length-50).map( p =>
+        {state.photos && state.photos.length > 4 && getSlice().map( p =>
           <Frame key={p.id} position={[0,0,-p.idx * 4]} imgSrc={p.largeImageURL} shaderIndex={p.idx % 3} />
         )}
       </a.group>

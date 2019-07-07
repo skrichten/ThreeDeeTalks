@@ -37,9 +37,9 @@ function InfiniteBlamo() {
   return (
     <Main>
       <BodyStyle />
-      <NextTrigger ref={nextTriggerRef} y={8000 * page} />
+      <NextTrigger ref={nextTriggerRef} y={10000 * page} />
       <BlamoCanvas>
-        <BlamoPhotos page={page} />
+        <BlamoPhotos nextPage={page} />
       </BlamoCanvas>
     </Main>
   );
