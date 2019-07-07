@@ -23,19 +23,40 @@ function Blamo( { page }) {
       })
       .then( data => {
         const hits = data.hits;
-        setPhotos( state => ([ ...state, ...hits]) );
+        setPhotos( state => {
+          const last = state.length;
+          hits.forEach( (h, i) => {
+            h.idx = i + last;
+          });
+          return [ ...state, ...hits];
+        });
 
       })
       .catch( e => {
         console.log(e);
       });
-   }, [page, setPhotos])
+   }, [page, setPhotos]);
+
+
+    const getSlice = () => {
+      const l = photos.length;
+      let subset;
+      if (l <= 10) {
+        subset = photos;
+      } else {
+        const start = (page-1) * 5;
+        subset = photos.slice(start, start + 10);
+        //subset = photos.slice(photos.length-50)
+      }
+      //console.log(page, subset, photos);
+      return subset;
+    }
 
   return (
     <a.group position={scrollMove}>
       <a.group>
-        {photos && photos.map( (p, i) =>
-          <Frame key={p.id} position={[0,0,-i * 4]} imgSrc={p.largeImageURL} shaderIndex={i % 3} />
+        {photos && photos.length > 4 && photos.slice(photos.length-50).map( p =>
+          <Frame key={p.id} position={[0,0,-p.idx * 4]} imgSrc={p.largeImageURL} shaderIndex={p.idx % 3} />
         )}
       </a.group>
     </a.group>

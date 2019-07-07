@@ -29,7 +29,7 @@ const shaders = [
   CrosshatchShader,
 ];
 
-function Frame({ imgSrc, shaderIndex, ...props }) {
+function Frame({ pid, imgSrc, shaderIndex, ...props }) {
   const TransShader = shaders[shaderIndex];
   const material = useRef();
   const [showImage, setShowImage] = useState(false);
@@ -41,7 +41,6 @@ function Frame({ imgSrc, shaderIndex, ...props }) {
       u_tex: { type: "t", value: new TextureLoader().load(imgSrc) }
     }
   }, [imgSrc]);
-
 
   useEffect(() =>  void loadFrame().then(setFrame), [setFrame] );
 
@@ -55,6 +54,8 @@ function Frame({ imgSrc, shaderIndex, ...props }) {
     if (wp.z > 1.2) {
       setShowImage(true);
       uniforms.u_progress.value = transition.value;
+    }
+    if (wp.z > 20) {
     }
   }, false, [frame, setShowImage, showImage, uniforms]);
 

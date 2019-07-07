@@ -15,7 +15,7 @@ const Main = styled.main`
   position: relative;
 `;
 
-const Trigger = styled.div`
+const NextTrigger = styled.div`
   position: absolute;
   height: 1px;
   width: 100%;
@@ -26,7 +26,7 @@ const Trigger = styled.div`
 
 function InfiniteBlamo() {
   const [page, updatePage] = useState(1);
-  const [ref, entry] = useIntersect({rootMargin: '0px'});
+  const [nextTriggerRef, entry] = useIntersect({rootMargin: '0px'});
 
   useEffect( () => {
     if (entry.isIntersecting) {
@@ -37,7 +37,7 @@ function InfiniteBlamo() {
   return (
     <Main>
       <BodyStyle />
-      <Trigger ref={ref} y={5000 * page} />
+      <NextTrigger ref={nextTriggerRef} y={8000 * page} />
       <BlamoCanvas>
         <BlamoPhotos page={page} />
       </BlamoCanvas>
