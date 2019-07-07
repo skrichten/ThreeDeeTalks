@@ -121,7 +121,7 @@ function GhostCurved({ lookIndex, ...props }) {
         {...props}
       />
     )
-    : <mesh />
+    : null
   )
 }
 

@@ -56,7 +56,7 @@ function GDog() {
     0
   ]);
 
-  // Setup and animated position from the useScrollSpring AnimatedValue
+  // Setup an animated position from the useScrollSpring AnimatedValue
   // This will move the ghost from 0 to -.5, but the movement will not start until after scrolling
   // half way. The purpose of this one is to just give the ghost a better position by the end
   // the full animation.
@@ -72,7 +72,6 @@ function GDog() {
   // For the first half of the scroll, the ghost will rotate .5 radians on the x axis
   // For the second half of the scroll, the ghost will rotate -6.3 radians on the y axis
   const scrollRot = scrollPos.interpolate(y => {
-    console.log(Math.max(y - .5, 0) * -12.6)
     return [
       Math.min(y * 2, 1) * .5,
       Math.max(y - .5, 0) * -12.6,

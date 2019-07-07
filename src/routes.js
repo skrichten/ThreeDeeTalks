@@ -3,6 +3,7 @@ import FoxDemo from './pages/FoxDemo';
 import GDog from './pages/GDog';
 import Blamo from './pages/Blamo';
 import Seagulls from './pages/Seagulls';
+import InfiniteBlamo from './pages/InfiniteBlamo';
 
 
 const routes = [
@@ -30,6 +31,10 @@ const routes = [
   {
     path: "/seagulls",
     component: Seagulls
+  },
+  {
+    path: "/iblamo",
+    component: InfiniteBlamo
   }
 ];
 

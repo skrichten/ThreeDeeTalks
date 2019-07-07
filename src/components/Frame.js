@@ -27,8 +27,7 @@ const shaders = [
   WaveFadeShader,
   CircleFadeShader,
   CrosshatchShader,
-]
-
+];
 
 function Frame({ imgSrc, shaderIndex, ...props }) {
   const TransShader = shaders[shaderIndex];
@@ -46,12 +45,14 @@ function Frame({ imgSrc, shaderIndex, ...props }) {
 
   useEffect(() =>  void loadFrame().then(setFrame), [setFrame] );
 
+  // Used to hold the World Position of this frame
   let wp = new Vector3();
   useRender( ({ scene }) => {
     if (!frame) return;
     scene.updateMatrixWorld();
     frame.getWorldPosition(wp);
-    if (wp.z > 2) {
+    // When the frame gets close to the camera.
+    if (wp.z > 1.2) {
       setShowImage(true);
       uniforms.u_progress.value = transition.value;
     }
@@ -72,7 +73,7 @@ function Frame({ imgSrc, shaderIndex, ...props }) {
         </a.mesh>
       </primitive>
     )
-    : <mesh />
+    : null
   )
 
 }

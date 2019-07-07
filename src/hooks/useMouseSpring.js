@@ -19,6 +19,7 @@ const useMouseSpring = (config) => {
   // eslint-disable-next-line no-unused-vars
   const [{ mouse }, set] = spring;
 
+  // TODO: make this based on canvas size instead of window?
   const onMouseMove = useCallback(({ clientX: x, clientY: y }) => {
     set({ mouse: [ x / window.innerWidth, y / window.innerHeight ] });
   }, [set]);

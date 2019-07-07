@@ -1,3 +1,4 @@
+import { useRef, useEffect } from 'react';
 //https://itnext.io/essential-react-hooks-design-patterns-a04309cc0404
 
 function useThrottle( fun, timeout, changes = [] ){
@@ -25,3 +26,5 @@ function useThrottle( fun, timeout, changes = [] ){
       }, timeout );
   }
 }
+
+export default useThrottle;

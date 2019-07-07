@@ -17,7 +17,7 @@ function Markers( props ) {
     markers ? (
       <primitive object={markers} {...props} />
     )
-    : <mesh />
+    : null
   )
 }
 

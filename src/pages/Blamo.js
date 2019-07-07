@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { FogExp2, Color } from 'three';
 import { animated as a } from 'react-spring/three';
 import { Canvas } from 'react-three-fiber';
 import useScrollSpring from '../hooks/useScrollSpring';
@@ -29,14 +30,14 @@ const devicePixelRatio = window.devicePixelRatio.toFixed(1);
 function Blamo() {
   // The useScrollSpring hook will provide the current normalized scroll position
   // as a react-spring AnimatedValue
-  const [{scrollPos}] = useScrollSpring();
+  const [{scrollPos}] = useScrollSpring({}, false);
 
   // The useMouseSpring hook will provide the current normalized mouse postion
   // as a react-spring AnimatedValue
   //const [{mouse}] = useMouseSpring({precision: .001, mass: 1, tension:120});
 
   // Setup an animated rotation from the useMouseSpring AnimatedValue
-  // This will make the ghost rotate on the x and y axis based on the mouse position
+  // This will make the scene rotate on the x and y axis based on the mouse position
   // The math makes the rotation go between -.1 and + .1 radians.
   /* removing for now
   const mouseRot = mouse.interpolate((x, y) => [
@@ -46,30 +47,33 @@ function Blamo() {
   ]);
   */
 
-  // Setup and animated position from the useScrollSpring AnimatedValue
-  // This will move the ghost from 0 to -.5, but the movement will not start until after scrolling
-  // half way. The purpose of this one is to just give the ghost a better position by the end
-  // the full animation.
+  // Setup an animated position from the useScrollSpring AnimatedValue
+  // This will move the frames as the user scrolls.
   const scrollMove = scrollPos.interpolate(y => {
     return [
       0,
       0,
-      3 + ( y * 16 )
+      y * .002
+      //3 + ( y * 16 )
     ]
   });
+
+  const onCreated = ({ scene }) => {
+    scene.background = new Color( 0x000000 );
+    scene.fog = new FogExp2( 0x000000, .12 );
+  }
 
   return (
     <Main>
       <Stage>
-        <Canvas gl={glConfig} pixelRatio={devicePixelRatio} >
+        <Canvas gl={glConfig} pixelRatio={devicePixelRatio} onCreated={onCreated} >
           <a.group position={scrollMove}>
             <a.group>
-              <Frame position={[0,0,-16]} imgSrc="./photo5.jpg" shaderIndex={1} />
-              <Frame position={[0,0,-12]} imgSrc="./photo4.jpg" shaderIndex={0} />
-              <Frame position={[0,0,-8]} imgSrc="./photo3.jpg" shaderIndex={2} />
+              <Frame position={[0,0,0]} imgSrc="./photo1.jpg" shaderIndex={0} />
               <Frame position={[0,0,-4]} imgSrc="./photo2.jpg" shaderIndex={1} />
-              <Frame imgSrc="./photo1.jpg" shaderIndex={0} />
-
+              <Frame position={[0,0,-8]} imgSrc="./photo3.jpg" shaderIndex={2} />
+              <Frame position={[0,0,-12]} imgSrc="./photo4.jpg" shaderIndex={0} />
+              <Frame position={[0,0,-16]} imgSrc="./photo5.jpg" shaderIndex={1} />
             </a.group>
           </a.group>
         </Canvas>
