@@ -34,10 +34,12 @@ function InfiniteBlamo() {
     }
   }, [updatePage, entry])
 
+  // TODO need to adjust y value if screen height changes.
   return (
     <Main>
       <BodyStyle />
-      <NextTrigger ref={nextTriggerRef} y={10000 * page} />
+      <NextTrigger ref={nextTriggerRef}
+        y={(9000 + window.innerHeight) * page} />
       <BlamoCanvas>
         <BlamoPhotos nextPage={page} />
       </BlamoCanvas>

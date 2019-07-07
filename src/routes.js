@@ -26,15 +26,15 @@ const routes = [
   },
   {
     path: "/blamo",
-    component: Blamo
+    component: InfiniteBlamo
   },
   {
     path: "/seagulls",
     component: Seagulls
   },
   {
-    path: "/iblamo",
-    component: InfiniteBlamo
+    path: "/oldblamo",
+    component: Blamo
   }
 ];
 

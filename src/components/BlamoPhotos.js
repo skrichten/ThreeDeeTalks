@@ -4,11 +4,11 @@ import useScrollSpring from '../hooks/useScrollSpring';
 import Frame from '../components/Frame';
 
 const pKey = '12961327-bfee4abf99bc1fb24b7242055';
-const apibase= `https://pixabay.com/api/?key=${pKey}&editors_choice=true&per_page=5&page=`;
+const apibase= `https://pixabay.com/api/?key=${pKey}&editors_choice=true&per_page=10&page=`;
 
 function Blamo( { nextPage }) {
   const [state, setState] = useState({ page: 1, photos:[] });
-  // The useScrollSpring hook will provide the current normalized scroll position
+  // The useScrollSpring hook will provide the current scroll position
   // as a react-spring AnimatedValue
   const [{scrollPos}] = useScrollSpring({}, false);
 
@@ -47,8 +47,7 @@ function Blamo( { nextPage }) {
         subset = photos;
       } else {
         const start = (page-2) * 5;
-        subset = photos.slice(start, start + 10);
-        //subset = photos.slice(photos.length-50)
+        subset = photos.slice(start, start + 15);
       }
       console.log(page, subset, photos);
       return subset;
