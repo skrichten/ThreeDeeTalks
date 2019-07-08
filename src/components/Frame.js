@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, useRef } from 'react';
+import React, { useEffect, useCallback, useState, useMemo, useRef } from 'react';
 import { MeshBasicMaterial } from 'three';
 import { useSpring, animated as a } from 'react-spring/three';
 import { useRender } from 'react-three-fiber';
@@ -29,7 +29,7 @@ const shaders = [
   CrosshatchShader,
 ];
 
-function Frame({ pid, imgSrc, shaderIndex, ...props }) {
+function Frame({ pid, imgData, shaderIndex, ...props }) {
   const TransShader = shaders[shaderIndex];
   const material = useRef();
   const [showImage, setShowImage] = useState(false);
@@ -38,9 +38,28 @@ function Frame({ pid, imgSrc, shaderIndex, ...props }) {
   const uniforms = useMemo(() => {
     return {
       u_progress: { type: "f", value: 0 },
-      u_tex: { type: "t", value: new TextureLoader().load(imgSrc) }
+      u_tex: { type: "t", value: new TextureLoader().load(imgData.largeImageURL) }
     }
-  }, [imgSrc]);
+  }, [imgData]);
+
+  const getImageSize = useCallback(() => {
+    let { imageWidth:w, imageHeight:h } = imgData;
+    console.log('size:', w, h)
+    let ratio;
+    let max = 1.8;
+    if ( w > h ) {
+      ratio = max / w;
+      w = max;
+      h = h * ratio;
+    } else if ( h > w ) {
+      ratio = max / h;
+      h = max;
+      w = w * ratio;
+    } else {
+      h = w = max;
+    }
+    return [w, h, 1];
+  }, [imgData]);
 
   useEffect(() =>  void loadFrame().then(setFrame), [setFrame] );
 
@@ -57,13 +76,13 @@ function Frame({ pid, imgSrc, shaderIndex, ...props }) {
     }
     if (wp.z > 20) {
     }
-  }, false, [frame, setShowImage, showImage, uniforms]);
+  }, false, [frame, setShowImage, uniforms]);
 
   return (
     frame ? (
       <primitive object={frame} {...props} >
         <a.mesh position={[0, 0, -.01]} >
-          <planeBufferGeometry attach="geometry" args={[1.8, 1.8, 1.8]} />
+          <planeBufferGeometry attach="geometry" args={ getImageSize() } />
           <shaderMaterial attach="material"
             ref={material}
             vertexShader={TransShader.vertShader}

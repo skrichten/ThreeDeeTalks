@@ -14,7 +14,7 @@ uniform sampler2D u_tex;
 
 const vec2 center = vec2(0.5);
 const float threshold = 3.0;
-const float fadeEdge = 0.1;
+const float fadeEdge = 0.7;
 
 varying vec2 vUv;
 

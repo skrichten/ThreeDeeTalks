@@ -49,7 +49,6 @@ function Blamo( { nextPage }) {
         const start = (page-2) * 5;
         subset = photos.slice(start, start + 15);
       }
-      console.log(page, subset, photos);
       return subset;
     }
 
@@ -57,7 +56,7 @@ function Blamo( { nextPage }) {
     <a.group position={scrollMove}>
       <a.group>
         {state.photos && state.photos.length > 4 && getSlice().map( p =>
-          <Frame key={p.id} position={[0,0,-p.idx * 4]} imgSrc={p.largeImageURL} shaderIndex={p.idx % 3} />
+          <Frame key={p.id} position={[0,0,-p.idx * 4]} imgData={p} shaderIndex={p.idx % 3} />
         )}
       </a.group>
     </a.group>

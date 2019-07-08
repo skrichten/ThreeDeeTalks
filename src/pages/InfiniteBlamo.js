@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled, {createGlobalStyle} from 'styled-components';
 import BlamoCanvas from '../components/BlamoCanvas';
 import BlamoPhotos from '../components/BlamoPhotos';
+import BlamoCam from '../components/BlamoCam';
 import useIntersect from '../hooks/useIntersect';
 
 
@@ -41,6 +42,7 @@ function InfiniteBlamo() {
       <NextTrigger ref={nextTriggerRef}
         y={(9000 + window.innerHeight) * page} />
       <BlamoCanvas>
+        <BlamoCam />
         <BlamoPhotos nextPage={page} />
       </BlamoCanvas>
     </Main>
