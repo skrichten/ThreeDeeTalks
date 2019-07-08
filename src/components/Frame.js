@@ -44,7 +44,6 @@ function Frame({ pid, imgData, shaderIndex, ...props }) {
 
   const getImageSize = useCallback(() => {
     let { imageWidth:w, imageHeight:h } = imgData;
-    console.log('size:', w, h)
     let ratio;
     let max = 1.8;
     if ( w > h ) {
