@@ -10,14 +10,14 @@ const Distorted = styled.img`
   filter: url(#wavedfilter);
 `;
 
-function DistortedImage() {
+function DistortedImage({ strength = 70 }) {
 
   const AnimFeTurbulence = a('feTurbulence');
   const AnimFeDisplacementMap = a('feDisplacementMap');
   const AnimFeGaussianBlur = a('feGaussianBlur');
 
   const from = { freq:'0.002, 0.007', disp: 0, blur: 0 };
-  const to = { freq:'0.003, 0.009', disp: 90, blur: .5 };
+  const to = { freq:'0.003, 0.009', disp: strength, blur: .5 };
   const {freq, disp, blur} = useSpring( { from, to, config } );
 
   return (
