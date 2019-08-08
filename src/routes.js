@@ -5,6 +5,7 @@ import Blamo from './pages/Blamo';
 import Seagulls from './pages/Seagulls';
 import InfiniteBlamo from './pages/InfiniteBlamo';
 import SVGWave from './pages/SVGWave';
+import Multiple from './pages/Multiple';
 
 
 const routes = [
@@ -36,6 +37,10 @@ const routes = [
   {
     path: "/wave",
     component: SVGWave
+  },
+  {
+    path: "/multi",
+    component: Multiple
   },
   {
     path: "/oldblamo",

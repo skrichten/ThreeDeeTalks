@@ -2,6 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import { useSpring, animated as a } from 'react-spring';
 
+const ImageWrap = styled.div`
+
+`;
 
 const Distorted = styled.img`
   filter: url(#wavedfilter);
@@ -29,20 +32,26 @@ function DistortedImage({ strength = 30 }) {
     <React.Fragment>
     <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" >
       <defs>
+
         <filter id="wavedfilter">
+
           <AnimFeTurbulence
             baseFrequency={
               radians.interpolate(interp(1))
             }
-            numOctaves="1" type="fractalNoise" result="turbulence"/>
+            numOctaves="1" type="fractalNoise" result="turbulence"
+          />
 
           <feDisplacementMap in="SourceGraphic" in2="turbulence"
             scale={strength} xChannelSelector="R" yChannelSelector="R"
             result="distored"
           />
-          <feGaussianBlur in="distored" stdDeviation=".5" />
+          <feGaussianBlur stdDeviation=".5" />
+
+
         </filter>
       </defs>
+
     </svg>
     <Distorted src="https://picserio.com/data/out/8/dark-black-wallpaper_2334616.jpg" alt="" />
     </React.Fragment>
@@ -50,3 +59,31 @@ function DistortedImage({ strength = 30 }) {
 }
 
 export default DistortedImage;
+
+/*
+<filter id="wavedfilter">
+          <feImage xlinkHref={`data:image/svg+xml;charset=UTF-8,
+            <svg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'>
+             <circle cx='120' cy='120' r='40' fill='white'/>
+             </svg>`}
+            result="arrow"
+          />
+
+          <feGaussianBlur in="arrow" result="blurcirc" stdDeviation="20" />
+
+          <AnimFeTurbulence
+            baseFrequency={
+              radians.interpolate(interp(1))
+            }
+            numOctaves="1" type="fractalNoise" result="turbulence"
+          />
+
+          <feBlend in="turbulence" in2="blurcirc" mode="multiply" result="blended"/>
+
+          <feDisplacementMap in="SourceGraphic" in2="blended"
+            scale={strength} xChannelSelector="R" yChannelSelector="R"
+            result="distored"
+          />
+          <feGaussianBlur stdDeviation=".5" />
+
+*/

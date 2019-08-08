@@ -13,6 +13,7 @@
     "react-spring": "^8.0.20",
     "react-three-fiber": "^2.1.1",
     "styled-components": "^4.2.0",
+    "superior-mq": "^0.0.2",
     "three": "^0.105.1"
   },
   "scripts": {
