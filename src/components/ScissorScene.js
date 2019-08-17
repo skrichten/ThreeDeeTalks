@@ -15,7 +15,8 @@ function ScissorScene({ children, elem, isMain, ...props }) {
     }
 
     const {left, right, top, bottom, width, height} =
-        elem.getBoundingClientRect();
+      elem.getBoundingClientRect();
+    //console.log(height);
     const canvas = gl.domElement;
 
     const isOffscreen =
@@ -28,10 +29,7 @@ function ScissorScene({ children, elem, isMain, ...props }) {
       return;
     }
 
-    // I think For displaying images we need to set this based on the image
-    // and also make sure the contianer element keeps the same aspect ratio
-
-    //cam.aspect = width / height;
+    cam.aspect = width / height;
     //cam.radius = (width + height) / 4;
     cam.updateProjectionMatrix();
 
@@ -48,7 +46,7 @@ function ScissorScene({ children, elem, isMain, ...props }) {
       <perspectiveCamera
         ref={camera}
         fov={55}
-        position={[0, 0, 5]}
+        position={[0, 0, 0]}
       />
       {children}
     </scene>

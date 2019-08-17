@@ -8,7 +8,7 @@ const Stage = styled.div`
   position: fixed;
   top: 0; left: 0;
   overflow: hidden;
-  z-index: -1;
+  z-index: 1;
 `;
 
 const glConfig = {

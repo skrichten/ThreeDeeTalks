@@ -1,5 +1,5 @@
 import React from 'react';
-import DistortedImage from '../components/DistortedImage';
+import DistortedImage from '../components/SVGDistortedImage';
 
 function SVGWave() {
   return (

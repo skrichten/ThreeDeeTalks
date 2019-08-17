@@ -1,10 +1,12 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useRef } from 'react';
 import styled from 'styled-components';
 import { bp } from '../styles/helpers';
 import screen from 'superior-mq';
 import Grid from '../components/Grid';
+import useElement from '../hooks/useElement';
 import ScissorScene from '../components/ScissorScene';
 import ThreeCanvas from '../components/ThreeCanvas';
+import DistortedImage from '../components/DistortedImage';
 
 const Container = styled.div`
   max-width: var(--container);
@@ -33,7 +35,7 @@ const gridStyles = `
   `)}
 `;
 
-const WinnersSection = styled.section`
+const Section = styled.section`
   position: relative;
   padding-bottom: 702px;
   overflow: hidden;
@@ -51,7 +53,7 @@ const WinnersSection = styled.section`
   `)}
 `;
 
-const WinnersGridItem = styled(Grid.Item)`
+const GridItem = styled(Grid.Item)`
   &:nth-of-type(2n) {
     ${screen.above(bp.desktopSm, `
       margin-top: 320px;
@@ -72,52 +74,46 @@ const GlRect = styled.div`
   height: 500px;
 `;
 
+const PhImage = styled.img`
+  max-width: 300px;
+  /*visibility: hidden; */
+`
+
 const Multiple = () => {
-  const [el1, setEl1] = useState(null);
-  const [el2, setEl2] = useState(null);
-
-  const r1 = useCallback(node => {
-    if (node !== null) setEl1(node);
-  },[]);
-
-  const r2 = useCallback(node => {
-    if (node !== null) setEl2(node);
-  },[]);
+  const [r1, el1] = useElement();
+  const [r2, el2] = useElement();
 
   return (
     <React.Fragment>
     <ThreeCanvas>
         <ScissorScene elem={el1} isMain={true}>
-          <mesh>
-            <boxBufferGeometry attach="geometry" args={[2, 2, 2]} />
-            <meshBasicMaterial attach="material" color="lightgreen" />
-          </mesh>
+          <DistortedImage elem={el1} />
         </ScissorScene>
         <ScissorScene elem={el2}>
-          <mesh position={[0, 0, 0]}>
+          <mesh position={[0, 0, -2]}>
             <dodecahedronBufferGeometry attach="geometry" args={[0.5]} />
             <meshNormalMaterial attach="material" />
           </mesh>
         </ScissorScene>
     </ThreeCanvas>
-    <WinnersSection>
+    <Section>
       <Container>
         <Grid styles={gridStyles}>
-          <WinnersGridItem span={1}>
-            <GlRect ref={r1} />
-          </WinnersGridItem>
-          <WinnersGridItem span={1}>
-            <GlRect ref={r2} />
-          </WinnersGridItem>
-          <WinnersGridItem span={1}>
+          <GridItem span={1}>
+            <PhImage src="/photo1.jpg" ref={r1} />
+          </GridItem>
+          <GridItem span={1}>
+            <PhImage src="/photo2.jpg" ref={r2} />
+          </GridItem>
+          <GridItem span={1}>
             <GlRect />
-          </WinnersGridItem>
-          <WinnersGridItem span={1}>
+          </GridItem>
+          <GridItem span={1}>
             <GlRect />
-          </WinnersGridItem>
+          </GridItem>
         </Grid>
       </Container>
-    </WinnersSection>
+    </Section>
   </React.Fragment>
   )
 };
