@@ -1,9 +1,13 @@
 import React, { useRef } from 'react';
+import PropTypes from 'prop-types';
 import { useRender } from 'react-three-fiber';
+import useElement from '../hooks/useElement';
 
-function ScissorScene({ children, elem, isMain, ...props }) {
+function ScissorScene({ children, elem, isMain, fov=55, ...props }) {
   const scene = useRef();
-  const camera = useRef()
+  //const [camera, cam] = useElement();
+  //console.log('cam', cam)
+  const camera = useRef();
 
   useRender(({ gl }) => {
     const cam = camera.current;
@@ -16,7 +20,7 @@ function ScissorScene({ children, elem, isMain, ...props }) {
 
     const {left, right, top, bottom, width, height} =
       elem.getBoundingClientRect();
-    //console.log(height);
+    //console.log(width);
     const canvas = gl.domElement;
 
     const isOffscreen =
@@ -30,28 +34,33 @@ function ScissorScene({ children, elem, isMain, ...props }) {
     }
 
     cam.aspect = width / height;
-    //cam.radius = (width + height) / 4;
     cam.updateProjectionMatrix();
 
     const positiveYUpBottom = canvas.clientHeight - bottom;
     gl.setScissor(left, positiveYUpBottom, width, height);
     gl.setViewport(left, positiveYUpBottom, width, height);
 
-
     gl.render(scene.current, cam)
-  }, isMain)
+  }, isMain, []);
 
   return (
     <scene ref={scene} {...props}>
       <perspectiveCamera
         ref={camera}
-        fov={55}
+        fov={fov}
         position={[0, 0, 0]}
       />
-      {children}
+      {camera.current && children(camera.current)}
     </scene>
   )
 
+}
+
+ScissorScene.propTypes = {
+  elem: PropTypes.instanceOf(Element),
+  fov: PropTypes.number,
+  isMain: PropTypes.bool,
+  children: PropTypes.func.isRequired
 }
 
 export default ScissorScene;
