@@ -6,6 +6,7 @@ import Seagulls from './pages/Seagulls';
 import InfiniteBlamo from './pages/InfiniteBlamo';
 import SVGWave from './pages/SVGWave';
 import Multiple from './pages/Multiple';
+import CurtainsDemo from './pages/CurtainsDemo';
 
 
 const routes = [
@@ -41,6 +42,10 @@ const routes = [
   {
     path: "/multi",
     component: Multiple
+  },
+  {
+    path: "/curt",
+    component: CurtainsDemo
   },
   {
     path: "/oldblamo",

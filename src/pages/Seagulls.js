@@ -45,7 +45,7 @@ const fragShader = `
     vec4 diffuseColor = texture2D( map, vUv );
     //float val = clamp(diffuseColor.x * vScale/1.0, 0.99, 1.0 );
     //float val = clamp(diffuseColor.x * vScale/0.5, 0.0, 0.1 );
-    float val =  vScale * 0.017;
+    float val =  vScale * 0.03;
     gl_FragColor = vec4( val, val, val, diffuseColor.w );
     if ( diffuseColor.w < 0.5 ) discard;
   }

@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "curtainsjs": "^3.0.5",
     "hex-rgb": "^4.1.0",
     "is-hexcolor": "^1.0.0",
     "prop-types": "^15.7.2",

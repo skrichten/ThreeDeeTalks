@@ -8,6 +8,7 @@ function ScissorScene({ children, elem, isMain, fov=55, ...props }) {
   //const [camera, cam] = useElement();
   //console.log('cam', cam)
   const camera = useRef();
+  console.log('scene')
 
   useRender(({ gl }) => {
     const cam = camera.current;
@@ -41,7 +42,7 @@ function ScissorScene({ children, elem, isMain, fov=55, ...props }) {
     gl.setViewport(left, positiveYUpBottom, width, height);
 
     gl.render(scene.current, cam)
-  }, isMain, []);
+  }, isMain);
 
   return (
     <scene ref={scene} {...props}>

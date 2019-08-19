@@ -3067,6 +3067,11 @@ cssstyle@^1.0.0, cssstyle@^1.1.1:
   dependencies:
     cssom "0.3.x"
 
+curtainsjs@^3.0.5:
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/curtainsjs/-/curtainsjs-3.0.5.tgz#ef8bb35a82841f14490b41d325c0e672bb97c3b5"
+  integrity sha512-pa5Davs0njEEkvOHBkpYFaM63TUzRXSOZ5T0/duwvYypxxalCtncICpmyHx5JbxbTOvqtYRsI1kl8ecT73hS2g==
+
 cyclist@~0.2.2:
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/cyclist/-/cyclist-0.2.2.tgz#1b33792e11e914a2fd6d6ed6447464444e5fa640"

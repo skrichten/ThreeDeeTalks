@@ -34,7 +34,12 @@ const Multiple = () => {
   return (
     <React.Fragment>
     <ThreeCanvas pixelRatio={devicePixelRatio}>
-        <ScissorScene elem={el1} isMain={true}>
+        <ScissorScene elem={el4} isMain={true}>
+          {camera => (
+            <DistortedImage img={el4} camera={camera} />
+          )}
+        </ScissorScene>
+        <ScissorScene elem={el1}>
           {camera => (
             <DistortedImage img={el1} camera={camera} />
           )}
@@ -52,17 +57,12 @@ const Multiple = () => {
             </mesh>
           )}
         </ScissorScene>
-        <ScissorScene elem={el4}>
-          {camera => (
-            <DistortedImage img={el4} camera={camera} />
-          )}
-        </ScissorScene>
     </ThreeCanvas>
     <Section>
+      <PhImage src="/photo3.jpg" ref={r4} />
       <PhImage src="/photo1.jpg" ref={r1} />
       <PhImage src="/photo2.jpg" ref={r2} />
       <GlRect ref={r3} />
-      <PhImage src="/photo3.jpg" ref={r4} />
     </Section>
   </React.Fragment>
   )
