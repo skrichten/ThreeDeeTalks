@@ -10,7 +10,8 @@ const defaultConfig = {
 /**
  * Gets the normalized mouse position as the mouse moves
  */
-const useMouseSpring = (config) => {
+const useMouseSpring = (config, element = window) => {
+  if (element === null) element = window;
 
   // merge the provided spring config with the default
   config = { ...defaultConfig, ...config };
@@ -21,14 +22,18 @@ const useMouseSpring = (config) => {
 
   // TODO: make this based on canvas size instead of window?
   const onMouseMove = useCallback(({ clientX: x, clientY: y }) => {
-    set({ mouse: [ x / window.innerWidth, y / window.innerHeight ] });
-  }, [set]);
+    const m = (element === window) ?
+    [ x / window.innerWidth, y / window.innerHeight ]
+    :
+    [ x / element.clientWidth, y / element.clientHeight ];
+    set({ mouse: m });
+  }, [set, element]);
 
 
   useEffect(() => {
-    window.addEventListener('mousemove', onMouseMove);
-    return () => window.removeEventListener('mousemove', onMouseMove)
-  },  [onMouseMove]);
+    element.addEventListener('mousemove', onMouseMove);
+    return () => element.removeEventListener('mousemove', onMouseMove)
+  },  [onMouseMove, element]);
 
   return spring;
 }

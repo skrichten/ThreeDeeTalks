@@ -44,7 +44,7 @@ const routes = [
     component: Multiple
   },
   {
-    path: "/curt",
+    path: "/distortion",
     component: CurtainsDemo
   },
   {

@@ -45,17 +45,59 @@ const fragShader = `
   // our texture sampler (default name, to use a different name please refer to the documentation)
   uniform sampler2D uSampler0;
 
+  uniform float uFreq;
+  uniform float uSpeed;
+  uniform float uAmp;
+  uniform float uSeed;
+
+
+  void main() {
+    // get our texture coords from our varying
+    vec2 textureCoord = vTextureCoord;
+    float t = uTime*uSpeed;
+    float b = textureCoord.y*uFreq;
+    float x = (sin(b + t)) + (sin(b*uSeed + t)) - (sin(b*uSeed*.5 + t));
+    float y = (sin(b + t)) - (sin(b*.01 + t)) + (sin(b*.02 + t));
+    x *= uAmp;
+    y *= uAmp;
+    textureCoord.x += x;
+    textureCoord.y += y;
+    vec4 color = texture2D(uSampler0, textureCoord);
+
+    gl_FragColor = vec4(color);
+
+  }
+`;
+/*
+const fragShader = `
+  #ifdef GL_ES
+  precision mediump float;
+  #endif
+
+  // get our varyings
+  varying vec3 vVertexPosition;
+  varying vec2 vTextureCoord;
+
+  // the uniform we declared inside our javascript
+  uniform float uTime;
+
+  // our texture sampler (default name, to use a different name please refer to the documentation)
+  uniform sampler2D uSampler0;
+
+  float freq = 10.0;
+
   void main() {
     // get our texture coords from our varying
     vec2 textureCoord = vTextureCoord;
 
-    // displace our pixels along the X axis based on our time uniform
-    // textures coords are ranging from 0.0 to 1.0 on both axis
-    textureCoord.x += sin(textureCoord.y * 25.0) * cos(textureCoord.x * 25.0) * (cos(uTime / 50.0)) / 25.0;
+    float x = cos(textureCoord.y*freq + uTime*.01)/freq;
+    x *= .3;
+    textureCoord.x += x;
+    vec4 color = texture2D(uSampler0, textureCoord);
 
-    // map our texture with the texture matrix coords
-    gl_FragColor = texture2D(uSampler0, textureCoord);
+    gl_FragColor = vec4(color);
+
   }
 `;
-
+*/
 export default {vertShader, fragShader};
