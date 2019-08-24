@@ -10,11 +10,23 @@ function getRandomFloat(min, max) {
 
 const springConfig = {precision: .001, mass: 4, tension:50};
 
-const CurtainsImage = ({ imgSrc, imgWidth = 1, imgHeight = 1, domOpacity = 0 }) => {
+const CurtainsImage = ({
+  imgSrc,
+  imgWidth = 1,
+  imgHeight = 1,
+  domOpacity = 0,
+  initialFreq = 20,
+  initialAmp = .005
+
+}) => {
   const [imgLoaded, setImgLoaded] = useState(false);
   const { curtains } = useCurtainsStore();
 
-  const [{ freq, amp }, setDist] = useSpring(() => ({ freq: 20, amp:.005, config:springConfig }));
+  const [{ freq, amp }, setDist] = useSpring(() => ({
+    freq: initialFreq,
+    amp:initialAmp,
+    config:springConfig
+  }));
 
   useEffect(() => {
     if (!curtains ||  !imgLoaded) return;
@@ -45,7 +57,7 @@ const CurtainsImage = ({ imgSrc, imgWidth = 1, imgHeight = 1, domOpacity = 0 }) 
         seed: {
           name: "uSeed",
           type: "1f",
-          value: getRandomFloat(.3, .8)
+          value: getRandomFloat(.2, .8)
         }
       }
     };
@@ -70,7 +82,7 @@ const CurtainsImage = ({ imgSrc, imgWidth = 1, imgHeight = 1, domOpacity = 0 }) 
   }
 
   const onMouseOut = () => {
-    setDist({freq: 20, amp: .005})
+    setDist({freq: initialFreq, amp: initialAmp})
   }
 
   const onImgLoaded = e => {
