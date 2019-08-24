@@ -18,7 +18,7 @@ const CurtainsCanvas = ({ canvasID }) => {
   useEffect(() => {
     const curtains = new Curtains(canvasID);
     setCurtains(curtains);
-  }, [setCurtains])
+  }, [setCurtains, canvasID])
 
   return (
       <CanvasWrap id={canvasID} />

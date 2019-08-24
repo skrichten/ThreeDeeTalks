@@ -2,7 +2,6 @@ import React, { useEffect, useState, useCallback } from 'react';
 import styled from 'styled-components';
 import CurtainShader from '../resources/shaders/CurtainShader';
 import {useCurtainsStore} from '../hooks/useCurtainsStore';
-import useMouseSpringHandler from '../hooks/useMouseSpringHandler';
 import { useSpring } from 'react-spring';
 
 function getRandomFloat(min, max) {
@@ -10,32 +9,31 @@ function getRandomFloat(min, max) {
 }
 
 const ImgWrap = styled.div`
-  width: 45%;
+  width: ${props => props.imgWidth};
   margin: 50px auto;
 
   img {
     display: block;
     width: 100%;
-    visibility: hidden;
+    max-width: 500px;
+    opacity: ${props => props.domOpacity};
   }
 `;
 
 const springConfig = {precision: .001, mass: 4, tension:50};
 
-const CurtainsImage = ({ imgSrc }) => {
+const CurtainsImage = ({ imgSrc, imgWidth = '100%', domOpacity = 0 }) => {
   const [wrapper, setWrapper] = useState(null);
+  const [imgLoaded, setImgLoaded] = useState(false);
   const { curtains } = useCurtainsStore();
   const wrapRef = useCallback(el => {
     setWrapper(el);
   }, [setWrapper]);
 
-  const { spring, mouseMoveHandler } = useMouseSpringHandler(springConfig, true);
-  const [{mouse}] = spring;
-
   const [{ freq, amp }, setDist] = useSpring(() => ({ freq: 20, amp:.005, config:springConfig }));
 
   useEffect(() => {
-    if (!curtains || !wrapper) return;
+    if (!curtains || !wrapper || !imgLoaded) return;
     const params = {
       vertexShader: CurtainShader.vertShader,
       fragmentShader: CurtainShader.fragShader,
@@ -83,27 +81,34 @@ const CurtainsImage = ({ imgSrc }) => {
       });
     }
 
-  }, [curtains, wrapper]);
+  }, [curtains, wrapper, imgLoaded, amp.value, freq.value]);
 
-  const onMouseOver = useCallback(() => {
+  const onMouseOver = () => {
     setDist({freq: 24, amp: .02})
-  })
+  }
 
-  const onMouseOut = useCallback(() => {
+  const onMouseOut = () => {
     setDist({freq: 20, amp: .005})
-  })
+  }
 
+  const onImgLoaded = () => {
+    setImgLoaded(true);
+  }
 
   return (
-    <section>
       <ImgWrap
+        imgWidth={imgWidth}
+        domOpacity={domOpacity}
         ref={wrapRef}
         onMouseOver={onMouseOver}
         onMouseOut={onMouseOut}
       >
-        <img src={imgSrc} alt="" />
+        <img
+          src={imgSrc}
+          alt=""
+          onLoad={onImgLoaded}
+        />
       </ImgWrap>
-    </section>
   );
 };
 
