@@ -46,15 +46,18 @@ const fragShader = `
   uniform float uSpeed;
   uniform float uAmp;
   uniform float uSeed;
+  uniform float uX;
+  uniform float uY;
 
 
   void main() {
     // get our texture coords from our varying
     vec2 textureCoord = vTextureCoord;
-    float t = uTime*uSpeed;
-    float b = textureCoord.y*uFreq;
-    float x = (sin(b + t)) + (sin(b*uSeed*2.4 + t)) - (sin(b*uSeed*.7 + t + uSeed));
-    float y = (sin(b + t)) - (sin(b*.01 + t)) + (sin(b*.02 + t));
+    float t = uTime * uSpeed;
+    float a = textureCoord.y * uFreq * uX;
+    float b = textureCoord.x * uFreq * uY;
+    float x = (sin(a + t)) + (sin(a*uSeed*2.4 + t)) - (sin(a*uSeed*.7 + t + uSeed));
+    float y = (sin(b + t)) - (sin(b*uSeed*2.4 + t)) + (sin(b*uSeed*.7 + t));
     x *= uAmp * uSeed * 1.2;
     y *= uAmp;
     textureCoord.x += x;

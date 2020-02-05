@@ -57,7 +57,17 @@ const CurtainsImage = ({
         seed: {
           name: "uSeed",
           type: "1f",
-          value: getRandomFloat(.2, .8)
+          value: getRandomFloat(.3, .8)
+        },
+        xAmount: {
+          name: "uX",
+          type: "1f",
+          value: 1
+        },
+        yAmount: {
+          name: "uY",
+          type: "1f",
+          value: .2
         }
       }
     };
@@ -97,7 +107,7 @@ const CurtainsImage = ({
         onMouseOut={onMouseOut}
         src={imgSrc}
         onLoad={onImgLoaded}
-        styles={ `opacity:${domOpacity}` }
+        styles={ `opacity:${domOpacity};` }
       />
   );
 };
