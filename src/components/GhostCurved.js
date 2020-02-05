@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Vector2, ShaderMaterial } from 'three';
-import {  useRender } from 'react-three-fiber';
+import {  useFrame } from 'react-three-fiber';
 import { useSpring, animated as a } from 'react-spring/three';
 import MatcapShader from '../resources/shaders/MatcapShader';
 import { loadTexture, loadGLTF } from '../util/loaders';
@@ -104,7 +104,7 @@ function GhostCurved({ lookIndex, ...props }) {
   // If the animated progress value is not at the end ( > 1),
   // the animation is still in progress and the value
   // should be passed to the shader every animation frame
-  useRender(() => {
+  useFrame(() => {
     if (progress.value > 1) return;
     const uni = material.uniforms;
     uni.u_map1Offset.value = matCaps[aniState.lastIndex];

@@ -76,7 +76,7 @@ const handleBoundary = ({
 /**
  * Animates an array of particles and lines over a three dimensional space
  *
- * This function is meant to be called from the useRender render loop -- ran on each frame
+ * This function is meant to be called from the useFrame render loop -- ran on each frame
  */
 const animate = ({
   minDistance,

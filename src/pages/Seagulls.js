@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import { Canvas, useRender, useThree } from 'react-three-fiber';
+import { Canvas, useFrame, useThree } from 'react-three-fiber';
 import * as THREE from 'three';
 import styled from 'styled-components';
 import useMouseSpring from '../hooks/useMouseSpring';
@@ -69,7 +69,7 @@ function Flock() {
   let it;
   let pt;
   it = pt = performance.now();
-  useRender(() => {
+  useFrame(() => {
     if (!matRef.current) return;
     const uni = matRef.current.uniforms;
     const t = performance.now() * 0.0005;

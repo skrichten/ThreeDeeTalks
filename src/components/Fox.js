@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import {  useRender } from 'react-three-fiber';
+import {  useFrame } from 'react-three-fiber';
 import { useSpring } from 'react-spring/three';
 import { Vector2, ShaderMaterial} from 'three';
 import MatcapShader from '../resources/shaders/MatcapShader';
@@ -86,7 +86,7 @@ const Fox = ({ lookindex, ...props }) => {
   }, [setAniState])
 
 
-  useRender(() => {
+  useFrame(() => {
     if (progress.value > 1) return;
     const uni = material.uniforms;
     uni.u_map1Offset.value = matCaps[aniState.lastIndex];

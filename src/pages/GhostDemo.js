@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import styled from 'styled-components';
-import { Canvas, useRender, useThree, extend } from 'react-three-fiber';
+import { Canvas, useFrame, useThree, extend } from 'react-three-fiber';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import GhostAnimation from '../components/GhostAnimation'
 import Markers from '../components/Markers';
@@ -10,14 +10,14 @@ import * as THREE from 'three';
 // This part just adds 3D navigation controls
 extend({ OrbitControls });
 function Controls(props) {
-  const { camera, scene } = useThree();
+  const { camera, scene, gl } = useThree();
 
   scene.background = new THREE.Color( 0x21103a );
   scene.fog = new THREE.FogExp2( 0x21103a, .12 );
 
   const controls = useRef();
-  useRender(() => controls.current && controls.current.update());
-  return <orbitControls ref={controls} args={[camera]} {...props} />
+  useFrame(() => controls.current && controls.current.update());
+  return <orbitControls ref={controls} args={[camera, gl.domElement]} {...props} />
 }
 // End 3D navigation controls
 
@@ -53,7 +53,7 @@ function Effect() {
   const composer = useRef();
   const { scene, gl, size, camera } = useThree();
   useEffect(() => void composer.current.setSize(size.width*2, size.height*2), [size]);
-  useRender( ({ gl }) => {
+  useFrame( ({ gl }) => {
     if (!composer || !composer.current) return;
     gl.autoClear = true;
     composer.current.render();

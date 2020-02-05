@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback, useState, useMemo, useRef } from 'react';
 import { MeshBasicMaterial } from 'three';
 import { useSpring, animated as a } from 'react-spring/three';
-import { useRender } from 'react-three-fiber';
+import { useFrame } from 'react-three-fiber';
 import { loadGLTF } from '../util/loaders';
 import { TextureLoader, Vector3 } from 'three';
 import WaveFadeShader from '../resources/shaders/WaveFadeShader';
@@ -64,7 +64,7 @@ function Frame({ pid, imgData, shaderIndex, ...props }) {
 
   // Used to hold the World Position of this frame
   let wp = new Vector3();
-  useRender( ({ scene }) => {
+  useFrame( ({ scene }) => {
     if (!frame) return;
     scene.updateMatrixWorld();
     frame.getWorldPosition(wp);

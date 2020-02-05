@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
-import { useRender } from 'react-three-fiber';
+import { useFrame } from 'react-three-fiber';
 import useElement from '../hooks/useElement';
 
 function ScissorScene({ children, elem, isMain, fov=55, ...props }) {
@@ -10,7 +10,7 @@ function ScissorScene({ children, elem, isMain, fov=55, ...props }) {
   const camera = useRef();
   console.log('scene')
 
-  useRender(({ gl }) => {
+  useFrame(({ gl }) => {
     const cam = camera.current;
 
     if (isMain) {

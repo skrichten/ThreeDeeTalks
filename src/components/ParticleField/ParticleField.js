@@ -2,7 +2,7 @@
 import React, { useRef, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { AdditiveBlending } from 'three';
-import { useRender, useThree } from 'react-three-fiber';
+import { useFrame, useThree } from 'react-three-fiber';
 import animate from './lib/animate';
 import computeLines from './lib/computeLines';
 import computeParticles from './lib/computeParticles';
@@ -83,7 +83,7 @@ const ParticleField = ({config, opacity, ...props}) => {
   // State changes must be passed into hook via refs
   let t=0;
   let o;
-  useRender(() => {
+  useFrame(() => {
     // Animate current state of particles + lines
     animate(animation.current);
 
