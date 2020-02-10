@@ -7,13 +7,14 @@ import InfiniteBlamo from './pages/InfiniteBlamo';
 import SVGWave from './pages/SVGWave';
 import Multiple from './pages/Multiple';
 import CurtainsDemo from './pages/CurtainsDemo';
+import PlayGround from './pages/Playground';
 
 
 const routes = [
   {
     exact: true,
     path: "/",
-    component: Seagulls
+    component: PlayGround
   },
   {
     path: "/gdog",
@@ -50,7 +51,11 @@ const routes = [
   {
     path: "/oldblamo",
     component: Blamo
-  }
+  },
+  {
+    path: "/playground",
+    component: PlayGround
+  },
 ];
 
 export default routes

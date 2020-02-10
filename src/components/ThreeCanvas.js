@@ -17,13 +17,14 @@ const glConfig = {
   // physicallyCorrectLights: true
 };
 
-function ThreeCanvas({ children, ...props }) {
+function ThreeCanvas({ children, onCreated, ...props }) {
 
   return (
     <Stage>
       <Canvas
         gl={glConfig}
         {...props}
+        onCreated={onCreated}
       >
         {children}
       </Canvas>
