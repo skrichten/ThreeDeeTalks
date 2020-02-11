@@ -13,16 +13,14 @@ function Tree(props) {
         />
         <meshStandardMaterial attach="material" color="#664429" />
       </mesh>
-      {[2, 1.6, 1.4, 1.2].map((t, i) => (
-        // TODO try to get rid of scale and make random values for cone args instead
+      {[1,2,3,4].map((t) => (
         <mesh key={t}
-          position={[0, i+2, 0]}
-          scale={[t, t, t]}
+          position={[0, (t+(.8-(t*.2))), 0]}
           castShadow
         >
           <coneBufferGeometry
             attach="geometry"
-            args={[1, 1.5, 6]}
+            args={[(( 1/t ) *1.5)+.4, 2.2 - (t*.2), 6]}
           />
           <meshStandardMaterial attach="material" color="#497a2e" />
         </mesh>

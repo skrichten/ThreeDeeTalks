@@ -2,14 +2,14 @@ import React from 'react';
 import { useResource } from 'react-three-fiber';
 import SimpleSphere from "./SimpleSphere";
 import GroundPlane from "./GroundPlane";
-import Tree from "./Tree";
+import TreeLayout from "./TreeLayout";
 
 
 function Snowman() {
   const [hatMaterialRef, hatMaterial] = useResource();
 
   return (
-    <group rotation-y={0} /* scene */>
+    <group rotation-y={-.3} /* scene */>
       <meshPhongMaterial
         attach="material"
         color="#000"
@@ -49,6 +49,7 @@ function Snowman() {
             </mesh>
           </group>
         )}
+
         <group /* face */
           scale={[.3, .3, .3]}
           position={[0, 2, .3]}
@@ -67,8 +68,8 @@ function Snowman() {
 
           <mesh // left eye
             position={[-.4, 2.7, .5]}
-            material={hatMaterial}
             rotation-x={Math.PI / 2}
+            material={hatMaterial}
           >
             <cylinderBufferGeometry
               attach="geometry"
@@ -77,19 +78,48 @@ function Snowman() {
           </mesh>
           <mesh // right eye
             position={[.4, 2.7, .5]}
-            material={hatMaterial}
             rotation-x={Math.PI / 2}
+            material={hatMaterial}
           >
             <cylinderBufferGeometry
               attach="geometry"
               args={[.2, .2, .3, 32]}
             />
           </mesh>
+          <group // pipe
+            rotation={[.1, -.4, 0]}
+          >
+            <mesh
+              position={[0, 1.5, 1]}
+              rotation-x={Math.PI / 2}
+              castShadow
+            >
+              <cylinderBufferGeometry
+                attach="geometry"
+                args={[.07, .07, 2, 8]}
+              />
+              <meshStandardMaterial attach="material" color="#684a26" />
+            </mesh>
+
+            <mesh
+              position={[0, 1.6, 2]}
+              castShadow
+            >
+              <cylinderBufferGeometry
+                attach="geometry"
+                args={[.3, .3, .5, 16]}
+              />
+              <meshStandardMaterial attach="material" color="#684a26" />
+            </mesh>
+          </group>
+
         </group>
       </group>
-      <Tree
-        position={[2, 0, -3]}
+
+      <TreeLayout
+        position={[-17, 0, -8]}
       />
+
       <GroundPlane color='#fff' />
     </group>
 
