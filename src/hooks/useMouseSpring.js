@@ -1,48 +1,41 @@
 import { useCallback, useEffect } from 'react';
-import { useSpring } from 'react-spring/three.cjs';
+import { useSpring } from 'react-spring/three';
 
 // The default spring settings.
 // Any values can be overridden by those passed to the hook
 const defaultConfig = {
-  mass: 1, tension: 160, friction: 26, precision: 0.01,
-};
+  mass: 1, tension: 160, friction: 26, precision: .01
+}
 
 /**
  * Gets the normalized mouse position as the mouse moves
  */
-const useMouseSpring = (config, centered) => {
+const useMouseSpring = (config, element = window) => {
+  if (element === null) element = window;
 
   // merge the provided spring config with the default
-  const mconfig = { ...defaultConfig, ...config };
+  config = { ...defaultConfig, ...config };
 
-  const spring = useSpring(() => ({ mouse: [
-    (window.innerWidth / 2) / window.innerWidth,
-    (window.innerHeight / 2) / window.innerHeight,
-  ],
-  config: mconfig }));
-
+  const spring = useSpring(() => ({ mouse: [0,0], config }));
   // eslint-disable-next-line no-unused-vars
-  const [, set] = spring;
+  const [{ mouse }, set] = spring;
 
   // TODO: make this based on canvas size instead of window?
   const onMouseMove = useCallback(({ clientX: x, clientY: y }) => {
-    if (centered) {
-      const hx = window.innerWidth / 2;
-      const hy = window.innerHeight / 2;
+    const m = (element === window) ?
+    [ x / window.innerWidth, y / window.innerHeight ]
+    :
+    [ x / element.clientWidth, y / element.clientHeight ];
+    set({ mouse: m });
+  }, [set, element]);
 
-      set({ mouse: [(x - hx) / hx, (y - hy) / hy] });
-    } else {
-      set({ mouse: [x / window.innerWidth, y / window.innerHeight] });
-    }
-
-  }, [set, centered]);
 
   useEffect(() => {
-    window.addEventListener('mousemove', onMouseMove);
-    return () => window.removeEventListener('mousemove', onMouseMove);
-  }, [onMouseMove]);
+    element.addEventListener('mousemove', onMouseMove);
+    return () => element.removeEventListener('mousemove', onMouseMove)
+  },  [onMouseMove, element]);
 
   return spring;
-};
+}
 
 export default useMouseSpring;
