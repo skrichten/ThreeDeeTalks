@@ -9,7 +9,10 @@ function Snowman() {
   const [hatMaterialRef, hatMaterial] = useResource();
 
   return (
-    <group rotation-y={-.3} /* scene */>
+    <group /* scene */
+      rotation-y={-.3}
+      position-z={1.5}
+    >
       <meshPhongMaterial
         attach="material"
         color="#000"

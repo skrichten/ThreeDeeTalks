@@ -11,7 +11,7 @@ extend({ OrbitControls });
 const Controls= props => {
   const { camera, gl } = useThree();
   const controls = useRef();
-  camera.position.set( 0, 3, 7 );
+  camera.position.set( 0, 3, 6 );
   useFrame(() => controls.current && controls.current.update());
   return <orbitControls ref={controls} args={[camera, gl.domElement]} {...props} />
 }

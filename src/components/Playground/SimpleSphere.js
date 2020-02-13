@@ -6,9 +6,9 @@ function SimpleSphere({
 }) {
   return (
     <mesh {...props} castShadow>
-      <sphereBufferGeometry
+      <dodecahedronBufferGeometry
         attach="geometry"
-        args={[.75, 32, 32]}
+        args={[.75, 1]}
       />
       <meshStandardMaterial attach="material" color={color} />
     </mesh>

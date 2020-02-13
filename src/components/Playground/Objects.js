@@ -1,13 +1,18 @@
 import React from 'react';
-import SimpleSphere from "./SimpleSphere";
 import GroundPlane from "./GroundPlane";
 
 function Objects() {
   return (
     <group>
-      <SimpleSphere
-        position={[-2, 0, 0]}
-      />
+
+      <mesh position={[-2, 0, 0]} castShadow>
+        <sphereBufferGeometry
+          attach="geometry"
+          args={[.75, 32, 32]}
+        />
+        <meshStandardMaterial attach="material" color="#8660c4" />
+      </mesh>
+
       <mesh
         position={[1, 0, 0]}
         rotation={[0, 0, 0]}
