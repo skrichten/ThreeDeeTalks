@@ -73,7 +73,7 @@ const Valentine = () => {
       >
         <Controls />
         <Suspense fallback={<Dom center>loading...</Dom>}>
-          <Heart position-y={.5} showText />
+          <Heart position-y={.8} showText />
           <HeartsRing />
         </Suspense>
         <ParticleField

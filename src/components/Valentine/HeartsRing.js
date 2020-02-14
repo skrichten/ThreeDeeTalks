@@ -1,4 +1,4 @@
-import React, { useMemo, useRef } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { useFrame } from 'react-three-fiber';
 import { animated as a , useSpring } from 'react-spring/three';
 import Heart from './Heart';
@@ -31,13 +31,19 @@ function HeartsRing({showText, ...props}) {
     groupRef.current.rotation.y -= .007;
   })
 
+  const [resetRotate, setResetRotate] = useState(false);
   const {rotateY} = useSpring({
+    config: {
+      duration: 3000
+    },
     from: {
       rotateY: 0
     },
     to: {
       rotateY: 2*Math.PI
     },
+    onRest: () => setResetRotate(state => !state),
+    reset: resetRotate
   });
 
   return (
@@ -49,9 +55,9 @@ function HeartsRing({showText, ...props}) {
       {hearts.map((h) => (
         <a.group
           key={h.x}
-          /*rotation-y={rotateY.interpolate(y => y)}*/
+          rotation-y={rotateY.interpolate(y => y)}
           position={[h.x, 0, h.z]}
-          scale={[.2, .2, .2]}
+          scale={[.15, .15, .15]}
         >
           <Heart />
         </a.group>
