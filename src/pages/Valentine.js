@@ -1,9 +1,11 @@
 import React, { Suspense, useRef } from 'react';
 import styled from 'styled-components';
 import { useFrame, useThree, extend, Dom } from 'react-three-fiber';
+
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import ThreeCanvas from '../components/ThreeCanvas';
 import Heart from '../components/Valentine/Heart';
+import HeartsRing from '../components/Valentine/HeartsRing';
 import ParticleField from '../components/ParticleField/ParticleField';
 
 const pConfig = {
@@ -42,12 +44,13 @@ const pConfig = {
     visible: true
   }
 };
+
 // This part just adds 3D navigation controls
 extend({ OrbitControls });
 const Controls= props => {
   const { camera, gl } = useThree();
   const controls = useRef();
-  camera.position.set( 0, 0, 3 );
+  camera.position.set( 0, 0, 5 );
   useFrame(() => controls.current && controls.current.update());
   return <orbitControls ref={controls} args={[camera, gl.domElement]} {...props} />
 }
@@ -57,13 +60,11 @@ const BG = styled.main`
   background: radial-gradient(circle, rgba(60,4,4,1) 0%, rgba(43,5,69,1) 100%);
   position: fixed;
   top: 0; right: 0; bottom: 0; left: 0;
-`
-
+`;
 
 const devicePixelRatio = window.devicePixelRatio.toFixed(1);
 
 const Valentine = () => {
-
 
   return (
     <BG>
@@ -71,9 +72,9 @@ const Valentine = () => {
         pixelRatio={devicePixelRatio}
       >
         <Controls />
-
         <Suspense fallback={<Dom center>loading...</Dom>}>
-          <Heart showText />
+          <Heart position-y={.5} showText />
+          <HeartsRing />
         </Suspense>
         <ParticleField
           config={pConfig}

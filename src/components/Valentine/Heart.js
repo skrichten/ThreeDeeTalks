@@ -3,13 +3,13 @@ import * as THREE from 'three';
 import { useLoader } from 'react-three-fiber'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
-function Heart({showText}) {
+function Heart({showText, ...props}) {
   const mcTex = useLoader(THREE.TextureLoader, './matCapRedMetal2.png');
   const tTex = useLoader(THREE.TextureLoader, './hvd.png')
   const { nodes } = useLoader(GLTFLoader, './heart.glb')
 
   return (
-    <group dispose={null}>
+    <group dispose={null} {...props}>
       <mesh
         scale={[1, 1, 1]}
         position={[0, 0, 0]}
