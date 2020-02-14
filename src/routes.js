@@ -8,6 +8,7 @@ import SVGWave from './pages/SVGWave';
 import Multiple from './pages/Multiple';
 import CurtainsDemo from './pages/CurtainsDemo';
 import PlayGround from './pages/Playground';
+import Valentine from './pages/Valentine';
 
 
 const routes = [
@@ -55,6 +56,10 @@ const routes = [
   {
     path: "/playground",
     component: PlayGround
+  },
+  {
+    path: "/valentine",
+    component: Valentine
   },
 ];
 
