@@ -9,6 +9,7 @@ import Multiple from './pages/Multiple';
 import CurtainsDemo from './pages/CurtainsDemo';
 import PlayGround from './pages/Playground';
 import Valentine from './pages/Valentine';
+import Popup from './pages/Popup';
 
 
 const routes = [
@@ -60,6 +61,10 @@ const routes = [
   {
     path: "/valentine",
     component: Valentine
+  },
+  {
+    path: "/popup",
+    component: Popup
   },
 ];
 

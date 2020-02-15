@@ -1,5 +1,5 @@
 import React from 'react';
-import GroundPlane from "./GroundPlane";
+import GroundPlane from "../GroundPlane";
 
 function Objects() {
   return (

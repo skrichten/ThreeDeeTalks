@@ -55,7 +55,7 @@ function HeartsRing({showText, ...props}) {
       {hearts.map((h) => (
         <a.group
           key={h.x}
-          rotation-y={rotateY.interpolate(y => y)}
+          rotation-y={rotateY.interpolate(y => -y)}
           position={[h.x, 0, h.z]}
           scale={[.15, .15, .15]}
         >

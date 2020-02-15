@@ -1,7 +1,7 @@
 import React from 'react';
 import { useResource } from 'react-three-fiber';
 import SimpleSphere from "./SimpleSphere";
-import GroundPlane from "./GroundPlane";
+import GroundPlane from "../GroundPlane";
 import TreeLayout from "./TreeLayout";
 
 
