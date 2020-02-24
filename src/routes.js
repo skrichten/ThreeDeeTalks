@@ -16,7 +16,7 @@ const routes = [
   {
     exact: true,
     path: "/",
-    component: PlayGround
+    component: Popup
   },
   {
     path: "/gdog",

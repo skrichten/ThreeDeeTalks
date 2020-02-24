@@ -11,18 +11,16 @@ const Stage = styled.div`
   z-index: 1;
 `;
 
-const glConfig = {
-  gammaInput: true,
-  gammaOutput: true,
-  // physicallyCorrectLights: true
-};
-
-function ThreeCanvas({ children, onCreated, ...props }) {
+function ThreeCanvas({
+  children,
+  onCreated,
+  className,
+  ...props
+}) {
 
   return (
-    <Stage>
+    <Stage className={className}>
       <Canvas
-        gl={glConfig}
         {...props}
         onCreated={onCreated}
       >
