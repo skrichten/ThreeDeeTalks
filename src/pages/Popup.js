@@ -1,13 +1,12 @@
 import React, { useRef, useEffect, useState, Suspense } from 'react';
 import styled from 'styled-components';
-import { FogExp2, Color, PCFSoftShadowMap } from 'three';
-import { useFrame, useThree, extend, Dom } from 'react-three-fiber';
+import { FogExp2, Color, PCFSoftShadowMap, VSMShadowMap, LoopOnce } from 'three';
+import { useFrame, useThree, Dom } from 'react-three-fiber';
 import ThreeCanvas from '../components/ThreeCanvas';
-import BookGL from '../components/Popup/BookGL';
+import Scene from '../components/Popup/Scene';
+import Lighting from '../components/Popup/Lighting';
 
-
-// This part just adds 3D navigation controls
-
+// Custom camera component
 const Camera = props => {
   const ref = useRef()
   const { setDefaultCamera } = useThree()
@@ -17,8 +16,6 @@ const Camera = props => {
   useFrame(() => ref.current.updateMatrixWorld())
   return <perspectiveCamera ref={ref} {...props} />
 }
-// End 3D navigation controls
-
 
 const devicePixelRatio = window.devicePixelRatio.toFixed(1);
 
@@ -49,16 +46,17 @@ const PopupFooter = styled.footer`
 const PlayGround = () => {
 
   const onInit = ({ scene, gl }) => {
-    scene.background = new Color(0x5d57b2);
-    scene.fog = new FogExp2(0xffffff, 0.05);
+    scene.background = new Color(0x6c89d1);
+    scene.fog = new FogExp2(0x6c89d1, 0.05);
     gl.shadowMap.enabled = true;
     gl.shadowMap.type = PCFSoftShadowMap;
+    //gl.shadowMap.type = VSMShadowMap;
     gl.shadowMap.autoUpdate = true;
     gl.gammaInput = true;
     gl.gammaOutput = true;
   };
 
-  const scrollLength = 4000;
+  const scrollLength = 7000;
 
   const popSecRef = useRef();
   const [scrollBounds, setScrollBounds] = useState([0,0]);
@@ -67,11 +65,16 @@ const PlayGround = () => {
     if (!popSecRef.current) return;
 
     const updateScrollBounds = () => {
+      const scrollHeight = Math.max(
+        document.body.scrollHeight, document.documentElement.scrollHeight,
+        document.body.offsetHeight, document.documentElement.offsetHeight,
+        document.body.clientHeight, document.documentElement.clientHeight
+      );
       const rect = popSecRef.current.getBoundingClientRect();
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop + rect.top;
-      console.log(document.documentElement.offsetHeight, rect.top, scrollTop);
-      const top = scrollTop / document.documentElement.offsetHeight;
-      const bottom = (scrollTop + rect.height) / document.documentElement.offsetHeight;
+      const scrollTop = document.documentElement.scrollTop + rect.top;
+      console.log(scrollHeight, rect.top, scrollTop);
+      const top = scrollTop / scrollHeight;
+      const bottom = (scrollTop + rect.height) / scrollHeight;
       setScrollBounds([top, bottom]);
     }
 
@@ -87,7 +90,7 @@ const PlayGround = () => {
         <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
         </p>
-        <p>{scrollBounds[0]}   {scrollBounds[1]}</p>
+        <p>{scrollBounds[0]}   {scrollBounds[1]} {LoopOnce}</p>
       </HeroSection>
 
       <PopupSection ref={popSecRef}>
@@ -96,12 +99,11 @@ const PlayGround = () => {
           pixelRatio={devicePixelRatio}
           onCreated={onInit}
         >
-          <Camera position={[0, 1, 3 ]} rotation-x={-.1} />
+          <Camera position={[0, 1, 0 ]} near={.01} fov={70} />
           <Suspense fallback={<Dom center>loading...</Dom>}>
-            <BookGL scrollBounds={scrollBounds} />
+            <Scene scrollBounds={scrollBounds} />
           </Suspense>
-
-          <ambientLight args={[0xffffff, .5]}/>
+          <Lighting />
         </PopupCanvas>
         <PopupBackground scrollLength={scrollLength} />
       </PopupSection>

@@ -1,11 +1,11 @@
 import React from 'react';
 
-function GroundPlane({ color='#63913b' }) {
+function GroundPlane({ color='#547a2c', ...props }) {
   return (
     <mesh
       rotation-x={-Math.PI / 2}
-      position={[0, -.75, 0]}
       receiveShadow
+      {...props}
     >
       <planeBufferGeometry
         attach="geometry"

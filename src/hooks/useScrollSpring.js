@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useSpring } from 'react-spring/three';
 
 /**
@@ -7,11 +7,17 @@ import { useSpring } from 'react-spring/three';
  * At the bottom of tht scroll the value is 1
  */
 function getScrollPos(normalize) {
-  let pos = window.pageYOffset || 0;
-  if (normalize) {
-    pos = window.pageYOffset / (document.documentElement.scrollHeight - window.innerHeight) || 0;
-  }
-  return pos;
+  if (typeof window === 'undefined') return 0;
+
+  return normalize
+    ? window.pageYOffset / (document.documentElement.scrollHeight - window.innerHeight) || 0
+    : window.pageYOffset || 0;
+}
+
+function getDirection(pos, lastPos) {
+  if (pos > lastPos) return 'down';
+  if (pos < lastPos) return 'up';
+  return null;
 }
 
 // The default spring settings.
@@ -24,20 +30,29 @@ const useScrollSpring = (config, normalize = true) => {
   // merge the provided spring config with the default
   config = { ...defaultConfig, ...config };
 
+  const lastPos = useRef(getScrollPos(normalize));
+
   // Setup the spring with initial value set to the current scroll position
-  const spring = useSpring(() => ({ scrollPos: getScrollPos(normalize), config }));
+  const spring = useSpring(() => ({ scrollPos: lastPos.current, config }));
   // eslint-disable-next-line no-unused-vars
-  const [{ scrollPos }, set] = spring;
+  const [_, set] = spring;
+  const [direction, setDirection] = useState(null)
 
   // update the spring value as scrolling occurs
-  const onScroll = useCallback(e => set({ scrollPos: getScrollPos(normalize) }), [set, normalize]);
+  const onScroll = useCallback(e => {
+    const newPos = getScrollPos(normalize);
+    const dir = getDirection(newPos, lastPos.current);
+    set({ scrollPos: newPos })
+    setDirection(dir);
+    lastPos.current = newPos;
+  }, [set, normalize]);
 
   useEffect(() => {
     window.addEventListener('scroll', onScroll);
     return () => window.removeEventListener('scroll', onScroll)
   }, [onScroll]);
 
-  return spring;
+  return [spring, direction];
 }
 
 export default useScrollSpring;
