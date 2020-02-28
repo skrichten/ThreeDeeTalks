@@ -10,6 +10,7 @@ const PopMesh = forwardRef( ({
   path,
   direction,
   onLoop,
+  needsAlpha,
   ...props
 }, ref) => {
   const group = useRef()
@@ -21,7 +22,10 @@ const PopMesh = forwardRef( ({
   useFrame((state, delta) => mixer.update(delta))
 
   useEffect(() => {
-    //materials[prefix + 'Mat'].shadowSide = BackSide;
+    if (needsAlpha) {
+      const mat = materials[prefix + 'Mat'];
+      mat.alphaTest = .5;
+    }
     actions.current = {
       foldAction: mixer.clipAction(animations[0], group.current)
     }

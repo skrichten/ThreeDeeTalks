@@ -12,6 +12,7 @@ export default function Scene({ scrollBounds, ...props}) {
   const wellRef = useRef();
   const houseRef = useRef();
   const archRef = useRef();
+  const treeRef = useRef();
   const triggerTimes = useRef([
     {
       ref: houseRef,
@@ -23,6 +24,10 @@ export default function Scene({ scrollBounds, ...props}) {
     },
     {
       ref: archRef,
+      time: .24
+    },
+    {
+      ref: treeRef,
       time: .2
     }
   ]);
@@ -74,8 +79,18 @@ export default function Scene({ scrollBounds, ...props}) {
           ref={archRef}
           prefix="Arch"
           path="/arch.glb"
-          position={[0, -.03, -6]}
+          position={[0, -.03, -7]}
           direction={direction === 'down' ? 1 : -1}
+          needsAlpha
+        />
+        <PopMesh
+          ref={treeRef}
+          prefix="Tree"
+          path="/tree.glb"
+          position={[.7, -.03, -6]}
+          rotation-y={-.4}
+          direction={direction === 'down' ? 1 : -1}
+          needsAlpha
         />
       </a.group>
       <GroundPlane position-y={.07} />
