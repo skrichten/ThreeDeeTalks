@@ -10,7 +10,7 @@ function Blamo( { nextPage }) {
   const [state, setState] = useState({ page: 1, photos:[] });
   // The useScrollSpring hook will provide the current scroll position
   // as a react-spring AnimatedValue
-  const [{scrollPos}] = useScrollSpring({}, false);
+  const [[{scrollPos}]] = useScrollSpring({}, false);
 
   // Setup an animated position from the useScrollSpring AnimatedValue
   // This will move the frames as the user scrolls.

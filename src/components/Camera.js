@@ -8,7 +8,7 @@ function Camera({ startDist }) {
   const { setDefaultCamera } = useThree();
   useEffect(() => void setDefaultCamera(camera.current), [setDefaultCamera]);
 
-  const [{scrollPos}] = useScrollPos();
+  const [[{scrollPos}]] = useScrollPos();
 
   // Moves the camera away from the starting point and then back towards it (Math.sin)
   const interpPos = scrollPos.interpolate(y => {

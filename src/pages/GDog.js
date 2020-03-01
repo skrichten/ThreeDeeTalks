@@ -41,7 +41,7 @@ function GDog() {
 
   // The useScrollSpring hook will provide the current normalized scroll position
   // as a react-spring AnimatedValue
-  const [{scrollPos}] = useScrollSpring();
+  const [[{scrollPos}]] = useScrollSpring();
 
   // The useMouseSpring hook will provide the current normalized mouse postion
   // as a react-spring AnimatedValue

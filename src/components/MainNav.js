@@ -36,6 +36,12 @@ function MainNav() {
     <Nav>
       <NavList>
         <NavItem>
+          <Link to="/outline">Outline</Link>
+        </NavItem>
+        <NavItem>
+          <Link to="/popup">Popup</Link>
+        </NavItem>
+        <NavItem>
           <Link to="/ghost">Ghost</Link>
         </NavItem>
         <NavItem>
