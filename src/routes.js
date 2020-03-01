@@ -10,6 +10,8 @@ import CurtainsDemo from './pages/CurtainsDemo';
 import PlayGround from './pages/Playground';
 import Valentine from './pages/Valentine';
 import Popup from './pages/Popup';
+import Outline from './pages/Outline';
+
 
 
 const routes = [
@@ -65,6 +67,10 @@ const routes = [
   {
     path: "/popup",
     component: Popup
+  },
+  {
+    path: "/outline",
+    component: Outline
   },
 ];
 
