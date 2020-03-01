@@ -38,7 +38,7 @@ export default function Scene({ ...props}) {
 
   return (
     <group  {...props}>
-      <group rotation-y={-1} >
+      <group rotation-y={-1} position-y={-1} >
         <mesh
           ref={mRef}
           position={[0, 0, 0]}
