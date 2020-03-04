@@ -5,17 +5,7 @@ import { useFrame, useThree, Dom } from 'react-three-fiber';
 import ThreeCanvas from '../components/ThreeCanvas';
 import Scene from '../components/Popup/Scene';
 import Lighting from '../components/Popup/Lighting';
-
-// Custom camera component
-const Camera = props => {
-  const ref = useRef()
-  const { setDefaultCamera } = useThree()
-  // Make the camera known to the system
-  useEffect(() => void setDefaultCamera(ref.current), [])
-  // Update it every frame
-  useFrame(() => ref.current.updateMatrixWorld())
-  return <perspectiveCamera ref={ref} {...props} />
-}
+import Camera from '../components/Camera';
 
 const devicePixelRatio = window.devicePixelRatio.toFixed(1);
 
@@ -72,7 +62,6 @@ const PlayGround = () => {
       );
       const rect = popSecRef.current.getBoundingClientRect();
       const scrollTop = document.documentElement.scrollTop + rect.top;
-      console.log(scrollHeight, rect.top, scrollTop);
       const top = scrollTop / scrollHeight;
       const bottom = (scrollTop + rect.height) / scrollHeight;
       setScrollBounds([top, bottom]);

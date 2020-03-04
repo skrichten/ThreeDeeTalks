@@ -5,7 +5,7 @@ import { Canvas } from 'react-three-fiber';
 import useScrollSpring from '../hooks/useScrollSpring';
 import useMouseSpring from '../hooks/useMouseSpring';
 import useMeasure from '../hooks/useMeasure';
-import Camera from '../components/Camera';
+import Camera from '../components/GDogCamera';
 import Ghost from '../components/GhostCurved';
 import GDogContent from '../components/GDogContent';
 import GDogBackground from '../components/GDogBackground';

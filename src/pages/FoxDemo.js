@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Canvas } from 'react-three-fiber';
-import Camera from '../components/Camera';
+import Camera from '../components/GDogCamera';
 import Fox from '../components/Fox';
 //import useScrollPos from '../hooks/useScrollPos';
 import useMouseSpring from '../hooks/useMouseSpring';

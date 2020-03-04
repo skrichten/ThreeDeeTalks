@@ -11,15 +11,40 @@ export default function Model(props) {
   const group = useRef()
   const { nodes, materials, animations } = useLoader(GLTFLoader, '/funnyFairy.glb')
 
+  const actions = useRef()
+  const [mixer] = useState(() => new THREE.AnimationMixer())
+  useFrame((state, delta) => mixer.update(delta))
+  useEffect(() => {
+    actions.current = {
+      handAction: mixer.clipAction(animations[0], group.current),
+      FlapAction: mixer.clipAction(animations[1], group.current)
+    }
+    return () => animations.forEach(clip => mixer.uncacheClip(clip))
+  }, [])
+
   return (
     <group ref={group} {...props} dispose={null}>
-      <mesh material={materials.fairyMat} geometry={nodes.fairy.geometry} />
+      <group position={[0, 0.91, 0.05]}>
+        <primitive object={nodes.WingsBase} />
+        <skinnedMesh
+          material={materials.fairyWingMat}
+          geometry={nodes.wings.geometry}
+          skeleton={nodes.wings.skeleton}
+        />
+      </group>
+      <mesh material={materials.fairyMat} geometry={nodes.fairy.geometry} position={[0, 0.91, 0.05]} />
       <mesh
         material={materials.fairyWingMat}
-        geometry={nodes.wings.geometry}
-        position={[-1.07, 1.01, 0.07]}
-        rotation={[2.09, 0, -Math.PI / 2]}
-      />
+        geometry={nodes.hand.geometry}
+        position={[-0.88, 0.64, 0.52]}
+        rotation={[Math.PI / 2, 0, -Math.PI / 2]}>
+        <mesh
+          material={materials.fairyMat}
+          geometry={nodes.star.geometry}
+          position={[-1.32, 0, -1.69]}
+          rotation={[-Math.PI / 2, -Math.PI / 2, 0]}
+        />
+      </mesh>
     </group>
   )
 }

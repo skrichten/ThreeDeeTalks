@@ -6,6 +6,7 @@
     "curtainsjs": "^4.3.0",
     "hex-rgb": "^4.1.0",
     "is-hexcolor": "^1.0.0",
+    "mage-engine.particles": "MageStudio/partykals",
     "polished": "^3.4.4",
     "prop-types": "^15.7.2",
     "react": "^16.12.0",

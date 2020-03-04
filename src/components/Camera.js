@@ -1,24 +1,14 @@
 import React, { useEffect, useRef } from 'react';
-import { useThree } from 'react-three-fiber';
-import { animated as a } from 'react-spring/three';
-import useScrollPos from '../hooks/useScrollSpring';
+import { useThree, useFrame } from 'react-three-fiber';
 
-function Camera({ startDist }) {
-  const camera = useRef();
-  const { setDefaultCamera } = useThree();
-  useEffect(() => void setDefaultCamera(camera.current), [setDefaultCamera]);
-
-  const [[{scrollPos}]] = useScrollPos();
-
-  // Moves the camera away from the starting point and then back towards it (Math.sin)
-  const interpPos = scrollPos.interpolate(y => {
-    return [0, 0, (Math.sin(y*3.14) * 6) + startDist]
-  })
-
-  return (
-    <a.perspectiveCamera ref={camera} fov={65} position={interpPos} />
-  )
-
+const Camera = props => {
+  const ref = useRef()
+  const { setDefaultCamera } = useThree()
+  // Make the camera known to the system
+  useEffect(() => void setDefaultCamera(ref.current), [])
+  // Update it every frame
+  useFrame(() => ref.current.updateMatrixWorld())
+  return <perspectiveCamera ref={ref} {...props} />
 }
 
-export default Camera
+export default Camera;
