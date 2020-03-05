@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, useMemo } from 'react'
 import { Vector3, Color } from 'three';
 import { useFrame, extend } from 'react-three-fiber';
 import {ParticlesSystem, Randomizers, Emitter} from 'mage-engine.particles';
@@ -13,28 +13,32 @@ const Particles = ({
   ...props
 }) => {
   const prtcls = useRef();
-  const config = {
+
+  const emitter = useMemo(() => {
+    return new Emitter({
+      onInterval: 1,
+      interval: 2,
+      ...emitterConfig
+    })
+  }, [emitterConfig])
+
+  const config = useMemo(() => ({
     container: container,
     particles: {
-        globalSize: .05,
-        ttl: .3,
-        velocity: new Randomizers.SphereRandomizer(.8, .4),
+        ttl: 7,
         gravity: 0,
-        startColor: new Color('#fff'),
-        endColor: new Color('#000'),
+        startColor: new Color('#000'),
+        endColor: new Color('#fff'),
         ...particleConfig
     },
     system: {
-        particlesCount: 50,
-        emitters: new Emitter({
-            onInterval: new Randomizers.MinMaxRandomizer(0, 5),
-            interval: new Randomizers.MinMaxRandomizer(0, 0.25),
-            ...emitterConfig
-        }),
-        speed: 2,
+        particlesCount: 4,
+        emitters: emitter,
+        speed: 7,
         ...systemConfig
     }
-  }
+  }), [particleConfig, emitter, systemConfig]);
+
   useFrame(() => prtcls.current && prtcls.current.update());
   return (
     <particlesSystem

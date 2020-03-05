@@ -59,6 +59,9 @@ export default function Fairy({ ...props}) {
     }
   })
 
+  //new Randomizers.MinMaxRandomizer(0, 5)
+  //new Randomizers.SphereRandomizer(.8, .4)
+
   return (
     <a.group ref={parent} {...props} position={bobSpring.pos} dispose={null}>
       <Wings />
@@ -94,7 +97,8 @@ export default function Fairy({ ...props}) {
           <Particles
             container={wand}
             particleConfig={{
-              globalSize: .2,
+              startSize: .03,
+              endSize: 1,
               blending: 'multiply',
             }}
           />
