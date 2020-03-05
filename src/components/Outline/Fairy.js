@@ -91,18 +91,16 @@ export default function Fairy({ ...props}) {
             ref={wandRef}
             position={[-1.32, 0, -1.69]}
             rotation={[-Math.PI / 2, -Math.PI / 2, 0]}
-          />
+          >
+            <Particles
+              particleConfig={{
+                startSize: .03,
+                endSize: 1,
+                blending: 'multiply',
+              }}
+            />
+          </group>
         </mesh>
-        { wand &&
-          <Particles
-            container={wand}
-            particleConfig={{
-              startSize: .03,
-              endSize: 1,
-              blending: 'multiply',
-            }}
-          />
-        }
       </group>
     </a.group>
   )

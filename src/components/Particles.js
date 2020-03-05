@@ -1,49 +1,60 @@
-import React, { useRef, useMemo } from 'react'
-import { Vector3, Color } from 'three';
+import React, { useRef, useEffect } from 'react'
+import { Color } from 'three';
 import { useFrame, extend } from 'react-three-fiber';
 import {ParticlesSystem, Randomizers, Emitter} from 'mage-engine.particles';
 
 extend({ ParticlesSystem });
 
 const Particles = ({
-  container,
   particleConfig,
   systemConfig,
   emitterConfig,
   ...props
 }) => {
+  const containerRef = useRef();
   const prtcls = useRef();
 
-  const emitter = useMemo(() => {
-    return new Emitter({
-      onInterval: 1,
-      interval: 2,
-      ...emitterConfig
-    })
-  }, [emitterConfig])
+  useEffect(() => {
+    if (!containerRef.current) return;
 
-  const config = useMemo(() => ({
-    container: container,
-    particles: {
-        ttl: 7,
-        gravity: 0,
-        startColor: new Color('#000'),
-        endColor: new Color('#fff'),
-        ...particleConfig
-    },
-    system: {
-        particlesCount: 4,
-        emitters: emitter,
-        speed: 7,
-        ...systemConfig
+    const config = {
+      container: containerRef.current,
+      particles: {
+          ttl: 7,
+          gravity: 0,
+          startColor: new Color('#000'),
+          endColor: new Color('#fff'),
+          ...particleConfig
+      },
+      system: {
+          particlesCount: 4,
+          emitters: new Emitter({
+            onInterval: 1,
+            interval: 2,
+            ...emitterConfig
+          }),
+          speed: 7,
+          ...systemConfig
+      }
     }
-  }), [particleConfig, emitter, systemConfig]);
 
-  useFrame(() => prtcls.current && prtcls.current.update());
+    prtcls.current = new ParticlesSystem(config);
+
+    return () => {
+      if (!prtcls.current) return;
+      prtcls.current.removeSelf();
+      prtcls.current.dispose();
+    }
+
+  }, [emitterConfig, particleConfig, systemConfig])
+
+  useFrame(() => {
+    prtcls.current && prtcls.current.update()
+  });
+
   return (
-    <particlesSystem
-      ref={prtcls}
-      args={[config]}
+    <group
+      ref={containerRef}
       {...props}
     />
   );
