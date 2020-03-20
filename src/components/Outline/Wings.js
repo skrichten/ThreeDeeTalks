@@ -25,7 +25,7 @@ export default function FairyWings({ ...props}) {
 
   return (
     <group ref={wings} {...props} dispose={null}>
-      <group rotation-y={-1} {...props}  >
+      <group {...props}  >
           <primitive object={nodes.WingsBase}  />
           <skinnedMesh
             material={materials.fairyWingMat}

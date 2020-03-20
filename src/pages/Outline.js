@@ -1,13 +1,14 @@
 import React, { useRef, Suspense } from 'react';
 import { Color } from 'three';
-import { useFrame, useThree, extend, Dom } from 'react-three-fiber';
+import { Dom } from 'react-three-fiber';
 import Controls from '../components/OrbitControls';
+import Camera from '../components/Camera';
 import ThreeCanvas from '../components/ThreeCanvas';
 import Scene from '../components/Outline/Scene';
 //import Effects from '../components/Outline/Effects';
 
 
-const devicePixelRatio = window.devicePixelRatio.toFixed(1);
+const devicePixelRatio = window.devicePixelRatio.toFixed(2);
 
 const Outline = () => {
 
@@ -20,7 +21,7 @@ const Outline = () => {
       pixelRatio={devicePixelRatio}
       onCreated={onInit}
     >
-      <Controls cameraPos={[0, 1.26, 6]} />
+      <Camera position={[0, .5, 25]} fov={65} />
       <Suspense fallback={<Dom center>loading...</Dom>}>
         <Scene />
       </Suspense>

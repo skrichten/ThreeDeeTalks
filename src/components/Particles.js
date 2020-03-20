@@ -23,7 +23,10 @@ const Particles = ({
           ttl: 7,
           gravity: 0,
           startColor: new Color('#000'),
-          endColor: new Color('#fff'),
+          endColor: new Color('#000'),
+          blending: 'blend',
+          startAlpha: 1,
+          endAlpha: 0,
           ...particleConfig
       },
       system: {

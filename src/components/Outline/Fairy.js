@@ -1,10 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { MeshBasicMaterial, BackSide, AnimationMixer, Vector3 } from 'three';
+import React, { useEffect, useRef, useState, forwardRef } from 'react'
+import { MeshBasicMaterial, BackSide, AnimationMixer, LoopOnce } from 'three';
 import { useLoader, useFrame, useResource } from 'react-three-fiber';
 import { useSpring, animated as a } from 'react-spring/three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import Wings from './Wings';
 import Particles from '../Particles';
+import { Randomizers, Emitter } from 'mage-engine.particles';
+import useEventListener from '../../hooks/useEventListener';
 
 const outlineMat = new MeshBasicMaterial({
   color:'#000000',
@@ -28,8 +30,7 @@ outlineMat.onBeforeCompile = (shader) => {
 }
 
 
-export default function Fairy({ ...props}) {
-  const parent = useRef();
+const Fairy = forwardRef( ({ ...props}, ref) => {
   const hand = useRef();
   const [wandRef, wand] = useResource()
   const { nodes, materials, animations } = useLoader(GLTFLoader, '/funnyFairy.glb');
@@ -43,15 +44,28 @@ export default function Fairy({ ...props}) {
       handAction: mixer.clipAction(animations[0], hand.current),
     }
 
+    actions.current.handAction.loop = LoopOnce;
+    actions.current.handAction.clampWhenFinished = true;
+
     //actions.current.handAction.play();
     return () => animations.forEach(clip => mixer.uncacheClip(clip))
   }, []);
 
+  useEventListener('mousedown', () => {
+    const action = actions.current.handAction
+    if (!action || action.isRunning() ) return;
+    action.paused = false;
+    action.time = 0;
+    action.play();
+  })
+
+
+
   useFrame((state, delta) => { mixer.update(delta); });
 
   const bobSpring = useSpring({
-    from: {pos: [0, -.03, 0]},
-    pos: [0, .03, 0],
+    from: {pos: -.03},
+    pos: .03,
     config: {
       mass: 2,
       tension: 60,
@@ -60,12 +74,16 @@ export default function Fairy({ ...props}) {
   })
 
   //new Randomizers.MinMaxRandomizer(0, 5)
-  //new Randomizers.SphereRandomizer(.8, .4)
+  const pVelocity = new Randomizers.SphereRandomizer(.5, 1);
+  const pEmit = {
+    onInterval: new Randomizers.MinMaxRandomizer(0, 5),
+    interval: new Randomizers.MinMaxRandomizer(0, 0.25),
+  }
 
   return (
-    <a.group ref={parent} {...props} position={bobSpring.pos} dispose={null}>
+    <a.group ref={ref} {...props} position-y={bobSpring.pos} dispose={null}>
       <Wings />
-      <group rotation-y={-1} {...props}  >
+      <group>
         <mesh // Body
           geometry={nodes.fairy.geometry}
           material={materials.fairyMat}
@@ -95,9 +113,22 @@ export default function Fairy({ ...props}) {
             <Particles
               particleConfig={{
                 startSize: .03,
-                endSize: 1,
-                blending: 'multiply',
+                endSize: 1.5,
               }}
+            />
+
+            <Particles
+              particleConfig={{
+                startSize: .1,
+                endSize: .4,
+                velocity: pVelocity,
+                ttl: 2,
+                speed: 1.5,
+              }}
+              systemConfig={{
+                particlesCount: 200,
+              }}
+              emitterConfig={pEmit}
             />
           </group>
         </mesh>
@@ -105,4 +136,6 @@ export default function Fairy({ ...props}) {
     </a.group>
   )
 
-}
+})
+
+export default Fairy;
