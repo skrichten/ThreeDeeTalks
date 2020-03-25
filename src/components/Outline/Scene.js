@@ -4,9 +4,7 @@ import { animated as a } from 'react-spring/three';
 import Effects from './Effects';
 import Fairy from './Fairy';
 import useMouseSpring from '../../hooks/useMouseSpring';
-import ImagePlane from '../ImagePlane';
-import { Vector3 } from 'three';
-
+import Crumple from './Crumple';
 
 
 export default function Scene({ ...props}) {
@@ -30,12 +28,25 @@ export default function Scene({ ...props}) {
       <a.object3D rotation-y={mouseRot} position={mousePos}>
         <Fairy ref={fairyRef} />
       </a.object3D>
-      <ImagePlane
-        url="/placeholder.png"
-        width={277}
-        height={591}
-        position-z={-1}
-      />
+      <Crumple position-z={15} scale={[3, 3, 3]} />
+
+      <directionalLight
+        args={[0xffffff]}
+        intensity={.5}
+        position={[3, 3, 4]}
+        shadow-bias={0.0001}
+        shadow-camera-right={5}
+        shadow-camera-left={-1}
+        shadow-camera-top={5}
+        shadow-camera-bottom={-2}
+        shadow-mapSize-width={1024}
+        shadow-mapSize-height={1024}
+        shadow-radius={15}
+        castShadow
+    ></directionalLight>
+
+    <ambientLight args={[0xffffff, .7]}/>
+
       <Effects />
     </group>
   )

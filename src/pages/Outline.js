@@ -1,12 +1,23 @@
 import React, { useRef, Suspense } from 'react';
+import styled from 'styled-components';
 import { Color } from 'three';
 import { Dom } from 'react-three-fiber';
-import Controls from '../components/OrbitControls';
 import Camera from '../components/Camera';
 import ThreeCanvas from '../components/ThreeCanvas';
 import Scene from '../components/Outline/Scene';
-//import Effects from '../components/Outline/Effects';
 
+const Main = styled.main`
+  height: 4000px;
+`;
+
+const Stage = styled.div`
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  overflow: hidden;
+  z-index: 1;
+`;
 
 const devicePixelRatio = window.devicePixelRatio.toFixed(2);
 
@@ -17,15 +28,19 @@ const Outline = () => {
   };
 
   return (
-    <ThreeCanvas
-      pixelRatio={devicePixelRatio}
-      onCreated={onInit}
-    >
-      <Camera position={[0, .5, 25]} fov={65} />
-      <Suspense fallback={<Dom center>loading...</Dom>}>
-        <Scene />
-      </Suspense>
-    </ThreeCanvas>
+    <Main>
+      <Stage>
+        <ThreeCanvas
+          pixelRatio={devicePixelRatio}
+          onCreated={onInit}
+        >
+          <Camera position={[0, .5, 25]} fov={65} />
+          <Suspense fallback={<Dom center>loading...</Dom>}>
+            <Scene />
+          </Suspense>
+        </ThreeCanvas>
+      </Stage>
+    </Main>
   )
 };
 
