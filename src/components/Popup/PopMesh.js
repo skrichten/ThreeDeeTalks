@@ -34,11 +34,6 @@ const PopMesh = forwardRef( ({
     return () => animations.forEach(clip => mixer.uncacheClip(clip))
   }, [])
 
-  useEffect(() => {
-    mixer.addEventListener( 'loop', onLoop);
-    return () => mixer.removeEventListener( 'loop', onLoop);
-  }, [mixer])
-
   useImperativeHandle(ref, () => ({
     play() {
       const action = actions.current.foldAction

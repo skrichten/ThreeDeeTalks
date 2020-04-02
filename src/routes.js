@@ -11,6 +11,7 @@ import PlayGround from './pages/Playground';
 import Valentine from './pages/Valentine';
 import Popup from './pages/Popup';
 import Outline from './pages/Outline';
+import Work from './pages/Work';
 
 
 
@@ -71,6 +72,10 @@ const routes = [
   {
     path: "/outline",
     component: Outline
+  },
+  {
+    path: "/work",
+    component: Work
   },
 ];
 

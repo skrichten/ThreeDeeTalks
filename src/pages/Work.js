@@ -4,10 +4,10 @@ import { Color, FogExp2 } from 'three';
 import { Dom } from 'react-three-fiber';
 import Camera from '../components/Camera';
 import ThreeCanvas from '../components/ThreeCanvas';
-import Scene from '../components/Outline/Scene';
+import Scene from '../components/Work/Scene';
 
 const Main = styled.main`
-  height: 7000px;
+  height: 4000px;
 `;
 
 const Stage = styled.div`
@@ -21,7 +21,7 @@ const Stage = styled.div`
 
 const devicePixelRatio = window.devicePixelRatio.toFixed(1);
 
-const Outline = () => {
+const Work = () => {
 
   const onInit = ({ scene, gl }) => {
     scene.background = new Color(0xffffff);
@@ -45,5 +45,5 @@ const Outline = () => {
   )
 };
 
-export default Outline;
+export default Work;
 
