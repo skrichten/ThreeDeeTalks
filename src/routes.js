@@ -12,6 +12,7 @@ import Valentine from './pages/Valentine';
 import Popup from './pages/Popup';
 import Outline from './pages/Outline';
 import Work from './pages/Work';
+import ParticleEffects from './pages/ParticleEffects';
 
 
 
@@ -77,6 +78,10 @@ const routes = [
     path: "/work",
     component: Work
   },
+  {
+    path: "/pfx",
+    component: ParticleEffects
+  }
 ];
 
 export default routes

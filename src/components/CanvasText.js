@@ -3,7 +3,7 @@ import { useThree } from 'react-three-fiber';
 import { animated as a } from 'react-spring/three';
 
 /** This renders text via canvas and projects it as a sprite */
-function CanvasText({ children, position, opacity = 1, color = 'white', fontSize = 50 }) {
+function CanvasText({ children, position, opacity = 1, color = 'black', fontSize = 50 }) {
   const {
     size: { width, height },
     viewport: { width: viewportWidth, height: viewportHeight }
@@ -27,7 +27,7 @@ function CanvasText({ children, position, opacity = 1, color = 'white', fontSize
   return (
     <a.sprite scale={[scale, scale * .5, 1]} position={position}>
       <a.spriteMaterial attach="material" transparent depthTest={true} opacity={opacity}>
-        <canvasTexture attach="map" image={canvas} premultiplyAlpha onUpdate={s => (s.needsUpdate = true)} />
+        <canvasTexture attach="map" image={canvas} onUpdate={s => (s.needsUpdate = true)} />
       </a.spriteMaterial>
     </a.sprite>
   )

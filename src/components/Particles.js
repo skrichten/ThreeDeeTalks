@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react'
 import { Color } from 'three';
 import { useFrame, extend } from 'react-three-fiber';
-import {ParticlesSystem, Emitter} from 'mage-engine.particles';
+import {ParticlesSystem, Emitter} from 'skrichten.particles';
 
 extend({ ParticlesSystem });
 

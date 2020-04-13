@@ -55,22 +55,13 @@ export default function Scene({ ...props}) {
     <group  {...props}>
       <group>
         <Crumple
-          name="Audible"
           ref={item1Ref}
-          position={[-4, 2, 0]}
+          position={[0, .7, 20]}
           scale={[2, 2, 2]}
-          imagePath="/work-audible.jpg"
+          imagePath="/seagullsLogo.png"
           animationPath="/crumple2.glb"
           direction={scrollDir}
-        />
-        <Crumple
-          name="Bike"
-          ref={item2Ref}
-          position={[0, -2, -5]}
-          scale={[2, 2, 2]}
-          imagePath="/bike.jpg"
-          animationPath="/crumple2.glb"
-          direction={scrollDir}
+          speed={1.5}
         />
       </group>
 

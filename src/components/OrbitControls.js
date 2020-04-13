@@ -4,7 +4,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 extend({ OrbitControls });
 
-const Controls = ({ position = [0, 0, 0], ...props }) => {
+const Controls = ({ position = [0, 0, 5], ...props }) => {
   const { camera, gl } = useThree();
   const controls = useRef();
   camera.position.set( position[0], position[1], position[2] );

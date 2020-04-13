@@ -6269,10 +6269,6 @@ lru-cache@^5.1.1:
   dependencies:
     yallist "^3.0.2"
 
-mage-engine.particles@MageStudio/partykals:
-  version "1.1.1"
-  resolved "https://codeload.github.com/MageStudio/partykals/tar.gz/73ae9a52ecc5730301e053b1a21c80c25476a089"
-
 make-dir@^2.0.0, make-dir@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/make-dir/-/make-dir-2.1.0.tgz#5f0310e18b8be898cc07009295a30ae41e91e6f5"
@@ -9170,6 +9166,10 @@ sisteransi@^1.0.3:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/sisteransi/-/sisteransi-1.0.4.tgz#386713f1ef688c7c0304dc4c0632898941cad2e3"
   integrity sha512-/ekMoM4NJ59ivGSfKapeG+FWtrmWvA1p6FBZwXrqojw90vJu8lBmrTxCMuBCydKtkaUe2zt4PlxeTKpjwMbyig==
+
+skrichten.particles@skrichten/partykals:
+  version "1.1.2"
+  resolved "https://codeload.github.com/skrichten/partykals/tar.gz/7522c851acdebdcb9ff5c46eb929fdca9133e21b"
 
 slash@^1.0.0:
   version "1.0.0"

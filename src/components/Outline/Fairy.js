@@ -5,7 +5,7 @@ import { useSpring, animated as a } from 'react-spring/three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import Wings from './Wings';
 import Particles from '../Particles';
-import { Randomizers, Emitter } from 'mage-engine.particles';
+import { Randomizers, Emitter } from 'skrichten.particles';
 import useEventListener from '../../hooks/useEventListener';
 
 const outlineMat = new MeshBasicMaterial({

@@ -7,7 +7,7 @@ import ThreeCanvas from '../components/ThreeCanvas';
 import Scene from '../components/Outline/Scene';
 
 const Main = styled.main`
-  height: 7000px;
+  height: 12000px;
 `;
 
 const Stage = styled.div`
@@ -19,7 +19,7 @@ const Stage = styled.div`
   z-index: 1;
 `;
 
-const devicePixelRatio = window.devicePixelRatio.toFixed(1);
+const devicePixelRatio = window.devicePixelRatio.toFixed(2);
 
 const Outline = () => {
 

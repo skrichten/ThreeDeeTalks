@@ -9,14 +9,16 @@ const Crumple = forwardRef( ({
   imagePath,
   animationPath,
   direction,
+  speed = 2,
   ...props
 }, ref) => {
   const sceneRef = useRef()
   const gltf = useLoader(GLTFLoader, animationPath);
-  const { nodes, animations, scene } = gltf;
+  const { nodes, animations } = gltf;
   const clone = useMemo(() => nodes.ClothKeys.clone(), [nodes]);
 
   const map = useMemo(() => new TextureLoader().load(imagePath), [imagePath]);
+  const matCap = useMemo(() => new TextureLoader().load('/simpleMatcap.jpg'), []);
 
   // Setup State and Spring for fade animation
   const [show, setShow] = useState(false);
@@ -24,7 +26,7 @@ const Crumple = forwardRef( ({
 
   const actions = useRef();
   const [mixer] = useState(() => new AnimationMixer());
-  mixer.timeScale = 2 * direction;
+  mixer.timeScale = speed * direction;
 
   useFrame((state, delta) => {
     //mixer.setTime(1 - scrollPos.value);
@@ -59,8 +61,24 @@ const Crumple = forwardRef( ({
     }
   }), [setShow, show, direction]);
 
+  const onPointerOver = e => {
+    e.stopPropagation();
+    document.body.style.cursor = 'pointer';
+  }
+
+  const onPointerOut = e => {
+    e.stopPropagation();
+    document.body.style.cursor = 'default';
+  }
+
   return (
-    <group {...props} dispose={null} rotation-x={Math.PI / 2}>
+    <group
+      {...props}
+      dispose={null}
+      rotation-x={Math.PI / 2}
+      onPointerOver={onPointerOver}
+      onPointerOut={onPointerOut}
+    >
       <scene ref={sceneRef}>
         <mesh
           morphTargetInfluences={clone.morphTargetInfluences}
@@ -68,9 +86,10 @@ const Crumple = forwardRef( ({
           name="ClothKeys"
         >
           <bufferGeometry attach="geometry" {...clone.geometry} />
-          <a.meshStandardMaterial
+          <a.meshMatcapMaterial
             attach="material"
             morphTargets={true}
+            matcap={matCap}
             map={map}
             color="#ffffff"
             flatShading

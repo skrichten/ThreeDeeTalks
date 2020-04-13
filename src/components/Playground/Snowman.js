@@ -1,8 +1,11 @@
 import React from 'react';
 import { useResource } from 'react-three-fiber';
+import { Color } from 'three';
 import SimpleSphere from "./SimpleSphere";
 import GroundPlane from "../GroundPlane";
 import TreeLayout from "./TreeLayout";
+import Particles from '../Particles';
+import { Randomizers, Emitter } from 'skrichten.particles';
 
 
 function Snowman() {
@@ -19,6 +22,21 @@ function Snowman() {
         shininess={100}
         ref={hatMaterialRef}
       />
+      <group position={[2, 3, 2]}>
+        <Particles
+          particleConfig={{
+            startSize: 1,
+            endSize: 5,
+            roundShape: true,
+            soft: true,
+            startColor: new Color(0, 0, 0),
+            endColor: new Color(1, 1, 1),
+            blending: "additive",
+            startAlpha : 1,
+            endAlpha: 0
+          }}
+        />
+      </group>
       <group /* snowman */>
         <SimpleSphere
           position={[0, .3, 0]}
