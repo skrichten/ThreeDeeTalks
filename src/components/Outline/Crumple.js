@@ -10,6 +10,7 @@ const Crumple = forwardRef( ({
   animationPath,
   direction,
   speed = 2,
+  shadeless,
   ...props
 }, ref) => {
   const sceneRef = useRef()
@@ -86,17 +87,29 @@ const Crumple = forwardRef( ({
           name="ClothKeys"
         >
           <bufferGeometry attach="geometry" {...clone.geometry} />
-          <a.meshMatcapMaterial
-            attach="material"
-            morphTargets={true}
-            matcap={matCap}
-            map={map}
-            color="#ffffff"
-            flatShading
-            map-flipY={false}
-            opacity={opacity}
-            transparent
-          />
+          {shadeless
+            ? <a.meshBasicMaterial
+              attach="material"
+              morphTargets={true}
+              map={map}
+              color="#ffffff"
+              map-flipY={false}
+              opacity={opacity}
+              transparent
+            />
+            : <a.meshMatcapMaterial
+              attach="material"
+              morphTargets={true}
+              matcap={matCap}
+              map={map}
+              color="#ffffff"
+              flatShading
+              map-flipY={false}
+              opacity={opacity}
+              transparent
+            />
+          }
+
         </mesh>
       </scene>
     </group>

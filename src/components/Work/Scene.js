@@ -59,9 +59,10 @@ export default function Scene({ ...props}) {
           position={[0, .7, 20]}
           scale={[2, 2, 2]}
           imagePath="/seagullsLogo.png"
-          animationPath="/crumple2.glb"
+          animationPath="/crumple3.glb"
           direction={scrollDir}
           speed={1.5}
+          shadeless={true}
         />
       </group>
 
