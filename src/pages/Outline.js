@@ -24,15 +24,11 @@ const Outline = () => {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    if (loaded) return;
-
-    const onmove = () => {
-      setLoaded(true);
-      global.removeEventListener('mousemove', onmove);
-    }
-
-    global.addEventListener('mousemove', onmove);
-    return () => global.removeEventListener('mousemove', onmove);
+    if (!loaded) {
+      setTimeout(() => {
+        setLoaded(true)
+      }, 500);
+    };
   }, [loaded, setLoaded]);
 
   return (
