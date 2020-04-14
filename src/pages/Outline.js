@@ -1,46 +1,44 @@
-import React, { useRef, Suspense } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Color, FogExp2 } from 'three';
-import { Dom } from 'react-three-fiber';
-import Camera from '../components/Camera';
-import ThreeCanvas from '../components/ThreeCanvas';
-import Scene from '../components/Outline/Scene';
+
+const WebGLContent = React.lazy(() => import('../components/Outline/WebGLContent'));
 
 const Main = styled.main`
   height: 12000px;
 `;
 
-const Stage = styled.div`
-  width: 100%;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  overflow: hidden;
-  z-index: 1;
+const ContentWrap = styled.div`
+  position: relative;
 `;
 
-const devicePixelRatio = window.devicePixelRatio.toFixed(2);
+const Hero = styled.div`
+  height: 1000px;
+  background: #f2f2f2;
+`;
+
+const Title = styled.h1`
+  margin: 0;
+`
 
 const Outline = () => {
+  const [loaded, setLoaded] = useState(false);
 
-  const onInit = ({ scene, gl }) => {
-    scene.background = new Color(0xffffff);
-    //scene.fog = new FogExp2(0xffffff, 0.05);
-  };
+  useEffect(() => {
+    if (!loaded) setLoaded(true);
+  }, [loaded, setLoaded]);
 
   return (
     <Main>
-      <Stage>
-        <ThreeCanvas
-          pixelRatio={devicePixelRatio}
-          onCreated={onInit}
-        >
-          <Camera position={[0, .5, 25]} fov={65} />
-          <Suspense fallback={<Dom center>loading...</Dom>}>
-            <Scene />
-          </Suspense>
-        </ThreeCanvas>
-      </Stage>
+      { loaded &&
+        <Suspense fallback={null}>
+          <WebGLContent />
+        </Suspense>
+      }
+      <ContentWrap>
+        <Hero>
+          <Title>Hero</Title>
+        </Hero>
+      </ContentWrap>
     </Main>
   )
 };

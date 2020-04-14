@@ -29,9 +29,10 @@ const Crumple = forwardRef( ({
   const [mixer] = useState(() => new AnimationMixer());
   mixer.timeScale = speed * direction;
 
+  const [crumpState, setCrumpState] = useState('closed');
+
   useFrame((state, delta) => {
-    //mixer.setTime(1 - scrollPos.value);
-    mixer.update(delta);
+      mixer.update(delta);
   });
 
   useEffect(() => {
@@ -59,11 +60,25 @@ const Crumple = forwardRef( ({
       if (!action || action.isRunning() ) return;
       action.paused = false;
       action.play();
+      setCrumpState(direction === 1 ? 'open' : 'closed');
     }
   }), [setShow, show, direction]);
 
+
   const onPointerOver = e => {
     e.stopPropagation();
+
+    const action = actions.current.aniAction;
+    if (!action || action.isRunning() || crumpState !== 'open' ) return;
+    mixer.timeScale = -.7;
+    action.paused = false;
+    action.play();
+
+    setTimeout(() => {
+      action.setEffectiveTimeScale(1);
+      mixer.timeScale = .7;
+      setCrumpState('open');
+    }, 700);
     document.body.style.cursor = 'pointer';
   }
 

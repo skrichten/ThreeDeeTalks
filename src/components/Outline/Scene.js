@@ -66,7 +66,6 @@ const workData = [
 ]
 
 export default function Scene({ ...props}) {
-  console.log('render');
   const { viewport } = useThree();
   const fairyRef = useRef();
 /*
@@ -82,7 +81,6 @@ export default function Scene({ ...props}) {
       0
     ]
   }); */
-
 
   const itemRefs = useMemo(() => {
     return workData.map( () => createRef() )
@@ -183,7 +181,6 @@ export default function Scene({ ...props}) {
 
         {transitions.map(({ item, props, key }) => {
           const workItem = workData[item];
-          console.log('xxx')
           return (
             <da.a key={key} style={props} href={workItem.path}>
               {workItem.text}
