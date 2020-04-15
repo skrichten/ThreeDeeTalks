@@ -65,7 +65,7 @@ const workData = [
 
 ]
 
-export default function Scene({ ...props}) {
+export default function Scene({ topOffset, ...props }) {
   const { viewport } = useThree();
   const fairyRef = useRef();
 /*
@@ -129,23 +129,23 @@ export default function Scene({ ...props}) {
   const scrollDir = direction === 'down' ? 1 : -1;
 
   const scrollMove = scrollPos.interpolate(y => {
-
+    let pos = Math.max(y - topOffset, 0);
     const op = direction === 'down' ? isGreater : isLess;
     const newState =  direction === 'up';
-
+    console.log(pos)
 
     // Compare current scroll position with each trigger time
-    // And call play() if applicable
+    // And call the current action (play, fadein) if applicable
     triggerTimes.current.forEach((t => {
 
-      if ( t.ref.current && op(y, t.time) &&  t.folded !== newState ) {
+      if ( t.ref.current && op(pos, t.time) &&  t.folded !== newState ) {
         t.ref.current[t.action]();
         t.folded = newState;
         if (t.hasOwnProperty(direction + 'LinkIndex')) setCurrentIndex(t[direction + 'LinkIndex']);
       }
     }))
 
-    return y * 100;
+    return pos * 100;
   });
 
   return (

@@ -75,7 +75,6 @@ const Crumple = forwardRef( ({
     action.play();
 
     setTimeout(() => {
-      action.setEffectiveTimeScale(1);
       mixer.timeScale = .7;
       setCrumpState('open');
     }, 700);

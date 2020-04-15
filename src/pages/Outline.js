@@ -1,9 +1,10 @@
-import React, { Suspense, useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
+import { getScrollHeight } from '../util/dom';
 
 const WebGLContent = React.lazy(() => import('../components/Outline/WebGLContent'));
 
-const Main = styled.main`
+const ContentPlaceholder = styled.div`
   height: 12000px;
 `;
 
@@ -14,6 +15,8 @@ const ContentWrap = styled.div`
 const Hero = styled.div`
   height: 1000px;
   background: #f2f2f2;
+  position: relative;
+  z-index: 2;
 `;
 
 const Title = styled.h1`
@@ -22,28 +25,50 @@ const Title = styled.h1`
 
 const Outline = () => {
   const [loaded, setLoaded] = useState(false);
+  const [topOffset, setTopOffset] = useState(0);
+  const heroRef = useRef();
 
+  /* Gets the top scroll offset based on the height of the hero
+  This way the work section can adjust when it starts moving the items.
+  */
   useEffect(() => {
-    if (!loaded) {
-      setTimeout(() => {
-        setLoaded(true)
-      }, 500);
-    };
+    if (!heroRef.current) return;
+
+    const updateTopOffset = () => {
+      const scrollHeight = getScrollHeight();
+      const rect = heroRef.current.getBoundingClientRect();
+      setTopOffset(rect.height / scrollHeight);
+    }
+
+    global.addEventListener('resize', updateTopOffset);
+    updateTopOffset();
+    return () => global.removeEventListener('resize', updateTopOffset);
+  }, [setTopOffset]);
+
+
+  /* Attempt at lazy loading, but not very effective.
+  Three.js ends up getting bundled with the initial site load becuase
+  it is used in other pages that are not lazy loaded.
+  Need to find a way to bundle three.js separately.
+  */
+  useEffect(() => {
+    if (!loaded) setLoaded(true)
   }, [loaded, setLoaded]);
 
   return (
-    <Main>
+    <main>
       { loaded &&
         <Suspense fallback={null}>
-          <WebGLContent />
+          <WebGLContent topOffset={topOffset} />
         </Suspense>
       }
       <ContentWrap>
-        <Hero>
+        <Hero ref={heroRef}>
           <Title>Hero</Title>
         </Hero>
+        <ContentPlaceholder />
       </ContentWrap>
-    </Main>
+    </main>
   )
 };
 

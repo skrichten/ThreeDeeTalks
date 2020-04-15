@@ -13,11 +13,12 @@ const Stage = styled.div`
   position: fixed;
   top: 0;
   overflow: hidden;
+  z-index: 1;
 `;
 
 const devicePixelRatio = window.devicePixelRatio.toFixed(2);
 
-const WebGLContent = () => {
+const WebGLContent = ({topOffset}) => {
 
   const onInit = ({ scene, gl }) => {
     scene.background = new Color(0xffffff);
@@ -34,7 +35,7 @@ const WebGLContent = () => {
       >
         <Camera position={[0, 0, 25]} fov={65} />
         <Suspense fallback={<Dom center>loading...</Dom>}>
-          <Scene />
+          <Scene topOffset={topOffset} />
         </Suspense>
       </ThreeCanvas>
     </Stage>
