@@ -1,7 +1,8 @@
 import React, { useRef, useState } from 'react';
 import { useThree, useFrame } from "react-three-fiber";
 import { animated as a } from 'react-spring/three';
-
+import Fairy from '../Outline/Fairy';
+import useMouseSpring from '../../hooks/useMouseSpring';
 
 import useScrollPos from '../../hooks/useScrollPos';
 import Crumple from '../Outline/Crumple';
@@ -37,6 +38,21 @@ export default function Scene({ ...props}) {
     },
   ]);
 
+  /* Fairy stuff
+  const { viewport } = useThree();
+  const fairyRef = useRef();
+
+  const [{mouse}] = useMouseSpring({precision: .001, mass: 1, tension:120});
+  const mouseRot = mouse.interpolate( (x) => ((x * 2) - 1) * 1.3 );
+  const mousePos = mouse.interpolate( (x, y) => {
+    const mappedX = (x * 2) - 1;
+    return [
+      ((mappedX * viewport.width) / 2) - (mappedX * 3),
+      -((((y * 2) - 1) * viewport.height) / 2) - .8,
+      0
+    ]
+  }); */
+
   useScrollPos( (y, direction) => {
 
     const op = direction === 'down' ? isGreater : isLess;
@@ -53,6 +69,11 @@ export default function Scene({ ...props}) {
 
   return (
     <group  {...props}>
+      {/*
+        <a.object3D rotation-y={mouseRot} position={mousePos}>
+          <Fairy ref={fairyRef} />
+        </a.object3D>
+      */}
       <group>
         <Crumple
           ref={item1Ref}

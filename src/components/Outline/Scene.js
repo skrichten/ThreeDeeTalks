@@ -1,14 +1,10 @@
 import React, { useRef, createRef, useState, useMemo, useEffect } from 'react';
 import styled from 'styled-components';
-import { useThree, useFrame, Dom } from "react-three-fiber";
+import { Dom } from "react-three-fiber";
 import { animated as a } from 'react-spring/three';
 import { useTransition, animated as da } from 'react-spring';
-import Effects from './Effects';
-import Fairy from './Fairy';
-import useMouseSpring from '../../hooks/useMouseSpring';
 import useScrollSpring from '../../hooks/useScrollSpring';
 import Crumple from './Crumple';
-import CanvasText from '../CanvasText';
 
 const isGreater = (a, b) => a > b;
 const isLess = (a, b) => a < b;
@@ -35,7 +31,7 @@ const positions=[
   [0, -3, -7],
   [9, -1, -14],
   [-3.8, 2.1, -21]
-]
+];
 
 const workData = [
   {
@@ -62,25 +58,9 @@ const workData = [
     path: '/work/waves',
     imagePath: "/work-waves.jpg"
   },
-
 ]
 
 export default function Scene({ topOffset, ...props }) {
-  const { viewport } = useThree();
-  const fairyRef = useRef();
-/*
-    // Fairy position/rotation
-
-  const [{mouse}] = useMouseSpring({precision: .001, mass: 1, tension:120});
-  const mouseRot = mouse.interpolate( (x) => ((x * 2) - 1) * 1.3 );
-  const mousePos = mouse.interpolate( (x, y) => {
-    const mappedX = (x * 2) - 1;
-    return [
-      ((mappedX * viewport.width) / 2) - (mappedX * 3),
-      -((((y * 2) - 1) * viewport.height) / 2) - .8,
-      0
-    ]
-  }); */
 
   const itemRefs = useMemo(() => {
     return workData.map( () => createRef() )
@@ -90,8 +70,11 @@ export default function Scene({ topOffset, ...props }) {
 
   useEffect(() => {
     workData.forEach( (w, i) => {
+      /* Calculate start "time" for each item
+         "times" are compared with the scroll postition
+         to trigger the actions (animations)
+      */
       const startTime = .01 + (i * .06);
-      //itemRefs.current.push(craeteRef());
       triggerTimes.current.push({
         ref: itemRefs[i],
         time: startTime,
@@ -115,8 +98,10 @@ export default function Scene({ topOffset, ...props }) {
 
 
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [indexOverride, setIndexOverride] = useState(null);
 
-  const transitions = useTransition(currentIndex, p => p, {
+  // Used to transition titles in the center
+  const transitions = useTransition(indexOverride === null ? currentIndex : indexOverride, p => p, {
     from: { opacity: 0 },
     enter: { opacity: 1 },
     leave: { opacity: 0 },
@@ -129,10 +114,11 @@ export default function Scene({ topOffset, ...props }) {
   const scrollDir = direction === 'down' ? 1 : -1;
 
   const scrollMove = scrollPos.interpolate(y => {
+    // Adjust scroll position usin the topOffset (height of the hero)
     let pos = Math.max(y - topOffset, 0);
     const op = direction === 'down' ? isGreater : isLess;
     const newState =  direction === 'up';
-    console.log(pos)
+    //console.log(pos)
 
     // Compare current scroll position with each trigger time
     // And call the current action (play, fadein) if applicable
@@ -141,6 +127,9 @@ export default function Scene({ topOffset, ...props }) {
       if ( t.ref.current && op(pos, t.time) &&  t.folded !== newState ) {
         t.ref.current[t.action]();
         t.folded = newState;
+        /* Set the current index so that the center text will update
+           Direction is involved here because the timing needs to be altered based on direction
+        */
         if (t.hasOwnProperty(direction + 'LinkIndex')) setCurrentIndex(t[direction + 'LinkIndex']);
       }
     }))
@@ -148,13 +137,18 @@ export default function Scene({ topOffset, ...props }) {
     return pos * 100;
   });
 
+  const onMouseOver = i => {
+    setIndexOverride(i);
+    document.body.style.cursor = 'pointer';
+  }
+
+  const onMouseOut = e => {
+    setIndexOverride(null);
+    document.body.style.cursor = 'default';
+  }
+
   return (
     <group  {...props}>
-      { /*
-        <a.object3D rotation-y={mouseRot} position={mousePos}>
-          <Fairy ref={fairyRef} />
-        </a.object3D>
-      */}
       <a.group position-z={scrollMove}>
         {
           workData.map((workItem, i) => (
@@ -166,31 +160,24 @@ export default function Scene({ topOffset, ...props }) {
               imagePath={workItem.imagePath}
               animationPath={ i % 2 ? '/crumple3.glb' : '/crumple2.glb' }
               direction={scrollDir}
+              onMouseOver={() => {onMouseOver(i)}}
+              onMouseOut={onMouseOut}
             />
           ))
         }
       </a.group>
-
-      { false && <CanvasText>Work</CanvasText> }
-
-
-    { false && <Effects /> }
-    {
-    <Dom center>
-      <Title>Work
-
-        {transitions.map(({ item, props, key }) => {
-          const workItem = workData[item];
-          return (
-            <da.a key={key} style={props} href={workItem.path}>
-              {workItem.text}
-            </da.a>
-          );
-        })}
-      </Title>
-
-    </Dom>
-    }
+      <Dom center>
+        <Title>Work
+          {transitions.map(({ item, props, key }) => {
+            const workItem = workData[item];
+            return (
+              <da.a key={key} style={props} href={workItem.path}>
+                {workItem.text}
+              </da.a>
+            );
+          })}
+        </Title>
+      </Dom>
     </group>
   )
 

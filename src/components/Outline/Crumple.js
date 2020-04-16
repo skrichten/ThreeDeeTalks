@@ -11,11 +11,15 @@ const Crumple = forwardRef( ({
   direction,
   speed = 2,
   shadeless,
+  onMouseOver = () => {},
+  onMouseOut = () => {},
   ...props
 }, ref) => {
   const sceneRef = useRef()
   const gltf = useLoader(GLTFLoader, animationPath);
   const { nodes, animations } = gltf;
+
+  // We need to clone in order to be able to control the animations on individual instances.
   const clone = useMemo(() => nodes.ClothKeys.clone(), [nodes]);
 
   const map = useMemo(() => new TextureLoader().load(imagePath), [imagePath]);
@@ -25,16 +29,21 @@ const Crumple = forwardRef( ({
   const [show, setShow] = useState(false);
   const { opacity } = useSpring({ from: { opacity: 0 }, opacity: show ? 1 : 0, config: { duration: 500 } })
 
-  const actions = useRef();
-  const [mixer] = useState(() => new AnimationMixer());
-  mixer.timeScale = speed * direction;
-
   const [crumpState, setCrumpState] = useState('closed');
+
+  // Manage animation mixer
+  const [mixer] = useState(() => new AnimationMixer());
+
+  useEffect(() => {
+    mixer.timeScale = speed * direction;
+  }, [speed, direction])
 
   useFrame((state, delta) => {
       mixer.update(delta);
   });
 
+  // Setup animation actions
+  const actions = useRef();
   useEffect(() => {
 
     actions.current = {
@@ -67,23 +76,27 @@ const Crumple = forwardRef( ({
 
   const onPointerOver = e => {
     e.stopPropagation();
-
     const action = actions.current.aniAction;
     if (!action || action.isRunning() || crumpState !== 'open' ) return;
     mixer.timeScale = -.7;
     action.paused = false;
     action.play();
+    onMouseOver();
 
+    // Stop crumple part way
     setTimeout(() => {
-      mixer.timeScale = .7;
-      setCrumpState('open');
-    }, 700);
-    document.body.style.cursor = 'pointer';
+      setCrumpState('mid');
+      mixer.timeScale = 0;
+    }, 600);
   }
 
   const onPointerOut = e => {
     e.stopPropagation();
-    document.body.style.cursor = 'default';
+    onMouseOut();
+    if (crumpState === 'mid') {
+      mixer.timeScale = .7;
+      setCrumpState('open');
+    }
   }
 
   return (
