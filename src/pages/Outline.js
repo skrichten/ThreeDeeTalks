@@ -51,6 +51,8 @@ const Outline = () => {
     return () => global.removeEventListener('resize', updateTopOffset);
   }, [setTopOffset]);
 
+  useEffect(() => window.scrollTo(0, 0), []);
+
 
   /* Attempt at lazy loading, but not very effective.
   Three.js ends up getting bundled with the initial site load becuase

@@ -126,7 +126,7 @@ export default function Scene({ topOffset, ...props }) {
     triggerTimes.current.forEach((t => {
 
       if ( t.ref.current && op(pos, t.time) &&  t.folded !== newState ) {
-        t.ref.current[t.action]();
+        t.ref.current[t.action](scrollDir);
         t.folded = newState;
         /* Set the current index so that the center text will update
            Direction is involved here because the timing needs to be altered based on direction
@@ -164,7 +164,6 @@ export default function Scene({ topOffset, ...props }) {
               scale={[2, 2, 2]}
               imagePath={workItem.imagePath}
               animationPath={ i % 2 ? '/crumple3.glb' : '/crumple2.glb' }
-              direction={scrollDir}
               onMouseOver={() => {onMouseOver(i)}}
               onMouseOut={onMouseOut}
             />

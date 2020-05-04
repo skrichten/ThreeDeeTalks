@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState, useMemo, forwardRef, useImperativeHandle } from 'react'
 import { useLoader, useFrame } from 'react-three-fiber';
-import { AnimationMixer, LoopOnce, TextureLoader } from 'three';
+import { AnimationMixer, AnimationUtils, LoopOnce, TextureLoader } from 'three';
 import { animated as a, useSpring } from 'react-spring/three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
@@ -8,7 +8,6 @@ const Crumple = forwardRef( ({
   play,
   imagePath,
   animationPath,
-  direction,
   speed = 2,
   shadeless,
   onMouseOver = () => {},
@@ -34,10 +33,6 @@ const Crumple = forwardRef( ({
   // Manage animation mixer
   const [mixer] = useState(() => new AnimationMixer());
 
-  useEffect(() => {
-    mixer.timeScale = speed * direction;
-  }, [speed, direction])
-
   useFrame((state, delta) => {
       mixer.update(delta);
   });
@@ -45,9 +40,11 @@ const Crumple = forwardRef( ({
   // Setup animation actions
   const actions = useRef();
   useEffect(() => {
+    const moClip = AnimationUtils.subclip(animations[0], 'moClip', 24, 17, 24);
 
     actions.current = {
       aniAction: mixer.clipAction(animations[0], sceneRef.current),
+      moAction: mixer.clipAction(moClip, sceneRef.current),
     }
 
     actions.current.aniAction.loop = LoopOnce;
@@ -56,7 +53,7 @@ const Crumple = forwardRef( ({
   }, []);
 
   useImperativeHandle(ref, () => ({
-    fadeIn() {
+    fadeIn(direction) {
       if (direction === 1 && !show) {
         setShow(true);
       } else if ((direction === -1 && show)) {
@@ -64,21 +61,22 @@ const Crumple = forwardRef( ({
       }
     },
 
-    play() {
+    play(direction) {
       const action = actions.current.aniAction;
-      if (!action || action.isRunning() ) return;
+      if (!action ) return;
+      mixer.timeScale = speed * direction;
       action.paused = false;
       action.play();
       setCrumpState(direction === 1 ? 'open' : 'closed');
     }
-  }), [setShow, show, direction]);
+  }), [setShow, show]);
 
 
   const onPointerOver = e => {
     e.stopPropagation();
     const action = actions.current.aniAction;
     if (!action || action.isRunning() || crumpState === 'closed' ) return;
-    mixer.timeScale = -.7;
+    mixer.timeScale = -1;
     action.paused = false;
     action.play();
     onMouseOver();
@@ -87,14 +85,14 @@ const Crumple = forwardRef( ({
     setTimeout(() => {
       setCrumpState('mid');
       mixer.timeScale = 0;
-    }, 600);
+    }, 300);
   }
 
   const onPointerOut = e => {
     e.stopPropagation();
     onMouseOut();
-    if (crumpState === 'mid') {
-      mixer.timeScale = .7;
+    if (crumpState !== 'closed') {
+      mixer.timeScale = 1;
       setCrumpState('open');
     }
   }
