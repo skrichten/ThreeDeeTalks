@@ -77,7 +77,7 @@ const Crumple = forwardRef( ({
   const onPointerOver = e => {
     e.stopPropagation();
     const action = actions.current.aniAction;
-    if (!action || action.isRunning() || crumpState !== 'open' ) return;
+    if (!action || action.isRunning() || crumpState === 'closed' ) return;
     mixer.timeScale = -.7;
     action.paused = false;
     action.play();

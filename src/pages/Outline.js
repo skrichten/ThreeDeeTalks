@@ -1,11 +1,17 @@
 import React, { Suspense, useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
+import { useInView } from 'react-intersection-observer';
 import { getScrollHeight } from '../util/dom';
 
 const WebGLContent = React.lazy(() => import('../components/Outline/WebGLContent'));
 
-const ContentPlaceholder = styled.div`
-  height: 12000px;
+const WorkSection = styled.div`
+  height: 5000px;
+`;
+const AboutSection = styled.div`
+  height: 4000px;
+  position: relative;
+  z-index: 2;
 `;
 
 const ContentWrap = styled.div`
@@ -55,6 +61,17 @@ const Outline = () => {
     if (!loaded) setLoaded(true)
   }, [loaded, setLoaded]);
 
+  const [aboutRef, aboutInView] = useInView({
+    rootMargin: '250px',
+  });
+
+  const [workRef, workInView] = useInView({
+    rootMargin: '250px',
+  });
+
+  console.log('aboutInView:', aboutInView)
+  console.log('workInView:', workInView)
+
   return (
     <main>
       { loaded &&
@@ -66,7 +83,10 @@ const Outline = () => {
         <Hero ref={heroRef}>
           <Title>Hero</Title>
         </Hero>
-        <ContentPlaceholder />
+        <WorkSection ref={workRef} />
+        <AboutSection ref={aboutRef}>
+          <Title>About</Title>
+        </AboutSection>
       </ContentWrap>
     </main>
   )

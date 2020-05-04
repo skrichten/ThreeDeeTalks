@@ -1,6 +1,6 @@
 import React, { useRef, createRef, useState, useMemo, useEffect } from 'react';
 import styled from 'styled-components';
-import { Dom } from "react-three-fiber";
+import { Dom, useFrame } from "react-three-fiber";
 import { animated as a } from 'react-spring/three';
 import { useTransition, animated as da } from 'react-spring';
 import useScrollSpring from '../../hooks/useScrollSpring';
@@ -115,6 +115,7 @@ export default function Scene({ topOffset, ...props }) {
 
   const scrollMove = scrollPos.interpolate(y => {
     // Adjust scroll position usin the topOffset (height of the hero)
+    if (y < topOffset) return;
     let pos = Math.max(y - topOffset, 0);
     const op = direction === 'down' ? isGreater : isLess;
     const newState =  direction === 'up';
@@ -136,6 +137,10 @@ export default function Scene({ topOffset, ...props }) {
 
     return pos * 100;
   });
+
+  useFrame(({ gl, scene, camera }) => {
+    gl.render(scene, camera);
+  }, 1);
 
   const onMouseOver = i => {
     setIndexOverride(i);

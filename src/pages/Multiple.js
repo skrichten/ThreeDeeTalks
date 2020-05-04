@@ -5,14 +5,14 @@ import ScissorScene from '../components/ScissorScene';
 import ThreeCanvas from '../components/ThreeCanvas';
 import DistortedImage from '../components/DistortedImage';
 
-
 const Section = styled.section`
   position: relative;
 `;
 
 const GlRect = styled.div`
-  width: 100%;
+  width: 30%;
   height: 500px;
+  margin: 0 auto 300px;
 `;
 
 const PhImage = styled.img`
@@ -20,6 +20,7 @@ const PhImage = styled.img`
   max-width: 800px;
   display: block;
   margin: 50px auto;
+  opacity: .1;
   /** visibility: hidden; **/
 `;
 
@@ -34,34 +35,26 @@ const Multiple = () => {
   return (
     <React.Fragment>
     <ThreeCanvas pixelRatio={devicePixelRatio}>
-        <ScissorScene elem={el4} isMain={true}>
-          {camera => (
-            <DistortedImage img={el4} camera={camera} />
-          )}
-        </ScissorScene>
-        <ScissorScene elem={el1}>
-          {camera => (
-            <DistortedImage img={el1} camera={camera} />
-          )}
-        </ScissorScene>
-        <ScissorScene elem={el2}>
-          {camera => (
-            <DistortedImage img={el2} camera={camera} />
-          )}
-        </ScissorScene>
-        <ScissorScene elem={el3}>
+        <axesHelper position={[0, 0, -2]} />
+        <ScissorScene elem={el4} isMain={true} showAx={false}>
           {camera => (
             <mesh position={[0, 0, -2]}>
-              <dodecahedronBufferGeometry attach="geometry" args={[0.5]} />
+              <sphereGeometry attach="geometry" args={[.4, 64, 64]} />
+              <meshNormalMaterial attach="material" />
+            </mesh>
+          )}
+        </ScissorScene>
+        <ScissorScene elem={el3} showAx={true}>
+          {camera => (
+            <mesh position={[0, 0, -2]}>
+              <dodecahedronBufferGeometry attach="geometry" args={[0.7]} />
               <meshNormalMaterial attach="material" />
             </mesh>
           )}
         </ScissorScene>
     </ThreeCanvas>
     <Section>
-      <PhImage src="/photo3.jpg" ref={r4} />
-      <PhImage src="/photo1.jpg" ref={r1} />
-      <PhImage src="/photo2.jpg" ref={r2} />
+      <GlRect ref={r4} />
       <GlRect ref={r3} />
     </Section>
   </React.Fragment>
