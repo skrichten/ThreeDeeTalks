@@ -23,11 +23,9 @@ function Content({showText, ...props}) {
 
   const [box] = useState(() => new Mesh(new BoxBufferGeometry(2.5, 2.5, 2.5)));
   const [rnd] = useState(() => new Randomizers.MinMaxRandomizer(.3, 1.3));
-  const [rndVector] = useState(() => new Randomizers.BoxRandomizer(minVec, maxVec));
   const tTex = useLoader(TextureLoader, './team.png');
   const eTex = useLoader(TextureLoader, './team-eye.png');
   const aTex = useLoader(TextureLoader, './team-arrow.png');
-  const dTex = useLoader(TextureLoader, './team-drop.png');
   const boxOutline = useRef();
   const greenShape = useRef();
   const arrows = useRef();
@@ -36,8 +34,8 @@ function Content({showText, ...props}) {
 
   useFrame(() => {
     boxOutline.current.rotation.y += 0.0075;
-    greenShape.current.rotation.y += 0.02;
-    greenShape.current.rotation.x += 0.05;
+    greenShape.current.rotation.y += 0.006;
+    greenShape.current.rotation.x += 0.01;
     arrows.current.rotation.x += 0.05;
   })
 
@@ -121,34 +119,6 @@ function Content({showText, ...props}) {
           depthWrite={false}
         />
       </mesh>
-
-      <Particles // Drops
-        position={[-.42, .7, .01]}
-        particleConfig={{
-          startSize: .3,
-          endSize: .3,
-          startAlpha: .7,
-          endAlpha: 0,
-          velocity: new Vector3(0, -.05, 0),
-          ttl: 8,
-          texture: dTex,
-          startColor: new Color('#fff'),
-          endColor: new Color('#fff'),
-          rotation: Math.PI,
-          blending: MultiplyBlending,
-          offset: rndVector,
-        }}
-        systemConfig={{
-          particlesCount: 8,
-          speed: 7,
-          depthWrite: false,
-          depthTest: false,
-        }}
-        emitterConfig={{
-          onInterval: .3,
-          interval: rnd,
-        }}
-      />
 
       <Particles
         position={[-.26, 1.24, .01]}
