@@ -114,7 +114,7 @@ export default function Scene({ topOffset, ...props }) {
   const scrollDir = direction === 'down' ? 1 : -1;
 
   const scrollMove = scrollPos.interpolate(y => {
-    // Adjust scroll position usin the topOffset (height of the hero)
+    // Adjust scroll position using the topOffset (height of the hero)
     if (y < topOffset) return;
     let pos = Math.max(y - topOffset, 0);
     const op = direction === 'down' ? isGreater : isLess;
@@ -138,10 +138,15 @@ export default function Scene({ topOffset, ...props }) {
     return pos * 100;
   });
 
+  /*
   useFrame(({ gl, scene, camera }) => {
     gl.render(scene, camera);
-  }, 1);
+  }, 1); */
 
+  /**
+   * Normally the current work item index is determined based on scroll postition,
+   * but if the user mouse's over an item we need to temporarily override that.
+   */
   const onMouseOver = i => {
     setIndexOverride(i);
     document.body.style.cursor = 'pointer';

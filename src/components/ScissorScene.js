@@ -5,8 +5,6 @@ import useElement from '../hooks/useElement';
 
 function ScissorScene({ children, elem, isMain, fov=55, showAx, ...props }) {
   const scene = useRef();
-  //const [camera, cam] = useElement();
-  //console.log('cam', cam)
   const camera = useRef();
 
   useFrame(({ gl }) => {

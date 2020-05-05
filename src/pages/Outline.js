@@ -9,7 +9,7 @@ const WorkSection = styled.div`
   height: 5000px;
 `;
 const AboutSection = styled.div`
-  height: 4000px;
+  height: 3100px;
   position: relative;
   z-index: 2;
 `;
@@ -51,6 +51,7 @@ const Outline = () => {
     return () => global.removeEventListener('resize', updateTopOffset);
   }, [setTopOffset]);
 
+  // Not sure why this doesn't work anymore
   useEffect(() => window.scrollTo(0, 0), []);
 
 

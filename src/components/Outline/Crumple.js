@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState, useMemo, forwardRef, useImperativeHandle } from 'react'
 import { useLoader, useFrame } from 'react-three-fiber';
-import { AnimationMixer, AnimationUtils, LoopOnce, TextureLoader } from 'three';
+import { AnimationMixer, LoopOnce, TextureLoader } from 'three';
 import { animated as a, useSpring } from 'react-spring/three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
@@ -40,11 +40,8 @@ const Crumple = forwardRef( ({
   // Setup animation actions
   const actions = useRef();
   useEffect(() => {
-    const moClip = AnimationUtils.subclip(animations[0], 'moClip', 24, 17, 24);
-
-    actions.current = {
+     actions.current = {
       aniAction: mixer.clipAction(animations[0], sceneRef.current),
-      moAction: mixer.clipAction(moClip, sceneRef.current),
     }
 
     actions.current.aniAction.loop = LoopOnce;
