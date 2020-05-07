@@ -4,7 +4,6 @@ import {
   BoxBufferGeometry,
   Mesh,
   Vector3,
-  Color,
   MultiplyBlending,
   CustomBlending,
   DstColorFactor,
@@ -15,9 +14,6 @@ import { useLoader, useFrame } from 'react-three-fiber';
 import { Randomizers } from 'skrichten.particles';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import Particles from '../Particles';
-
-const minVec = new Vector3(-.07, 0, 0);
-const maxVec = new Vector3(.07, 0, 0);
 
 function Content({showText, ...props}) {
 
@@ -33,6 +29,7 @@ function Content({showText, ...props}) {
   const { nodes } = useLoader(GLTFLoader, './greenTeamShape.glb')
 
   useFrame(() => {
+    if (!boxOutline.current) return;
     boxOutline.current.rotation.y += 0.0075;
     greenShape.current.rotation.y += 0.006;
     greenShape.current.rotation.x += 0.01;
@@ -123,8 +120,8 @@ function Content({showText, ...props}) {
       <Particles
         position={[-.26, 1.24, .01]}
         particleConfig={{
-          startSize: .05,
-          endSize: .05,
+          startSize: .18,
+          endSize: .18,
           startAlpha: 0,
           endAlpha: 1,
           roundShape: true,
@@ -143,8 +140,8 @@ function Content({showText, ...props}) {
       <Particles
         position={[-.18, 1.24, .01]}
         particleConfig={{
-          startSize: .05,
-          endSize: .05,
+          startSize: .18,
+          endSize: .18,
           startAlpha: 0,
           endAlpha: 1,
           roundShape: true,

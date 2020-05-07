@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useFrame } from 'react-three-fiber';
 import useElement from '../hooks/useElement';
 
-function ScissorScene({ children, elem, isMain, fov=55, showAx, ...props }) {
+function ScissorScene({ children, elem, isMain, fov=55, cameraPos=[0,0,0], showAx, ...props }) {
   const scene = useRef();
   const camera = useRef();
 
@@ -47,7 +47,7 @@ function ScissorScene({ children, elem, isMain, fov=55, showAx, ...props }) {
       <perspectiveCamera
         ref={camera}
         fov={fov}
-        position={[0, 0, 0]}
+        position={cameraPos}
       />
       { showAx && <axesHelper position={[0, 0, -2]} /> }
       {children(camera.current)}

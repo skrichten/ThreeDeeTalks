@@ -1,6 +1,5 @@
-import React, { Suspense, useRef } from 'react';
+import React, { Suspense } from 'react';
 import { Color } from 'three';
-import styled from 'styled-components';
 import { animated as a } from 'react-spring/three';
 import { Dom } from 'react-three-fiber';
 import Controls from '../components/OrbitControls';
@@ -14,7 +13,7 @@ const devicePixelRatio = window.devicePixelRatio.toFixed(1.5);
 
 const Team = () => {
 
-  const onInit = ({ scene, gl }) => {
+  const onInit = ({ scene }) => {
     scene.background = new Color(0xffffff);
   };
 
@@ -31,7 +30,6 @@ const Team = () => {
     x === 0 ? 0 : (-1.4 * x)+.7,
     0
   ]);
-  console.log('mouseRot', mouseRot)
 
   return (
 

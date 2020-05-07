@@ -10,6 +10,7 @@ const Crumple = forwardRef( ({
   animationPath,
   speed = 2,
   shadeless,
+  index,
   onMouseOver = () => {},
   onMouseOut = () => {},
   ...props
@@ -65,6 +66,10 @@ const Crumple = forwardRef( ({
       action.paused = false;
       action.play();
       setCrumpState(direction === 1 ? 'open' : 'closed');
+    },
+
+    getIndex() {
+      return index;
     }
   }), [setShow, show]);
 

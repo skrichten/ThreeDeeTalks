@@ -1,6 +1,6 @@
-import React, { useRef, createRef, useState, useMemo, useEffect } from 'react';
+import React, { useRef, createRef, useState, useMemo, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
-import { Dom, useFrame } from "react-three-fiber";
+import { Dom } from "react-three-fiber";
 import { animated as a } from 'react-spring/three';
 import { useTransition, animated as da } from 'react-spring';
 import useScrollSpring from '../../hooks/useScrollSpring';
@@ -33,6 +33,12 @@ const positions=[
   [-3.8, 2.1, -21]
 ];
 
+const fadeConfig={
+  from: { opacity: 0 },
+  enter: { opacity: 1 },
+  leave: { opacity: 0 },
+}
+
 const workData = [
   {
     id: 1,
@@ -58,13 +64,13 @@ const workData = [
     path: '/work/waves',
     imagePath: "/work-waves.jpg"
   },
-]
+];
 
-export default function Scene({ topOffset, ...props }) {
+export default function Scene({ topOffset, showDom, active, ...props }) {
 
   const itemRefs = useMemo(() => {
     return workData.map( () => createRef() )
-  }, [workData]);
+  }, []);
 
   const triggerTimes = useRef([]);
 
@@ -94,37 +100,34 @@ export default function Scene({ topOffset, ...props }) {
       }
       triggerTimes.current.push(playTrigger);
     })
-  }, workData);
+  }, [itemRefs]);
 
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [indexOverride, setIndexOverride] = useState(null);
 
+  // Used to transition the whole dom section
+  const mainTransition = useTransition(showDom, null, fadeConfig)
+
   // Used to transition titles in the center
-  const transitions = useTransition(indexOverride === null ? currentIndex : indexOverride, p => p, {
-    from: { opacity: 0 },
-    enter: { opacity: 1 },
-    leave: { opacity: 0 },
-  });
+  const itemTransitions = useTransition(indexOverride === null ? currentIndex : indexOverride, p => p, fadeConfig);
 
   const [[{scrollPos}], direction] = useScrollSpring({
     mass: 1, tension: 190, friction: 50, precision: .0001
   });
 
-  const scrollDir = direction === 'down' ? 1 : -1;
+  const scrollDir = direction !== 'up' ? 1 : -1;
 
-  const scrollMove = scrollPos.interpolate(y => {
+  const checkTriggerTimes = (y) => {
     // Adjust scroll position using the topOffset (height of the hero)
-    if (y < topOffset) return;
+    if (y < topOffset || !active) return;
     let pos = Math.max(y - topOffset, 0);
-    const op = direction === 'down' ? isGreater : isLess;
+    const op = direction !== 'up' ? isGreater : isLess;
     const newState =  direction === 'up';
-    //console.log(pos)
 
     // Compare current scroll position with each trigger time
     // And call the current action (play, fadein) if applicable
     triggerTimes.current.forEach((t => {
-
       if ( t.ref.current && op(pos, t.time) &&  t.folded !== newState ) {
         t.ref.current[t.action](scrollDir);
         t.folded = newState;
@@ -136,12 +139,9 @@ export default function Scene({ topOffset, ...props }) {
     }))
 
     return pos * 100;
-  });
+  }
 
-  /*
-  useFrame(({ gl, scene, camera }) => {
-    gl.render(scene, camera);
-  }, 1); */
+  const scrollMove = scrollPos.interpolate(checkTriggerTimes);
 
   /**
    * Normally the current work item index is determined based on scroll postition,
@@ -157,6 +157,18 @@ export default function Scene({ topOffset, ...props }) {
     document.body.style.cursor = 'default';
   }
 
+  const itemRef = useCallback(node => {
+    if (node !== null) {
+      itemRefs[node.getIndex()].current = node;
+
+      // tried to initialize state of each item here
+      // unfortunately the items are not ready yet
+      // animation actions are not available until next render :( )
+      // const scrollY = getScrollPos();
+      // checkTriggerTimes(scrollY);
+    }
+  }, [itemRefs]);
+
   return (
     <group  {...props}>
       <a.group position-z={scrollMove}>
@@ -164,7 +176,8 @@ export default function Scene({ topOffset, ...props }) {
           workData.map((workItem, i) => (
             <Crumple
               key={workItem.id}
-              ref={itemRefs[i]}
+              index={i}
+              ref={itemRef}
               position={positions[i]}
               scale={[2, 2, 2]}
               imagePath={workItem.imagePath}
@@ -176,16 +189,21 @@ export default function Scene({ topOffset, ...props }) {
         }
       </a.group>
       <Dom center>
-        <Title>Work
-          {transitions.map(({ item, props, key }) => {
-            const workItem = workData[item];
-            return (
-              <da.a key={key} style={props} href={workItem.path}>
-                {workItem.text}
-              </da.a>
-            );
-          })}
-        </Title>
+        {mainTransition.map(({ item, key, props }) =>
+          item &&
+          <da.div key={key} style={props}>
+            <Title>Work
+              {itemTransitions.map(({ item, props, key }) => {
+                const workItem = workData[item];
+                return (
+                  <da.a key={key} style={props} href={workItem.path}>
+                    {workItem.text}
+                  </da.a>
+                );
+              })}
+            </Title>
+          </da.div>
+        )}
       </Dom>
     </group>
   )

@@ -6,7 +6,7 @@ import { useSpring } from 'react-spring/three';
  * At the top of the scroll the value is 0
  * At the bottom of tht scroll the value is 1
  */
-function getScrollPos(normalize) {
+export function getScrollPos(normalize) {
   if (typeof window === 'undefined') return 0;
 
   return normalize

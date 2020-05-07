@@ -5,13 +5,18 @@ import { getScrollHeight } from '../util/dom';
 
 const WebGLContent = React.lazy(() => import('../components/Outline/WebGLContent'));
 
+const Main = styled.main`
+  background: #fff;
+`;
+
 const WorkSection = styled.div`
   height: 5000px;
+  margin-bottom: 100px;
 `;
+
 const AboutSection = styled.div`
   height: 3100px;
-  position: relative;
-  z-index: 2;
+  text-align: center;
 `;
 
 const ContentWrap = styled.div`
@@ -26,13 +31,20 @@ const Hero = styled.div`
 `;
 
 const Title = styled.h1`
-  margin: 0;
-`
+  margin: 0 0 100px 0;
+  position: relative;
+  z-index: 2;
+`;
+
+const TeamPHImage = styled.img`
+  position: relative;
+`;
 
 const Outline = () => {
   const [loaded, setLoaded] = useState(false);
   const [topOffset, setTopOffset] = useState(0);
   const heroRef = useRef();
+  const teamRef = useRef();
 
   /* Gets the top scroll offset based on the height of the hero
   This way the work section can adjust when it starts moving the items.
@@ -51,8 +63,10 @@ const Outline = () => {
     return () => global.removeEventListener('resize', updateTopOffset);
   }, [setTopOffset]);
 
-  // Not sure why this doesn't work anymore
-  useEffect(() => window.scrollTo(0, 0), []);
+
+  // Need to start from top of page so let's force it.
+  // Needs a delay because Chrome tries to force scroll restoration.
+  useEffect(() => void window.setTimeout(() => window.scrollTo(0,0), 50), []);
 
 
   /* Attempt at lazy loading, but not very effective.
@@ -64,22 +78,25 @@ const Outline = () => {
     if (!loaded) setLoaded(true)
   }, [loaded, setLoaded]);
 
+
   const [aboutRef, aboutInView] = useInView({
-    rootMargin: '250px',
+    rootMargin: '50px'
   });
 
   const [workRef, workInView] = useInView({
-    rootMargin: '250px',
+    rootMargin: '50px'
   });
 
-  console.log('aboutInView:', aboutInView)
-  console.log('workInView:', workInView)
-
   return (
-    <main>
+    <Main>
       { loaded &&
         <Suspense fallback={null}>
-          <WebGLContent topOffset={topOffset} />
+          <WebGLContent
+            topOffset={topOffset}
+            aboutInView={aboutInView}
+            workInView={workInView}
+            teamElement={teamRef.current}
+          />
         </Suspense>
       }
       <ContentWrap>
@@ -88,10 +105,17 @@ const Outline = () => {
         </Hero>
         <WorkSection ref={workRef} />
         <AboutSection ref={aboutRef}>
-          <Title>About</Title>
+          <Title>
+          Ugly birds, beautiful ideas
+          </Title>
+          <TeamPHImage
+            ref={teamRef}
+            src="/team-ph.png"
+            alt="Our Team"
+          />
         </AboutSection>
       </ContentWrap>
-    </main>
+    </Main>
   )
 };
 
