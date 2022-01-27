@@ -18,7 +18,7 @@
     "skrichten.particles": "skrichten/partykals",
     "styled-components": "^5.0.1",
     "superior-mq": "^1.0.1",
-    "three": "^0.113.2",
+    "three": "^0.137.0",
     "zustand": "^2.2.2"
   },
   "scripts": {
